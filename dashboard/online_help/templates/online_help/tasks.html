@@ -3,16 +3,34 @@
 
 {% block content %}
     <h1>Tasks</h1>
-    <h2>Sections</h2>
-    <ul>
-        {% for section in sections %}
-            <li>{{ section }}</li>
-        {% endfor %}
-    </ul>
-    <h2>Sub-sections</h2>
-    <ul>   
-        {% for subsection in subsections %}
-            <li>{{ subsection }}</li>
-        {% endfor %}
-    </ul>
+    <div>
+        Yellow Tasks (In progress, need to update)
+        <ul>
+            {% for section in sections %}
+                <li>{{ section }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        Green Tasks (Updates ready for QA to review)
+    </div>
+    <div>
+        Done Tasks (Updates ready)
+    </div>
+    <div>
+        Grey (Not needed for next release)
+    </div>
+
+    <div>
+        Orange updates pushed out to next release
+    </div>
+    <div>
+        <h2>Sub-sections</h2>
+        <ul>
+            {% for subsection in subsections %}
+                <li>{{ subsection }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
 {% endblock content %}

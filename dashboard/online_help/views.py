@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from online_help.management.utility import display_sections, display_subsections
+from online_help.management.utility import display_sections, display_subsections, display_users
 
 def home(request):
     return render(request, 'online_help/home.html')
@@ -14,8 +14,10 @@ def tasks(request):
     return render(request, 'online_help/tasks.html', context=ctx)
 
 def users(request):
-    
-    return render(request, 'online_help/users.html')
+    ctx = {
+        'users': display_users.writer_column,
+    }
+    return render(request, 'online_help/users.html', context=ctx)
 
 def something(request):
     return render(request, 'online_help/something.html')
