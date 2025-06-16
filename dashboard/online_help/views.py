@@ -1,16 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from dashboard.online_help.management.utility import display_online_help_user_guides
-from online_help.management.utility import display_subsections, display_users
+from online_help.management.utility import display_online_help_user_guides, display_users
 
 def home(request):
     return render(request, 'online_help/home.html')
 
 def tasks(request):
     ctx = {
-        'sections': display_online_help_user_guides.section_column,
-        'subsections': display_subsections.subsection_column,
+        'sections':display_online_help_user_guides.section_data
     }
+    # ctx = {
+    #     'sections': display_online_help_user_guides.section_column,
+    #     'subsections': display_subsections.subsection_column,
+    # }
     # print(ctx)
     return render(request, 'online_help/tasks.html', context=ctx)
 

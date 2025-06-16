@@ -13,10 +13,22 @@ df = pd.read_excel('online_help/management/dataset/Radiant_2025.1_help_assignmen
 # Drop rows where any of the key columns are missing
 df = df.dropna(subset=['Section', 'Sub-sections', 'color'])
 
-# Group by Section, and collect Sub-section + Color as tuples
+# Group data and convert to structured list
 grouped = df.groupby('Section').apply(
     lambda x: list(zip(x['Sub-sections'], x['color']))
-).reset_index(name='Subsection_Color_Pairs')
+).reset_index(name='subsections')
+
+# Convert to list of dicts for the template
+section_data = grouped.to_dict(orient='records')
+
+
+# Convert to list of dicts for the template
+section_data = grouped.to_dict(orient='records')
+
+# # Group by Section, and collect Sub-section + Color as tuples
+# grouped = df.groupby('Section').apply(
+#     lambda x: list(zip(x['Sub-sections'], x['color']))
+# ).reset_index(name='Subsection_Color_Pairs')
 
 # Display results
 # for _, row in grouped.iterrows():
@@ -25,4 +37,8 @@ grouped = df.groupby('Section').apply(
 #     for sub, color in row['Subsection_Color_Pairs']:
 #         print(f" - {sub} (Color: {color})")
 #     print()
-print(grouped['Section'])
+
+
+# print(section_data)
+# print(grouped['Section'])
+# print(grouped)

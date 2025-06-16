@@ -4,6 +4,18 @@
 {% block content %}
     <h1>Tasks</h1>
     <div>
+        Try muna:
+        <br>
+        {% for section in sections %}
+        <h2>{{ section.Section }}</h2>
+        <ul>
+            {% for sub, color in section.subsections %}
+            <li>{{ sub }} (Color: {{ color }})</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </div>
+    <div>
         Group 1: Online Help User Guides
         <br>
         Then for each section, list the section with subsections
