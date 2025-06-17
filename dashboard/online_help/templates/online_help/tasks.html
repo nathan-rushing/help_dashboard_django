@@ -4,81 +4,67 @@
 {% block content %}
     <h1>Tasks</h1>
     <div>
-        Try muna:
+        <h1>Group 1: Online Help User Guides</h1>
         <br>
-        {% for section in sections %}
-        <h2>{{ section.Section }}</h2>
-        <ul>
-            {% for sub, color in section.subsections %}
-            <li>{{ sub }} (Color: {{ color }})</li>
-            {% endfor %}
-        </ul>
+        {% for section in section_user_guide %}
+            <h2>{{ section.Section }}</h2>
+            <ul>
+                {% for sub, color, writer in section.subsections %}
+                <li>
+                    {{ sub }} — <strong>Color:</strong> {{ color }}, <strong>Writer:</strong> {{ writer }}
+                </li>
+                {% endfor %}
+            </ul>
         {% endfor %}
-    </div>
-    <div>
-        Group 1: Online Help User Guides
-        <br>
-        Then for each section, list the section with subsections
-        <br>
-        Later mo na lang isipin kung pano maganda mapakita yung sections and subsections
 
     </div>
     <br>
     <div>
-        Group 2: Online Help Reference
+        <h1>Group 2: Online Help Reference</h1>
         <br>
-        Then for each section, list the section with subsections
-        <br>
-        Later mo na lang isipin kung pano maganda mapakita yung sections and subsections
+        {% for section in section_reference %}
+            <h2>{{ section.Section }}</h2>
+            <ul>
+                {% for sub, color, writer in section.subsections %}
+                <li>
+                    {{ sub }} — <strong>Color:</strong> {{ color }}, <strong>Writer:</strong> {{ writer }}
+                </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
 
     </div>
     <br>
     <div>
-        Group 3: Standalone Tools
+        <h1>Group 3: Standalone Tools</h1>
         <br>
-        Then for each section, list the section with subsections
-        <br>
-        Later mo na lang isipin kung pano maganda mapakita yung sections and subsections
+        {% for section in section_standalone %}
+            <h2>{{ section.Section }}</h2>
+            <ul>
+                {% for sub, color, writer in section.subsections %}
+                <li>
+                    {{ sub }} — <strong>Color:</strong> {{ color }}, <strong>Writer:</strong> {{ writer }}
+                </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
 
     </div>
     <br>
     <div>
-        Group 4: PDF Documents
+        <h1>Group 4: PDF Documents</h1>
         <br>
-        Then for each section, list the section with subsections
-        <br>
-        Later mo na lang isipin kung pano maganda mapakita yung sections and subsections
+        {% for section in section_pdf %}
+            <h2>{{ section.Section }}</h2>
+            <ul>
+                {% for sub, color, writer in section.subsections %}
+                <li>
+                    {{ sub }} — <strong>Color:</strong> {{ color }}, <strong>Writer:</strong> {{ writer }}
+                </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
 
-    </div>
-    <br>
-    <div>
-        Yellow Tasks (In progress, need to update)
-        <ul>
-            {% for section in sections %}
-                <li>{{ section }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div>
-        Green Tasks (Updates ready for QA to review)
-    </div>
-    <div>
-        Done Tasks (Updates ready)
-    </div>
-    <div>
-        Grey (Not needed for next release)
-    </div>
-
-    <div>
-        Orange updates pushed out to next release
-    </div>
-    <div>
-        <h2>Sub-sections</h2>
-        <ul>
-            {% for subsection in subsections %}
-                <li>{{ subsection }}</li>
-            {% endfor %}
-        </ul>
     </div>
 
 {% endblock content %}
