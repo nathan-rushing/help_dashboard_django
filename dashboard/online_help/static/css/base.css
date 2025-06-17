@@ -8,3 +8,11 @@ h1 {
     text-align: center;
     margin-top: 20px;
 }
+
+.bg-navy {
+    background-color: #001f3f !important; /* Navy blue */
+}
+
+.bg-light-grey {
+    background-color: #e4d7f1 !important; /* Light grey */
+}

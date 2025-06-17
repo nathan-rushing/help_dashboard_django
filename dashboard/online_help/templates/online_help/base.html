@@ -30,15 +30,15 @@
         const toggleButton = document.getElementById('themeToggle');
         const body = document.body;
         function setTheme(theme) {
-            if (theme === 'light') {
+            if (theme === 'light-grey') {
                 body.classList.remove('bg-navy', 'text-white');
-                body.classList.add('bg-light', 'text-dark');
+                body.classList.add('bg-light-grey', 'text-dark');
                 document.querySelector('.navbar').classList.remove('bg-navy');
-                document.querySelector('.navbar').classList.add('bg-light', 'navbar-light');
+                document.querySelector('.navbar').classList.add('bg-light-grey', 'navbar-light');
             } else {
-                body.classList.remove('bg-light', 'text-dark');
+                body.classList.remove('bg-light-grey', 'text-dark');
                 body.classList.add('bg-navy', 'text-white');
-                document.querySelector('.navbar').classList.remove('bg-light', 'navbar-light');
+                document.querySelector('.navbar').classList.remove('bg-light-grey', 'navbar-light');
                 document.querySelector('.navbar').classList.add('bg-navy', 'navbar-dark');
             }
             localStorage.setItem('theme', theme);
@@ -48,7 +48,7 @@
         setTheme(savedTheme);
 
         toggleButton.addEventListener('click', () => {
-            const newTheme = body.classList.contains('bg-navy') ? 'light' : 'navy';
+            const newTheme = body.classList.contains('bg-navy') ? 'light-grey' : 'navy';
             setTheme(newTheme);
         });
     </script>
