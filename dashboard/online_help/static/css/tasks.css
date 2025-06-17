@@ -3,14 +3,20 @@ body {
     font-family: Arial, sans-serif;
 }
 
-h1 {
+/* h1 {
     color: #b01616;
     text-align: center;
     margin-top: 20px;
-}
+} */
 
 .four-boxes {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+}
+
+
+.scroll-box {
+    max-height: 400px; /* Adjust as needed */
+    overflow-y: auto;
 }

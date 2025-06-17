@@ -1,10 +1,5 @@
 {% extends "online_help/base.html" %}
 
-{% block title %} Online Help Tasks {% endblock title %}
-
-
-
-
 
 
 {% block content %}
@@ -17,7 +12,7 @@
     <div class="container mt-4">
         <div class="row mb-3">
             <div class="col-md-6">
-                <div class="p-4 bg-primary text-white rounded">
+                <div class="p-4 bg-primary text-white rounded scroll-box">
                     <h1>Group 1: Online Help User Guides</h1>
                     <br>
                     {% for section in section_user_guide %}
@@ -35,7 +30,7 @@
 
 
             <div class="col-md-6">
-                <div class="p-4 bg-success text-white rounded">
+                <div class="p-4 bg-success text-white rounded scroll-box">
                     <h1>Group 2: Online Help Reference</h1>
                     <br>
                     {% for section in section_reference %}
@@ -53,7 +48,7 @@
         </div>
         <div class="row mb-3">
             <div class="col-md-6">
-                <div class="p-4 bg-warning text-dark rounded">
+                <div class="p-4 bg-warning text-dark rounded scroll-box">
                     <h1>Group 3: Standalone Tools</h1>
                     <br>
                     {% for section in section_standalone %}
@@ -70,7 +65,7 @@
             </div>
 
             <div class="col-md-6">
-                <div class="p-4 bg-danger text-white rounded">
+                <div class="p-4 bg-danger text-white rounded scroll-box">
                     <h1>Group 4: PDF Documents</h1>
                     <br>
                     {% for section in section_pdf %}
