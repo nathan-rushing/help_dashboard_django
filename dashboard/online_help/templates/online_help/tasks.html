@@ -6,7 +6,10 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/tasks.css' %}">
 
-    <h1 class="text-center mt-4">Tasks</h1>
+    <div class="bg-primary text-white text-center py-3">
+        Tasks
+    </div>
+    <!-- <h1 class="text-center mt-4">Tasks</h1> -->
     
     <!-- * Container -->
     <div class="container mt-4">
@@ -43,110 +46,104 @@
             </div>
 
 
+            <!-- ! bg-success dati -->
             <div class="col-md-6">
-                <div class="p-4 bg-success text-white rounded scroll-box">
-                    <h1>Online Help Reference</h1>
-                    <br>
-                    {% for section in section_reference %}
-                        <h2>{{ section.Section }}</h2>
-                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Writer</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for sub, color, writer in section.subsections %}
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">{{ writer }}</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">{{ sub }}</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">{{ color }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    {% endfor %}
+                <div class="bg-light rounded scroll-box">
+                    <div class="p-3 bg-primary text-white">
+                        <h1>Online Help Reference</h1>
+                    </div>
+                    <div class="p-2">
+                        {% for section in section_reference %}
+                            <h2>{{ section.Section }}</h2>
+                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                    <tr>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Writer</th>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for sub, color, writer in section.subsections %}
+                                    <tr>
+                                        <td style="border: 1px solid #444; padding: 8px;">{{ writer }}</td>
+                                        <td style="border: 1px solid #444; padding: 8px;">{{ sub }}</td>
+                                        <td style="border: 1px solid #444; padding: 8px;">{{ color }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- ! bg-warning dati -->
         <div class="row mb-3">
             <div class="col-md-6">
-                <div class="p-4 bg-warning text-dark rounded scroll-box">
-                    <h1>Standalone Tools</h1>
-                    <br>
-                    {% for section in section_standalone %}
-                        <h2>{{ section.Section }}</h2>
-                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Writer</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for sub, color, writer in section.subsections %}
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">{{ writer }}</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">{{ sub }}</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">{{ color }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    {% endfor %}
+                <div class="bg-light rounded scroll-box">
+                    <div class="p-3 bg-primary text-white">
+                        <h1>Standalone Tools</h1>
+                    </div>
+                    <div class="p-2">
+                        {% for section in section_standalone %}
+                            <h2>{{ section.Section }}</h2>
+                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                    <tr>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Writer</th>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for sub, color, writer in section.subsections %}
+                                    <tr>
+                                        <td style="border: 1px solid #444; padding: 8px;">{{ writer }}</td>
+                                        <td style="border: 1px solid #444; padding: 8px;">{{ sub }}</td>
+                                        <td style="border: 1px solid #444; padding: 8px;">{{ color }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
 
+            <!-- ! bg-danger dati -->
             <div class="col-md-6">
-                <div class="p-4 bg-danger text-white rounded scroll-box">
-                    <h1>PDF Documents</h1>
-                    <br>
-                    {% for section in section_pdf %}
-                        <h2>{{ section.Section }}</h2>
-                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Writer</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for sub, color, writer in section.subsections %}
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">{{ writer }}</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">{{ sub }}</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">{{ color }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    {% endfor %}
+                <div class="bg-light rounded scroll-box">
+                    <div class="p-3 bg-primary text-white">
+                        <h1>PDF Documents</h1>
+                    </div>
+                    <div class="p-2">
+                        {% for section in section_pdf %}
+                            <h2>{{ section.Section }}</h2>
+                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                    <tr>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Writer</th>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for sub, color, writer in section.subsections %}
+                                    <tr>
+                                        <td style="border: 1px solid #444; padding: 8px;">{{ writer }}</td>
+                                        <td style="border: 1px solid #444; padding: 8px;">{{ sub }}</td>
+                                        <td style="border: 1px solid #444; padding: 8px;">{{ color }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-    <div>
-                    <h1>Online Help User Guides</h1>
-                    <br>
-                    {% for section in section_user_guide %}
-                        <h2>{{ section.Section }}</h2>
-                        <ul>
-                            {% for sub, color, writer in section.subsections %}
-                            <li>
-                                {{ sub }} — <strong>Color:</strong> {{ color }}, <strong>Writer:</strong> {{ writer }}
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    {% endfor %}
-    </div>
-
-    <br>
-
 {% endblock content %}
 
