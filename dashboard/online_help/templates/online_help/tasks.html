@@ -35,7 +35,11 @@
                                     <tr>
                                         <td style="border: 1px solid #444; padding: 8px;">{{ writer }}</td>
                                         <td style="border: 1px solid #444; padding: 8px;">{{ sub }}</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">{{ color }}</td>
+                                        <td style="border: 1px solid #444; padding: 8px; background-color: '{{ color }}';">
+                                            {{ color }}
+                                        </td>
+
+
                                     </tr>
                                     {% endfor %}
                                 </tbody>
