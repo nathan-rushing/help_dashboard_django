@@ -9,14 +9,14 @@ body {
     margin-top: 20px;
 } */
 
-.four-boxes {
+/* .four-boxes {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-}
+} */
 
 
 .scroll-box {
-    max-height: 400px; /* Adjust as needed */
+    max-height: 300px; /* Adjust as needed */
     overflow-y: auto;
 }

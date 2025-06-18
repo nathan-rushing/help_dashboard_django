@@ -26,5 +26,11 @@ def users(request):
     }
     return render(request, 'online_help/users.html', context=ctx)
 
-def something(request):
-    return render(request, 'online_help/something.html')
+def erd(request):
+    ctx = {
+        'section_user_guide':display_online_help_user_guides.section_data_user_guide,
+        'section_reference': display_online_help_reference.section_data_reference,
+        'section_standalone': display_standalone_tools.section_data_standalone,
+        'section_pdf': display_pdf_documents.section_data_pdf,
+    }
+    return render(request, 'online_help/erd.html', context=ctx)
