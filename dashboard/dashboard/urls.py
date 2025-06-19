@@ -16,8 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from online_help import views
+from django.views.generic import RedirectView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('online_help/', include('online_help.urls')),
+    path('', RedirectView.as_view(url='online_help/', permanent=False)),  # Redirect root to online help
 ]

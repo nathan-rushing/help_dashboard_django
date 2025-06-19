@@ -40,8 +40,7 @@
                                         <td style="border: 1px solid #444; padding: 8px; background-color: '{{ color }}';">
                                             {{ color }}
                                         </td>
-                                        <td style="border: 1px solid #444; padding: 8px;">{{ comments }}</td>
-
+                                        <td style="border: 1px solid #444; padding: 8px;">{{ comments|safe }}</td>
 
                                     </tr>
                                     {% endfor %}
@@ -81,8 +80,6 @@
                                             {{ color }}
                                         </td>
                                         <td style="border: 1px solid #444; padding: 8px;">{{ Comments }}</td>
-
-
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -124,8 +121,6 @@
                                             {{ color }}
                                         </td>
                                         <td style="border: 1px solid #444; padding: 8px;">{{ Comments }}</td>
-
-
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -163,8 +158,6 @@
                                             {{ color }}
                                         </td>
                                         <td style="border: 1px solid #444; padding: 8px;">{{ Comments }}</td>
-
-
                                     </tr>
                                     {% endfor %}
                                 </tbody>
