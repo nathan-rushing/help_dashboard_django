@@ -11,11 +11,11 @@ Displays the sections from the Radiant 2025.1 help assignments dataset.
 df = pd.read_excel('online_help/management/dataset/Radiant_2025.1_help_assignments_v3_copy.xlsx', sheet_name='online_help_user_guides')
 
 # Drop rows where any necessary column is missing
-df = df.dropna(subset=['Section', 'Sub-sections', 'color', 'Writer'])
+df = df.dropna(subset=['Section', 'Sub-sections', 'color', 'Writer', 'Comments'])
 
 # Group by Section and collect Sub-section, Color, and Writer as tuples
 grouped = df.groupby('Section').apply(
-    lambda x: list(zip(x['Sub-sections'], x['color'], x['Writer']))
+    lambda x: list(zip(x['Sub-sections'], x['color'], x['Writer'], x['Comments']))
 ).reset_index(name='subsections')
 
 # Convert to list of dicts for the template

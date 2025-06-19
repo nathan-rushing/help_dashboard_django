@@ -15,7 +15,7 @@ df = df.dropna(subset=['Section', 'color', 'Writer']) # tinanggal ko dropna ng s
 
 # Group by Section and collect Sub-section, Color, and Writer as tuples
 grouped = df.groupby('Section').apply(
-    lambda x: list(zip(x['Sub-sections'], x['color'], x['Writer']))
+    lambda x: list(zip(x['Sub-sections'], x['color'], x['Writer'], x['Comments']))
 ).reset_index(name='subsections')
 
 # Convert to list of dicts for the template
