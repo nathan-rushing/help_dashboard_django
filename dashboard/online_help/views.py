@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from online_help.management.utility import display_online_help_reference, display_online_help_user_guides, display_standalone_tools, display_pdf_documents
-from online_help.management.utility import display_users
+from online_help.management.utility import display_your_activity, display_online_help_reference, display_online_help_user_guides, display_standalone_tools, display_pdf_documents
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -12,7 +11,13 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def home(request):
-    return render(request, 'online_help/home.html')
+    ctx = {
+        'section_user_guide':display_online_help_user_guides.section_data_user_guide,
+        'section_reference': display_online_help_reference.section_data_reference,
+        'section_standalone': display_standalone_tools.section_data_standalone,
+        'section_pdf': display_pdf_documents.section_data_pdf,
+    }
+    return render(request, 'online_help/home.html', context=ctx)
 
 
 @login_required
@@ -32,11 +37,11 @@ def tasks(request):
 
 
 @login_required
-def users(request):
+def your_activity(request):
     ctx = {
-        'users': display_users.writer_column,
+        'users': display_your_activity.writer_column,
     }
-    return render(request, 'online_help/users.html', context=ctx)
+    return render(request, 'online_help/your_activity.html', context=ctx)
 
 @login_required
 def erd(request):

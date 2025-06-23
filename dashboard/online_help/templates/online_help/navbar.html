@@ -15,11 +15,11 @@
                     <a class="nav-link {% if request.resolver_match.url_name == 'tasks' %}active{% endif %}" href="{% url 'online_help:tasks' %}">Tasks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'users' %}active{% endif %}" href="{% url 'online_help:users' %}">Users</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'activity' %}active{% endif %}" href="{% url 'online_help:activity' %}">Your Activities</a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'erd' %}active{% endif %}" href="{% url 'online_help:erd' %}">ERD</a>
-                </li>
+                </li> -->
             </ul>
 
             <!-- Right-aligned section for Logout/Login -->
