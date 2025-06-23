@@ -26,33 +26,5 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        const toggleButton = document.getElementById('themeToggle');
-        const body = document.body;
-        function setTheme(theme) {
-            if (theme === 'light-grey') {
-                body.classList.remove('bg-navy', 'text-white');
-                body.classList.add('bg-light-grey', 'text-dark');
-                document.querySelector('.navbar').classList.remove('bg-navy');
-                document.querySelector('.navbar').classList.add('bg-light-grey', 'navbar-light');
-            } else {
-                body.classList.remove('bg-light-grey', 'text-dark');
-                body.classList.add('bg-navy', 'text-white');
-                document.querySelector('.navbar').classList.remove('bg-light-grey', 'navbar-light');
-                document.querySelector('.navbar').classList.add('bg-navy', 'navbar-dark');
-            }
-            localStorage.setItem('theme', theme);
-        }
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'navy';
-        setTheme(savedTheme);
-
-        toggleButton.addEventListener('click', () => {
-            const newTheme = body.classList.contains('bg-navy') ? 'light-grey' : 'navy';
-            setTheme(newTheme);
-        });
-    </script>
-
-
 </body>
 </html>
