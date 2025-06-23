@@ -9,6 +9,9 @@
     <!-- <h1 class="text-center mt-4">Tasks</h1> -->
 
     <h1>Radiant Help Dashboard</h1>
+    <div class="p-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
+    </div>
 
     <!-- * Container -->
     <div class="container mt-4">
@@ -18,34 +21,71 @@
                     <!-- <div class="p-3 bg-primary text-white text-center"> -->
                     <div class="p-3 text-white text-center" style="background-color: #0747a6;">
                         <!-- <h1>Online Help User Guides</h1> -->
-                        <p class="m-0">Online Help User Guides</p>
+                        <p class="m-0">Ave Manriquez</p>
                     </div>
-                    <div class="p-2">
-                        {% for section in section_user_guide %}
-                            <h5>{{ section.Section }}</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Writer</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for sub, color, writer, comments in section.subsections %}
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">{{ writer }}</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">{{ sub }}</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: '{{ color }}';">
-                                            {{ color }}
-                                        </td>
 
+                <div class="p-2">
+                        <h5>Getting Started</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">
+                                        <a href='{% url 'online_help:per_subsection' %}' class="hover-link">Introduction</a>
+                                    </td>
 
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        {% endfor %}
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                                        Yellow
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Tutorials</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
+                                        Grey
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Debugging the software license</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h5>Managing Projects</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Creating a new project</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                                        Yellow
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Modifying a new project</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
+                                        Grey
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Importing Lattice Diamond Project</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -171,5 +211,36 @@
             </div>
         </div>
     </div>
+
+<script>
+function filterContent() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const headings = document.querySelectorAll("h5");
+    const tables = document.querySelectorAll("table");
+
+    headings.forEach((heading, index) => {
+        const table = tables[index];
+        const rows = table.querySelectorAll("tbody tr");
+        let tableHasMatch = false;
+
+        // Check if heading matches
+        const headingMatch = heading.innerText.toLowerCase().includes(input);
+
+        // Check if any row matches
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            const match = text.includes(input);
+            row.style.display = match ? "" : "none";
+            if (match) tableHasMatch = true;
+        });
+
+        // Show heading if it matches or if any row matches
+        const showSection = headingMatch || tableHasMatch;
+        heading.style.display = showSection ? "" : "none";
+        table.style.display = showSection ? "" : "none";
+    });
+}
+</script>
+
 {% endblock content %}
 
