@@ -11,7 +11,6 @@ Displays the sections from the Radiant 2025.1 help assignments dataset.
 # Load your Excel file
 df = pd.read_excel('online_help/management/dataset/Radiant_2025.1_help_assignments_v3_copy.xlsx', sheet_name='online_help_user_guides')
 
-
 # Drop rows where any necessary column is missing
 df = df.dropna(subset=['Section', 'Sub-sections', 'color', 'Writer', 'Comments'])
 
@@ -26,7 +25,7 @@ grouped = df.groupby('Section').apply(
 # Convert to list of dicts for the template
 section_data_user_guide = grouped.to_dict(orient='records')
 
-print(section_data_user_guide)
+# print(section_data_user_guide)
 
 # # Group by Section, and collect Sub-section + Color as tuples
 # grouped = df.groupby('Section').apply(
