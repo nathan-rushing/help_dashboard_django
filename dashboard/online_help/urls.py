@@ -9,6 +9,7 @@ urlpatterns = [
     path('erd/', views.erd, name='erd'),
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('per_user/', views.per_user, name='per_user'),
     path('per_section/', views.per_section, name='per_section'),
     path('per_subsection/', views.per_subsection, name='per_subsection'),
     path('per_documentation/', views.per_documentation, name='per_documentation'),

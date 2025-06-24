@@ -90,6 +90,16 @@ def logout_view(request):
     logout(request)
     return redirect('online_help:login')
 
+def per_user(request):
+    ctx = {
+        'section_user_guide':display_online_help_user_guides.section_data_user_guide,
+        'section_reference': display_online_help_reference.section_data_reference,
+        'section_standalone': display_standalone_tools.section_data_standalone,
+        'section_pdf': display_pdf_documents.section_data_pdf,
+    }
+    return render(request, 'online_help/per_user.html', context=ctx)
+
+
 def per_section(request):
     ctx = {
         'section_user_guide':display_online_help_user_guides.section_data_user_guide,
