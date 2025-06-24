@@ -10,7 +10,10 @@
                             <h3 class="m-0">Ave Manriquez</h3>
                             <!-- <a href="" class="btn btn-outline-dark btn-sm">Edit</a> -->
                         </div>
-
+                <div class="p-3" style="position: sticky; top: 30px; z-index: 1000;">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
+                </div>
+                        
                 <div class="p-2">
                         <h5 id="ave_section1">User Guides</h5>
                         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
@@ -188,5 +191,36 @@
                         </table>
                     </div>
             </div>
+
+<script>
+function filterContent() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const headings = document.querySelectorAll("h5");
+    const tables = document.querySelectorAll("table");
+
+    headings.forEach((heading, index) => {
+        const table = tables[index];
+        const rows = table.querySelectorAll("tbody tr");
+        let tableHasMatch = false;
+
+        // Check if heading matches
+        const headingMatch = heading.innerText.toLowerCase().includes(input);
+
+        // Check if any row matches
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            const match = text.includes(input);
+            row.style.display = match ? "" : "none";
+            if (match) tableHasMatch = true;
+        });
+
+        // Show heading if it matches or if any row matches
+        heading.style.display = headingMatch || tableHasMatch ? "" : "none";
+
+        // Show table only if any row matches
+        table.style.display = tableHasMatch ? "" : "none";
+    });
+}
+</script>
 
 {% endblock %}
