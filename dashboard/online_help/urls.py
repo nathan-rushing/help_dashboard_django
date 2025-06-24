@@ -10,8 +10,11 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('per_user/', views.per_user, name='per_user'),
+    path('per_user_edit/', views.per_user_edit, name='per_user_edit'),
     path('per_section/', views.per_section, name='per_section'),
     path('per_subsection/', views.per_subsection, name='per_subsection'),
     path('per_documentation/', views.per_documentation, name='per_documentation'),
+    # path('color-comment/', views.color_comment_view, name='color_comment'),
+
     # path('per_subsection/<str:section_name>/', views.per_subsection, name='per_subsection'),
 ]

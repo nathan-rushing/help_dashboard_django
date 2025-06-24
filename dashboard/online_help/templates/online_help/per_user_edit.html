@@ -1,0 +1,23 @@
+{% extends "online_help/base.html" %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/per_user_edit.css' %}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="card-title" style="color: #0747a6;">Section: Getting Started</h3>
+            <h4 class="text-secondary">Subsection: Introduction</h4>
+            <h5 class="text-muted mb-4">Writer: Ave Manriquez</h5>
+
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn mt-3 text-white" style="background-color: #0747a6;">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
+from .forms import ColorCommentForm
 
 
 @login_required
@@ -99,6 +100,14 @@ def per_user(request):
     }
     return render(request, 'online_help/per_user.html', context=ctx)
 
+# def per_user_edit(request):
+#     ctx = {
+#         'section_user_guide':display_online_help_user_guides.section_data_user_guide,
+#         'section_reference': display_online_help_reference.section_data_reference,
+#         'section_standalone': display_standalone_tools.section_data_standalone,
+#         'section_pdf': display_pdf_documents.section_data_pdf,
+#     }
+#     return render(request, 'online_help/per_user_edit.html', context=ctx)
 
 def per_section(request):
     ctx = {
@@ -126,6 +135,32 @@ def per_documentation(request):
         'section_pdf': display_pdf_documents.section_data_pdf,
     }
     return render(request, 'online_help/per_documentation.html', context=ctx)
+
+
+def per_user_edit(request):
+    initial_data = {
+        'color': 'Yellow',
+        'comments': 'ERD 475'
+    }
+
+    if request.method == 'POST':
+        form = ColorCommentForm(request.POST)
+        if form.is_valid():
+            # Process form data here
+            color = form.cleaned_data['color']
+            comments = form.cleaned_data['comments']
+            return render(request, 'online_help/success.html', {'color': color, 'comments': comments})
+    else:
+        form = ColorCommentForm(initial=initial_data)
+
+    context = {
+        'form': form,
+        'section': 'Getting Started',
+        'subsection': 'Introduction',
+        'writer': 'Ave Manriquez'
+    }
+    return render(request, 'online_help/per_user_edit.html', context)
+
 
 # def per_section(request, section_name):
 #     ctx = {
