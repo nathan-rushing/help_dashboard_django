@@ -12,10 +12,10 @@ Displays the sections from the Radiant 2025.1 help assignments dataset.
 df = pd.read_excel('online_help/management/dataset/Radiant_2025.1_help_assignments_v3_copy.xlsx', sheet_name='online_help_user_guides')
 
 # Drop rows where any necessary column is missing
-df = df.dropna(subset=['Section', 'Sub-sections', 'color', 'Writer', 'Comments'])
+# df = df.dropna(subset=['Section', 'Sub-sections', 'color', 'Writer', 'Comments'])
 
 # Group by Section and collect Sub-section, Color, Writer, and split Comments
-grouped = df.groupby('Section').apply(
+grouped = df.groupby('Section', sort=False).apply(
     lambda x: [
         (row['Sub-sections'], row['color'], row['Writer'], split_comments(row['Comments']))
         for _, row in x.iterrows()
