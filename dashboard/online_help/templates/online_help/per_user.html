@@ -6,191 +6,191 @@
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 <div class="col-md-12">
-        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
-                            <h3 class="m-0">Ave Manriquez</h3>
-                            <!-- <a href="" class="btn btn-outline-dark btn-sm">Edit</a> -->
-                        </div>
-                <div class="p-3" style="position: sticky; top: 30px; z-index: 1000;">
-                    <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
-                </div>
-                        
-                <div class="p-2">
-                        <h5 id="ave_section1">User Guides</h5>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        Getting Started
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Introduction</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                        Yellow
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="{% url 'online_help:per_user_edit' %}">Edit</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Managing Projects</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Managing Project Sources</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
-                                        Grey
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Analyzing Static Timing</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Using Standalone Static Analyzer</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: Green;">
-                                        Green
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <h5 id="ave_section2">Reference</h5>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Strategy Reference Guide</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Post Synthesis Option</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                        Yellow
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Constraints Reference Guide</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Lattice Synthesis Engine Constraints</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
-                                        Grey
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Testing and Debugging On-Chip</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Creating Reveal Modules</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: Green;">
-                                        Green
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <h5 id="ave_section3">Standalone Tools</h5>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Strategy Reference Guide</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Post Synthesis Option</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                        Yellow
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Constraints Reference Guide</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Lattice Synthesis Engine Constraints</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
-                                        Grey
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Testing and Debugging On-Chip</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Creating Reveal Modules</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: Green;">
-                                        Green
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <h5 id="ave_section4">PDF Documents</h5>
-                        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Strategy Reference Guide</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Post Synthesis Option</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                        Yellow
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Constraints Reference Guide</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Lattice Synthesis Engine Constraints</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
-                                        Grey
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Testing and Debugging On-Chip</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Creating Reveal Modules</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: Green;">
-                                        Green
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">
-                                        <a href="">Edit</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-            </div>
+    <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+        <h3 class="m-0">Ave Manriquez</h3>
+        <!-- <a href="" class="btn btn-outline-dark btn-sm">Edit</a> -->
+    </div>
+    <div class="p-3" style="position: sticky; top: 30px; z-index: 1000;">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
+    </div>
+
+    <div class="p-2">
+        <h5 id="ave_section1">User Guides</h5>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                <tr>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        Getting Started
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">Introduction</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                        Yellow
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="{% url 'online_help:per_user_edit' %}">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Managing Projects</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Managing Project Sources</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
+                        Grey
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Analyzing Static Timing</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Using Standalone Static Analyzer</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: Green;">
+                        Green
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5 id="ave_section2">Reference</h5>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                <tr>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Strategy Reference Guide</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Post Synthesis Option</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                        Yellow
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Constraints Reference Guide</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Lattice Synthesis Engine Constraints</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
+                        Grey
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Testing and Debugging On-Chip</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Creating Reveal Modules</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: Green;">
+                        Green
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5 id="ave_section3">Standalone Tools</h5>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                <tr>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Strategy Reference Guide</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Post Synthesis Option</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                        Yellow
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Constraints Reference Guide</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Lattice Synthesis Engine Constraints</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
+                        Grey
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Testing and Debugging On-Chip</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Creating Reveal Modules</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: Green;"></td>
+                        Green
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <h5 id="ave_section4">PDF Documents</h5>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                <tr>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Strategy Reference Guide</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Post Synthesis Option</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                        Yellow
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Constraints Reference Guide</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Lattice Synthesis Engine Constraints</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
+                        Grey
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #444; padding: 8px;">Testing and Debugging On-Chip</td>
+                    <td style="border: 1px solid #444; padding: 8px;">Creating Reveal Modules</td>
+                    <td style="border: 1px solid #444; padding: 8px; background-color: Green;">
+                        Green
+                    </td>
+                    <td style="border: 1px solid #444; padding: 8px;">
+                        <a href="">Edit</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <script>
 function filterContent() {

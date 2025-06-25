@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from online_help.management.utility import display_your_activity, display_online_help_reference, display_online_help_user_guides, display_standalone_tools, display_pdf_documents
+from online_help.management.utility import display_your_activity, display_online_help_reference, display_online_help_user_guides, display_standalone_tools, display_pdf_documents, display_documentation
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -160,6 +160,13 @@ def per_user_edit(request):
         'writer': 'Ave Manriquez'
     }
     return render(request, 'online_help/per_user_edit.html', context)
+
+
+def tasks_edit(request):
+    ctx = {
+        'radiant_documentation':display_documentation.section_data_radiant_docu,
+    }
+    return render(request, 'online_help/tasks_edit.html', context=ctx)
 
 
 # def per_section(request, section_name):
