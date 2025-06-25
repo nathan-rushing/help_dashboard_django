@@ -3,8 +3,7 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/per_section.css' %}">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
+<link://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css
 
 <div class="container mt-5">
     <div class="card shadow-sm">
@@ -13,38 +12,15 @@
             <a href="" class="btn btn-outline-dark btn-sm">Edit</a>
         </div>
         <div class="card-body">
-            <div class="mb-3">
-                {% for section in section_user_guide %}
-                    {% for sub in section.subsections %}
-                        <h5 class="text-muted">
-                            <a href="" class="hover-link">{{ sub.0 }}</a>  {# sub.0 is 'Introduction' #}
-                        </h5>
-                    {% endfor %}
-                {% endfor %}
-            </div>
-
-                <!-- <div class="mb-3">
-                    <h5 class="text-muted">Subsection</h5>
-                    <p class="font-weight-bold">Introduction</p>
-                </div>
-                <div class="mb-3">
-                    <h5 class="text-muted">Color</h5>
-                    <p class="font-weight-bold text-warning">Yellow</p>
-                </div> -->
-                <!-- <div class="mb-3">
-                    <h5 class="text-muted">Comments</h5>
-                    <p class="font-weight-bold">•ERD-05.08 (DNG-22491) – Request for adding "percentage" view in Report Summary and Run Manager</p>
-                    <p>--05/09/2025: Documentation is done, Manish has reviewed and approved updates. Changes here: User Guides > Managing Projects > Viewing Logs and Reports</p>
-
-                    <p class="font-weight-bold">•ERD-05.10 (DNG-21175) – Enhancement Request - Breakdowns of Runtime for Different Compilation Stage</p>
-                    <p>--03/27/2025: In Progress. Per Manish, this is not yet implemented in Radiant.</p>
-                    <p>--05/05/2025: Done. Added to User Guides > Managing Projects > Viewing Logs and Reports section.</p>
-
-                    <p class="font-weight-bold">•ERD-10.02 (DNG-22646) – Report parameters on an entity with generics to show what has been passed</p>
-                    <p>--03/27/2025: In Progress. Verifying with Alka if this has been implemented in Radiant.</p>
-                    <p>--04/03/2025: Followed up with Alka.</p>
-                    <p>--04/07/2025: Added content to User Guides > Managing Projects > Viewing Logs and Reports and sent to Alka for review.</p>
-                </div> -->
+            <ul class="list-unstyled">
+                {% for section in section_user_guide %}
+                    {% for sub in section.subsections %}
+                        <li class="mb-2">
+                            <a href="" class="hover-link text-muted">{{ sub.0 }}</a>
+                        </li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>

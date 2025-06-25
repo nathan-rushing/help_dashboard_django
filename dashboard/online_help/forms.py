@@ -33,3 +33,9 @@ class EditDocuForm(forms.Form):
     subsection = forms.CharField(required=False, max_length=255)
     writer = forms.CharField(required=False, max_length=255)
     color = forms.CharField(required=False, max_length=50)
+
+class EditSectionForm(forms.Form):
+    section = forms.CharField(required=False, max_length=255)
+    subsection = forms.CharField(required=False, max_length=255)
+    writer = forms.CharField(required=False, max_length=255)
+    color = forms.CharField(required=False, max_length=50)

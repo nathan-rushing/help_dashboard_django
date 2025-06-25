@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import ColorCommentForm, EditDocuForm
+from .forms import ColorCommentForm, EditDocuForm, EditSectionForm
 
 @login_required
 def home(request):
@@ -194,6 +194,51 @@ def documentation_edit(request):
         'docs': DOCUMENTATION_LIST
     })
 
+# Temporary in-memory storage (not persistent)
+SECTION_LIST = [
+    "Getting Started with Radiant",
+    "Managing Projects",
+    "Securing the Design",
+    "Simulating the Design",
+    "Applying Design Constraints",
+    "Implementing the Design",
+    "Using Incremental Design Flow",
+    "Analyzing Static Timing",
+    "Analyzing Power Consumption",
+    "Analyzing Signal Integrity",
+    "Programming the FPGA",
+    "Testing and Debugging On-Chip",
+    "Applying Engineering Change Orders",
+]
+
+def section_edit(request):
+    if request.method == 'POST':
+        form = EditSectionForm(request.POST)
+        if form.is_valid():
+            # doc_name = form.cleaned_data.get('documentation') or "Untitled"
+            # DOCUMENTATION_LIST.append(doc_name)
+            # documentation = form.cleaned_data['documentation']
+            section = form.cleaned_data['section']
+            subsection = form.cleaned_data['subsection']
+            writer = form.cleaned_data['writer']
+            color = form.cleaned_data['color']
+            # return redirect('online_help/success.html')
+            return render(request, 'online_help/success_documentation.html', 
+                          {'form': form, 
+                           'docs': SECTION_LIST, 
+                        #    'documentation': documentation,
+                           'section': section,
+                           'subsection': subsection,
+                           'writer': writer,
+                           'color': color,
+                           })
+    else:
+        form = EditSectionForm()
+
+    return render(request, 'online_help/section_edit.html', {
+        'form': form,
+        'docs': SECTION_LIST
+    })
 
 # def documentation_edit(request):
 #     if request.method == 'POST':

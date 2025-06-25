@@ -37,3 +37,21 @@ h2 {
 .list-group-item {
     font-size: 1.1rem;
 }
+
+.form-horizontal {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.form-horizontal label {
+    width: 100px; /* Adjust width as needed */
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.form-horizontal textarea {
+    flex: 1;
+    min-height: 100px;
+    resize: vertical;
+}
