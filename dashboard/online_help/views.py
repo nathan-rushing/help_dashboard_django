@@ -9,7 +9,6 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import ColorCommentForm, EditDocuForm
 
-
 @login_required
 def home(request):
     ctx = {
@@ -29,11 +28,6 @@ def tasks(request):
         'section_standalone': display_standalone_tools.section_data_standalone,
         'section_pdf': display_pdf_documents.section_data_pdf,
     }
-    # ctx = {
-    #     'sections': display_online_help_user_guides.section_column,
-    #     'subsections': display_subsections.subsection_column,
-    # }
-    # print(ctx)
     return render(request, 'online_help/tasks.html', context=ctx)
 
 
@@ -100,15 +94,6 @@ def per_user(request):
     }
     return render(request, 'online_help/per_user.html', context=ctx)
 
-# def per_user_edit(request):
-#     ctx = {
-#         'section_user_guide':display_online_help_user_guides.section_data_user_guide,
-#         'section_reference': display_online_help_reference.section_data_reference,
-#         'section_standalone': display_standalone_tools.section_data_standalone,
-#         'section_pdf': display_pdf_documents.section_data_pdf,
-#     }
-#     return render(request, 'online_help/per_user_edit.html', context=ctx)
-
 def per_section(request):
     ctx = {
         'section_user_guide':display_online_help_user_guides.section_data_user_guide,
@@ -140,7 +125,7 @@ def per_documentation(request):
 def per_user_edit(request):
     initial_data = {
         'color': 'Yellow',
-        'comments': 'ERD 475'
+        'comments': 'ERD Something here'
     }
 
     if request.method == 'POST':
@@ -186,8 +171,21 @@ def documentation_edit(request):
         if form.is_valid():
             doc_name = form.cleaned_data.get('documentation') or "Untitled"
             DOCUMENTATION_LIST.append(doc_name)
+            documentation = form.cleaned_data['documentation']
+            section = form.cleaned_data['section']
+            subsection = form.cleaned_data['subsection']
+            writer = form.cleaned_data['writer']
+            color = form.cleaned_data['color']
             # return redirect('online_help/success.html')
-            return render(request, 'online_help/success_documentation.html', {'form': form, 'docs': DOCUMENTATION_LIST})
+            return render(request, 'online_help/success_documentation.html', 
+                          {'form': form, 
+                           'docs': DOCUMENTATION_LIST, 
+                           'documentation': documentation,
+                           'section': section,
+                           'subsection': subsection,
+                           'writer': writer,
+                           'color': color,
+                           })
     else:
         form = EditDocuForm()
 

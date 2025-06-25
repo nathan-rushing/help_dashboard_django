@@ -2,12 +2,22 @@
 
 {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/per_user.css' %}">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/success.css' %}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css>
 
-    <h2>Form Submitted Successfully!</h2>
-    <p><strong>Color:</strong> {{ color }}</p>
-    <p><strong>Comments:</strong> {{ comments }}</p>
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="text-success mb-4">Form Submitted Successfully!</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Form:</strong> Documentation Submission</li>
+                <li class="list-group-item"><strong>Color:</strong> {{ color }}</li>
+                <li class="list-group-item"><strong>Comments:</strong> {{ comments }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 </html>
 
 {% endblock %}
