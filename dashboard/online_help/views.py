@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import ColorCommentForm
+from .forms import ColorCommentForm, EditDocuForm
 
 
 @login_required
@@ -167,6 +167,47 @@ def tasks_edit(request):
         'radiant_documentation':display_documentation.section_data_radiant_docu,
     }
     return render(request, 'online_help/tasks_edit.html', context=ctx)
+
+
+# Temporary in-memory storage (not persistent)
+DOCUMENTATION_LIST = [
+    "Online Help User Guides",
+    "Online Help Reference",
+    "Standalone Tools",
+    "PDF Documents"
+]
+
+# Make sure to import EditDocuForm at the top of the file:
+# from .forms import DocumentationForm
+
+def documentation_edit(request):
+    if request.method == 'POST':
+        form = EditDocuForm(request.POST)
+        if form.is_valid():
+            doc_name = form.cleaned_data.get('documentation') or "Untitled"
+            DOCUMENTATION_LIST.append(doc_name)
+            # return redirect('online_help/success.html')
+            return render(request, 'online_help/success_documentation.html', {'form': form, 'docs': DOCUMENTATION_LIST})
+    else:
+        form = EditDocuForm()
+
+    return render(request, 'online_help/documentation_edit.html', {
+        'form': form,
+        'docs': DOCUMENTATION_LIST
+    })
+
+
+# def documentation_edit(request):
+#     if request.method == 'POST':
+#         form = EditDocuForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('documentation_edit')
+#     else:
+#         form = EditDocuForm()
+
+# #     docs = Documentation.objects.all()
+#     return render(request, 'online_help/documentation_edit.html', {'form': form, 'docs': docs})
 
 
 # def per_section(request, section_name):

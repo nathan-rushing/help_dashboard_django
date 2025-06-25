@@ -1,0 +1,12 @@
+{% extends "online_help/base.html" %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/per_user.css' %}">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <h2>Form Submitted Successfully!</h2>
+    <p><strong>Form:</strong> {{ form }}</p>
+</html>
+
+{% endblock %}
