@@ -1,0 +1,32 @@
+{% extends "online_help/base.html" %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/documentation_edit.css' %}">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="top-bar bg-warning text-dark card-header mt-5">
+    <h2>SubSection Editor</h2>
+    <button class="btn btn-outline-dark btn-sm" onclick="document.getElementById('add-doc-form').style.display='block'">Add SubSection</button>
+</div>
+
+<div class="doc-list">
+    {% for doc in docs %}
+        <div class="doc-item">
+            <span>{{ doc }}</span>
+            <!-- <button disabled>Remove</button> -->
+            <button class="btn btn-outline-dark btn-sm">Remove</button>
+        </div>
+    {% empty %}
+        <p>No documentation entries yet.</p>
+    {% endfor %}
+</div>
+
+<div id="add-doc-form" class="add-form" style="display: none;">
+    <h3>Add SubSection</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-outline-dark btn-sm">Submit</button>
+    </form>
+</div>
+{% endblock content %}

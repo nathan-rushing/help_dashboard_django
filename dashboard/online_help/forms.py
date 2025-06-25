@@ -39,3 +39,8 @@ class EditSectionForm(forms.Form):
     subsection = forms.CharField(required=False, max_length=255)
     writer = forms.CharField(required=False, max_length=255)
     color = forms.CharField(required=False, max_length=50)
+
+class EditSubSectionForm(forms.Form):
+    subsection = forms.CharField(required=False, max_length=255)
+    writer = forms.CharField(required=False, max_length=255)
+    color = forms.CharField(required=False, max_length=50)

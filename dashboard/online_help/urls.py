@@ -17,6 +17,7 @@ urlpatterns = [
     path('tasks_edit/', views.tasks_edit, name='tasks_edit'),
     path('documentation_edit/', views.documentation_edit, name='documentation_edit'),
     path('section_edit/', views.section_edit, name='section_edit'),
+    path('per_section_edit/', views.per_section_edit, name='per_section_edit'),
     # path('color-comment/', views.color_comment_view, name='color_comment'),
 
     # path('per_subsection/<str:section_name>/', views.per_subsection, name='per_subsection'),
