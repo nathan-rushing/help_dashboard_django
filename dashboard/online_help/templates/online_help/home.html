@@ -13,7 +13,6 @@
         <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
     </div>
 
-
     <!-- * Container -->
     <div class="container mt-4">
         <div class="row mb-3">
@@ -26,16 +25,16 @@
                             <a href="{% url 'online_help:per_user' %}" class="hover-link">Ave Manriquez</a>
                         </p>
                     </div>
-
-                <div class="p-2">
+                    <div class="p-2">
                         <h5 id="ave_section1">User Guides</h5>
                         <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
                             <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr>
@@ -48,6 +47,7 @@
                                     <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
                                         Yellow
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">50%</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #444; padding: 8px;">Managing Projects</td>
@@ -55,6 +55,7 @@
                                     <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
                                         Grey
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">20%</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #444; padding: 8px;">Analyzing Static Timing</td>
@@ -62,17 +63,19 @@
                                     <td style="border: 1px solid #444; padding: 8px; background-color: Green;">
                                         Green
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">100%</td>
                                 </tr>
                             </tbody>
                         </table>
                         <h5 id="ave_section2">Reference</h5>
                         <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
                             <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr>
@@ -81,6 +84,7 @@
                                     <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
                                         Yellow
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">30%</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #444; padding: 8px;">Constraints Reference Guide</td>
@@ -88,6 +92,7 @@
                                     <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
                                         Grey
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">10%</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #444; padding: 8px;">Testing and Debugging On-Chip</td>
@@ -101,11 +106,12 @@
                         <h5 id="ave_section3">Standalone Tools</h5>
                         <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
                             <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr>
@@ -114,6 +120,7 @@
                                     <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
                                         Yellow
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">40%</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #444; padding: 8px;">Constraints Reference Guide</td>
@@ -121,6 +128,7 @@
                                     <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
                                         Grey
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">20%</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #444; padding: 8px;">Testing and Debugging On-Chip</td>
@@ -128,17 +136,19 @@
                                     <td style="border: 1px solid #444; padding: 8px; background-color: Green;">
                                         Green
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">100%</td>
                                 </tr>
                             </tbody>
                         </table>
                         <h5 id="ave_section4">PDF Documents</h5>
                         <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
                             <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                </tr>
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 <tr>
@@ -147,6 +157,7 @@
                                     <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
                                         Yellow
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">52%</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #444; padding: 8px;">Constraints Reference Guide</td>
@@ -154,20 +165,21 @@
                                     <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
                                         Grey
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">22%</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #444; padding: 8px;">Testing and Debugging On-Chip</td>
                                     <td style="border: 1px solid #444; padding: 8px;">Creating Reveal Modules</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: Green;">
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: Green;"></td>
                                         Green
                                     </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">90%</td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
 
             <!-- ! bg-success dati -->
             <div class="col-md-6">
@@ -178,117 +190,128 @@
                         <p class="m-0">Verna Deatras</p>
                     </div>
                     <div class="p-2">
-                            <h5 id="verna_section1">User Guides</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Simulating the Design</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Timing Simulation</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                            White
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Applying Design Constraints</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Using Radiant Tools</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: green;">
-                                            Green
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="verna_section1">User Guides</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Simulating the Design</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Timing Simulation</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">25%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Applying Design Constraints</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Using Radiant Tools</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: green;">
+                                        Green
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">72%</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <h5 id="verna_section2">Reference</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Strategy Reference Guide</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Introduction</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                            Yellow
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Lattice Module Reference Guide</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Introduction</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                            White
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="verna_section2">Reference</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Strategy Reference Guide</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Introduction</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                                        Yellow
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">60%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Lattice Module Reference Guide</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Introduction</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">10%</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <h5 id="verna_section3">Standalone Tools</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Standalone Programmer</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">N/A</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: green;">
-                                            Green
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Standalone Reveal</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">N/A</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                            Yellow
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="verna_section3">Standalone Tools</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Standalone Programmer</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">N/A</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: green;">
+                                        Green
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">70%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Standalone Reveal</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">N/A</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                                        Yellow
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">50%</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <h5 id="verna_section4">PDF Documents</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Radiant Migration from Diamond Guide</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">N/A</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: green;">
-                                            Green
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Radiant Tutorial</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">All</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: White;">
-                                            White
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="verna_section4">PDF Documents</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Radiant Migration from Diamond Guide</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">N/A</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: green;">
+                                        Green
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">80%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Radiant Tutorial</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">All</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: White;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">30%</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="row mb-3">
@@ -302,106 +325,117 @@
                         <p class="m-0">Ruby-Ann Daliva</p>
                     </div>
                     <div class="p-2">
-                            <h5 id="ry_section1">User Guides</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Getting Started with Radiant</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">User Guides</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
-                                            Grey
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Managing Projects</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Designing with Soft IP, Modules, and PMI</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                            White
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="ry_section1">User Guides</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Getting Started with Radiant</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">User Guides</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
+                                        Grey
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">20%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Managing Projects</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Designing with Soft IP, Modules, and PMI</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">10%</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <h5 id="ry_section2">Reference</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">FPGA Libraries Reference Guide</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Primitive Library - LAV-AT (Lattice Avant)</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                            White
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Tcl Command Reference Guide</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Radiant Software Tool Tcl Command Syntax</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: green;">
-                                            Green
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="ry_section2">Reference</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">FPGA Libraries Reference Guide</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Primitive Library - LAV-AT (Lattice Avant)</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">15%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Tcl Command Reference Guide</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Radiant Software Tool Tcl Command Syntax</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: green;">
+                                        Green
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">80%</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <h5 id="ry_section3">Standalone Tools</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Standalone Reveal</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">N/A</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                            Yellow
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="ry_section3">Standalone Tools</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Standalone Reveal</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">N/A</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                                        Yellow
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">0%</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <h5 id="ry_section3">PDF Documents</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Block Based Design Tutorial</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">N/A</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                            White
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Reveal Troubleshooting Guide</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">All</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: Yellow;">
-                                            Yellow
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="ry_section3">PDF Documents</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Block Based Design Tutorial</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">N/A</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">3%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Reveal Troubleshooting Guide</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">All</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: Yellow;">
+                                        Yellow
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">10%</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -411,148 +445,157 @@
                 <div class="bg-light rounded scroll-box">
                     <div class="p-3 text-white text-center" style="background-color: #0747a6;">
                         <!-- <h1>PDF Documents</h1> -->
-                    <!-- <div class="p-3 bg-primary text-white text-center"> -->
+                        <!-- <div class="p-3 bg-primary text-white text-center"> -->
                         <!-- <h1>PDF Documents</h1> -->
                         <p class="m-0">Adel Jambalos</p>
-                                        </div>
+                    </div>
                     <div class="p-2">
-                            <h5 id="adel_section1">User Guides</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Securing the Design</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Securing the Bitstream</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                            White
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Applying Design Constraints</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Constraint Propagation</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                            Yellow
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="adel_section1">User Guides</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Securing the Design</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Securing the Bitstream</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">0%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Applying Design Constraints</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Constraint Propagation</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                                        Yellow
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">50%</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <h5 id="adel_section2">Reference</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Strategy Reference Guide</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Map Design Options</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                            White
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Tcl Command Reference Guide</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">Radiant Software Tool Tcl Command Syntax</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                            Yellow
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="adel_section2">Reference</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Strategy Reference Guide</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Map Design Options</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">20%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Tcl Command Reference Guide</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Radiant Software Tool Tcl Command Syntax</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                                        Yellow
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">30%</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <h5 id="adel_section3">Standalone Tools</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Stand-Alone Reveal</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">N/A</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                            White
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="adel_section3">Standalone Tools</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Stand-Alone Reveal</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">N/A</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">40%</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                            <h5 id="adel_section4">PDF Documents</h5>
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Readme</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">N/A</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                            White
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">Release Notes</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">All</td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                            Yellow
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <h5 id="adel_section4">PDF Documents</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Readme</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">N/A</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">70%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Release Notes</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">All</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                                        Yellow
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">50%</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-<script>
-function filterContent() {
-    const input = document.getElementById("searchInput").value.toLowerCase();
-    const headings = document.querySelectorAll("h5");
-    const tables = document.querySelectorAll("table");
+    <script>
+    function filterContent() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const headings = document.querySelectorAll("h5");
+        const tables = document.querySelectorAll("table");
 
-    headings.forEach((heading, index) => {
-        const table = tables[index];
-        const rows = table.querySelectorAll("tbody tr");
-        let tableHasMatch = false;
+        headings.forEach((heading, index) => {
+            const table = tables[index];
+            const rows = table.querySelectorAll("tbody tr");
+            let tableHasMatch = false;
 
-        // Check if heading matches
-        const headingMatch = heading.innerText.toLowerCase().includes(input);
+            // Check if heading matches
+            const headingMatch = heading.innerText.toLowerCase().includes(input);
 
-        // Check if any row matches
-        rows.forEach(row => {
-            const text = row.innerText.toLowerCase();
-            const match = text.includes(input);
-            row.style.display = match ? "" : "none";
-            if (match) tableHasMatch = true;
+            // Check if any row matches
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                const match = text.includes(input);
+                row.style.display = match ? "" : "none";
+                if (match) tableHasMatch = true;
+            });
+
+            // Show heading if it matches or if any row matches
+            heading.style.display = headingMatch || tableHasMatch ? "" : "none";
+
+            // Show table only if any row matches
+            table.style.display = tableHasMatch ? "" : "none";
         });
-
-        // Show heading if it matches or if any row matches
-        heading.style.display = headingMatch || tableHasMatch ? "" : "none";
-
-        // Show table only if any row matches
-        table.style.display = tableHasMatch ? "" : "none";
-    });
-}
-</script>
-
+    }
+    </script>
 
 {% endblock content %}
-
