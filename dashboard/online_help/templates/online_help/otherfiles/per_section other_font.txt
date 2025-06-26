@@ -3,7 +3,7 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/per_section.css' %}">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css
 
 <div class="container mt-5">
     <div class="card shadow-sm">
@@ -12,15 +12,15 @@
             <a href="{% url 'online_help:per_section_edit' %}" class="btn btn-outline-dark btn-sm">Edit</a>
         </div>
         <div class="card-body">
-            <div class="mb-3">
+            <ul class="list-unstyled">
                 {% for section in section_user_guide %}
                     {% for sub in section.subsections %}
-                        <h5 class="text-muted">
+                        <li class="mb-2">
                             <a href="{% url 'online_help:per_subsection_task' %}" class="hover-link text-muted">{{ sub.0 }}</a>
-                        </h5>
+                        </li>
                     {% endfor %}
                 {% endfor %}
-            </div>
+            </ul>
         </div>
     </div>
 </div>
