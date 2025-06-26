@@ -7,10 +7,19 @@ COLOR_CHOICES = [
     ('White', 'White'),
 ]
 
-class ColorCommentForm(forms.Form):
+
+class per_user_edit_Form(forms.Form):
     color = forms.ChoiceField(choices=COLOR_CHOICES, label='Color')
-    comments = forms.CharField(widget=forms.Textarea, label='Comments')
-    completion = forms.CharField(required=False, max_length=100, label='Completion', widget=forms.TextInput)
+    comments = forms.CharField(
+        widget=forms.Textarea(attrs={'rows': 10, 'cols': 80}),
+        label='Comments'
+    )
+    completion = forms.CharField(
+        required=False,
+        max_length=100,
+        label='Completion',
+        widget=forms.TextInput
+    )
 
 # from django import forms
 # from .models import Documentation

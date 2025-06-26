@@ -6,7 +6,8 @@
 
 <div class="top-bar bg-warning text-dark card-header mt-5">
     <h2>Documentation Editor</h2>
-    <button class="btn btn-outline-dark btn-sm" onclick="document.getElementById('add-doc-form').style.display='block'">Add Documentation</button>
+    <!-- <button class="btn btn-outline-dark btn-sm" onclick="document.getElementById('add-doc-form').style.display='block'">Add Documentation</button> -->
+    <button class="btn btn-outline-dark btn-sm" onclick="showAddForm()">Add Documentation</button>
 </div>
 
 <div class="doc-list">
@@ -27,6 +28,17 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="btn btn-outline-dark btn-sm">Submit</button>
+        <!-- <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('add-doc-form').style.display='none'">Cancel</button> -->
     </form>
 </div>
+
+
+<script>
+function showAddForm() {
+    const form = document.getElementById('add-doc-form');
+    form.style.display = 'block';
+    form.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
 {% endblock content %}

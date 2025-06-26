@@ -15,6 +15,7 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
+                <a href="{% url 'online_help:per_user' %}" class="btn mt-3 btn-secondary">Cancel</a>
                 <button type="submit" class="btn mt-3 text-white" style="background-color: #0747a6;">Submit</button>
             </form>
         </div>

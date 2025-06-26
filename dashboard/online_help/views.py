@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import ColorCommentForm, EditDocuForm, EditSectionForm, EditSubSectionForm, AddWriterForm
+from .forms import per_user_edit_Form, EditSectionForm, EditSubSectionForm, AddWriterForm
 
 @login_required
 def home(request):
@@ -129,14 +129,14 @@ def per_user_edit(request):
     }
 
     if request.method == 'POST':
-        form = ColorCommentForm(request.POST)
+        form = per_user_edit_Form(request.POST)
         if form.is_valid():
             # Process form data here
             color = form.cleaned_data['color']
             comments = form.cleaned_data['comments']
             return render(request, 'online_help/success.html', {'color': color, 'comments': comments})
     else:
-        form = ColorCommentForm(initial=initial_data)
+        form = per_user_edit_Form(initial=initial_data)
 
     context = {
         'form': form,
@@ -167,7 +167,7 @@ DOCUMENTATION_LIST = [
 
 def documentation_edit(request):
     if request.method == 'POST':
-        form = EditDocuForm(request.POST)
+        form = per_user_edit_Form(request.POST)
         if form.is_valid():
             doc_name = form.cleaned_data.get('documentation') or "Untitled"
             DOCUMENTATION_LIST.append(doc_name)
@@ -187,7 +187,7 @@ def documentation_edit(request):
                            'color': color,
                            })
     else:
-        form = EditDocuForm()
+        form = per_user_edit_Form()
 
     return render(request, 'online_help/documentation_edit.html', {
         'form': form,

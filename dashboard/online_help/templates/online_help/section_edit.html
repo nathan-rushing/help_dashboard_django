@@ -6,7 +6,8 @@
 
 <div class="top-bar bg-warning text-dark card-header mt-5">
     <h2>Section Editor</h2>
-    <button class="btn btn-outline-dark btn-sm" onclick="document.getElementById('add-doc-form').style.display='block'">Add Section</button>
+    <!-- <button class="btn btn-outline-dark btn-sm" onclick="document.getElementById('add-doc-form').style.display='block'">Add Section</button> -->
+    <button class="btn btn-outline-dark btn-sm" onclick="showAddForm()">Add Section</button>
 </div>
 
 <div class="doc-list">
@@ -29,4 +30,13 @@
         <button type="submit" class="btn btn-outline-dark btn-sm">Submit</button>
     </form>
 </div>
+
+<script>
+function showAddForm() {
+    const form = document.getElementById('add-doc-form');
+    form.style.display = 'block';
+    form.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
 {% endblock content %}

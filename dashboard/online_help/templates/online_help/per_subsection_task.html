@@ -11,7 +11,8 @@
         <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
             <h2 class="mb-0">Introduction</h2>
             <!-- <a href="" class="btn btn-outline-dark btn-sm">Add Writer</a> -->
-            <button class="btn btn-outline-dark btn-sm" onclick="document.getElementById('add-doc-form').style.display='block'">Add Writer</button>
+            <!-- <button class="btn btn-outline-dark btn-sm" onclick="document.getElementById('add-doc-form').style.display='block'">Add Writer</button> -->
+            <button class="btn btn-outline-dark btn-sm" onclick="showAddForm()">Add Writer</button>
         </div>
         <div class="card-body">
             <div class="mb-3">
@@ -71,6 +72,14 @@ function confirmRemoval(writerName) {
         // Placeholder for actual removal logic
         alert(`${writerName} would be removed (if backend was connected).`);
     }
+}
+</script>
+
+<script>
+function showAddForm() {
+    const form = document.getElementById('add-doc-form');
+    form.style.display = 'block';
+    form.scrollIntoView({ behavior: 'smooth' });
 }
 </script>
 
