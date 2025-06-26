@@ -10,23 +10,28 @@
     <div class="card shadow-sm">
         <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
             <h2 class="mb-0">Introduction</h2>
-            <a href="" class="btn btn-outline-dark btn-sm">Add Writer</a>
+            <!-- <a href="" class="btn btn-outline-dark btn-sm">Add Writer</a> -->
+            <button class="btn btn-outline-dark btn-sm" onclick="document.getElementById('add-doc-form').style.display='block'">Add Writer</button>
         </div>
         <div class="card-body">
             <div class="mb-3">
                 <h5 class="text-muted">Writers</h5>
+                
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <p class="font-weight-bold mb-0">Ave Manriquez</p>
-                    <button class="btn btn-sm btn-danger">Remove</button>
+                    <button class="btn btn-sm btn-danger" onclick="confirmRemoval('Ave Manriquez')">Remove</button>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <p class="font-weight-bold mb-0">Ruby-Ann</p>
-                    <button class="btn btn-sm btn-danger">Remove</button>
+                    <button class="btn btn-sm btn-danger" onclick="confirmRemoval('Ruby-Ann')">Remove</button>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-2">
                     <p class="font-weight-bold mb-0">Verna Deatras</p>
-                    <button class="btn btn-sm btn-danger">Remove</button>
+                    <button class="btn btn-sm btn-danger" onclick="confirmRemoval('Verna Deatras')">Remove</button>
                 </div>
+
+
+
 
             </div>
             <!-- <div class="mb-3">
@@ -49,5 +54,24 @@
             </div> -->
         </div>
     </div>
+    <div id="add-doc-form" class="add-form" style="display: none;">
+        <h3>Add Writer</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-outline-dark btn-sm">Submit</button>
+        </form>
+    </div>
 </div>
+
+
+<script>
+function confirmRemoval(writerName) {
+    if (confirm(`Are you sure you want to remove ${writerName}?`)) {
+        // Placeholder for actual removal logic
+        alert(`${writerName} would be removed (if backend was connected).`);
+    }
+}
+</script>
+
 {% endblock %}

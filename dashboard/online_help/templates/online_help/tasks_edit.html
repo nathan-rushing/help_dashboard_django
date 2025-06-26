@@ -16,7 +16,7 @@
             <div class="mb-3">
                 {% for docu in radiant_documentation %}
                 <h5 class="text-muted">
-                    <a href="" class="hover-link">{{ docu }}</a>
+                    <a href="{% url 'online_help:per_documentation' %}" class="hover-link">{{ docu }}</a>
                 </h5>
                 {% endfor %}
             </div>

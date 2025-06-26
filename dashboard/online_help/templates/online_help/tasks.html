@@ -47,7 +47,9 @@
                                     {% for sub, color, writer, comments in section.subsections %}
                                     <tr>
                                         <td style="border: 1px solid #444; padding: 8px;">{{ writer }}</td>
-                                        <td style="border: 1px solid #444; padding: 8px;">{{ sub }}</td>
+                                        <td style="border: 1px solid #444; padding: 8px;">
+                                            <a href="{% url 'online_help:per_subsection_task' %}" class="hover-link">{{ sub }} </a>
+                                        </td>
                                         <td style="border: 1px solid #444; padding: 8px; background-color: '{{ color }}';">
                                             {{ color }}
                                         </td>

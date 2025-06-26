@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import ColorCommentForm, EditDocuForm, EditSectionForm, EditSubSectionForm
+from .forms import ColorCommentForm, EditDocuForm, EditSectionForm, EditSubSectionForm, AddWriterForm
 
 @login_required
 def home(request):
@@ -392,13 +392,30 @@ def per_section_edit(request):
 
 
 def per_subsection_task(request):
-    ctx = {
-        'section_user_guide':display_online_help_user_guides.section_data_user_guide,
-        'section_reference': display_online_help_reference.section_data_reference,
-        'section_standalone': display_standalone_tools.section_data_standalone,
-        'section_pdf': display_pdf_documents.section_data_pdf,
-    }
-    return render(request, 'online_help/per_subsection_task.html', context=ctx)
+    if request.method == 'POST':
+        form = AddWriterForm(request.POST)
+        if form.is_valid():
+            # doc_name = form.cleaned_data.get('documentation') or "Untitled"
+            # DOCUMENTATION_LIST.append(doc_name)
+            # documentation = form.cleaned_data['documentation']
+            # section = form.cleaned_data['section']
+            # subsection = form.cleaned_data['subsection']
+            writer = form.cleaned_data['writer']
+            # return redirect('online_help/success.html')
+
+            return render(request, 'online_help/success_per_subsection_task.html', 
+                          {'form': form, 
+                           'docs': SECTION_LIST, 
+                        #    'documentation': documentation,
+                           'writer': writer,
+                           })
+    else:
+        form = AddWriterForm()
+
+    return render(request, 'online_help/per_subsection_task.html', {
+        'form': form,
+        'docs': SECTION_LIST
+    })
 
 
 # def documentation_edit(request):
