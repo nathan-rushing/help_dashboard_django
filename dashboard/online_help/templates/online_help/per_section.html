@@ -16,7 +16,7 @@
                 {% for section in section_user_guide %}
                     {% for sub in section.subsections %}
                         <li class="mb-2">
-                            <a href="" class="hover-link text-muted">{{ sub.0 }}</a>
+                            <a href="{% url 'online_help:per_subsection_task' %}" class="hover-link text-muted">{{ sub.0 }}</a>
                         </li>
                     {% endfor %}
                 {% endfor %}

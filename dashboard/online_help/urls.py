@@ -13,6 +13,7 @@ urlpatterns = [
     path('per_user_edit/', views.per_user_edit, name='per_user_edit'),
     path('per_section/', views.per_section, name='per_section'),
     path('per_subsection/', views.per_subsection, name='per_subsection'),
+    path('per_subsection_task/', views.per_subsection_task, name='per_subsection_task'),
     path('per_documentation/', views.per_documentation, name='per_documentation'),
     path('tasks_edit/', views.tasks_edit, name='tasks_edit'),
     path('documentation_edit/', views.documentation_edit, name='documentation_edit'),

@@ -10,6 +10,7 @@ COLOR_CHOICES = [
 class ColorCommentForm(forms.Form):
     color = forms.ChoiceField(choices=COLOR_CHOICES, label='Color')
     comments = forms.CharField(widget=forms.Textarea, label='Comments')
+    completion = forms.CharField(required=False, max_length=100, label='Completion', widget=forms.TextInput)
 
 from django import forms
 # from .models import Documentation

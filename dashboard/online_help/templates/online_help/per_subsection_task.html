@@ -2,30 +2,38 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/per_subsection.css' %}">
+<link rel="stylesheet" href="{% static 'css/per_subsection_task.css' %}">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 
 <div class="container mt-5">
     <div class="card shadow-sm">
         <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
-            <h2 class="mb-0">Getting Started</h2>
-            <a href="{% url 'online_help:per_user_edit'%}" class="btn btn-outline-dark btn-sm">Edit</a>
+            <h2 class="mb-0">Introduction</h2>
+            <a href="" class="btn btn-outline-dark btn-sm">Add Writer</a>
         </div>
         <div class="card-body">
             <div class="mb-3">
-                <h5 class="text-muted">Writer</h5>
-                <p class="font-weight-bold">Ave Manriquez</p>
+                <h5 class="text-muted">Writers</h5>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <p class="font-weight-bold mb-0">Ave Manriquez</p>
+                    <button class="btn btn-sm btn-danger">Remove</button>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <p class="font-weight-bold mb-0">Ruby-Ann</p>
+                    <button class="btn btn-sm btn-danger">Remove</button>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <p class="font-weight-bold mb-0">Verna Deatras</p>
+                    <button class="btn btn-sm btn-danger">Remove</button>
+                </div>
+
             </div>
-            <div class="mb-3">
-                <h5 class="text-muted">Subsection</h5>
-                <p class="font-weight-bold">Introduction</p>
-            </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <h5 class="text-muted">Color</h5>
                 <p class="font-weight-bold text-warning">Yellow</p>
-            </div>
-            <div class="mb-3">
+            </div> -->
+            <!-- <div class="mb-3">
                 <h5 class="text-muted">Comments</h5>
                 <p class="font-weight-bold">•ERD-05.08 (DNG-22491) – Request for adding "percentage" view in Report Summary and Run Manager</p>
                 <p>--05/09/2025: Documentation is done, Manish has reviewed and approved updates. Changes here: User Guides > Managing Projects > Viewing Logs and Reports</p>
@@ -38,11 +46,7 @@
                 <p>--03/27/2025: In Progress. Verifying with Alka if this has been implemented in Radiant.</p>
                 <p>--04/03/2025: Followed up with Alka.</p>
                 <p>--04/07/2025: Added content to User Guides > Managing Projects > Viewing Logs and Reports and sent to Alka for review.</p>
-            </div>
-            <div class="mb-3">
-                <h5 class="text-muted">Completion</h5>
-                <p class="font-weight-bold">90%</p>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

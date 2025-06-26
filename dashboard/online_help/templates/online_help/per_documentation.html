@@ -16,7 +16,7 @@
             <div class="mb-3">
                 {% for section in section_user_guide %}
                 <h5 class="text-muted">
-                    <a href="" class="hover-link">{{ section.Section }}</a>
+                    <a href="{% url 'online_help:per_section' %}" class="hover-link">{{ section.Section }}</a>
                 </h5>
                 {% endfor %}
             </div>
