@@ -125,7 +125,15 @@ def per_documentation(request):
 def per_user_edit(request):
     initial_data = {
         'color': 'Yellow',
-        'comments': 'ERD Something here'
+        'comments': 'ERD-05.08 (DNG-22491) – Request for adding "percentage" view in Report Summary and Run Manager\n'
+        '--05/09/2025: Documentation is done, Manish has reviewed and approved updates. Changes here: User Guides > Managing Projects > Viewing Logs and Reports\n\n'
+        'ERD-05.10 (DNG-21175) – Enhancement Request - Breakdowns of Runtime for Different Compilation Stage\n'
+        '--03/27/2025: In Progress. Per Manish, this is not yet implemented in Radiant.\n'
+        '--05/05/2025: Done. Added to User Guides > Managing Projects > Viewing Logs and Reports section.\n\n'
+        'ERD-10.02 (DNG-22646) – Report parameters on an entity with generics to show what has been passed\n'
+        '--03/27/2025: In Progress. Verifying with Alka if this has been implemented in Radiant.\n'
+        '--04/03/2025: Followed up with Alka.\n'
+        '--04/07/2025: Added content to User Guides > Managing Projects > Viewing Logs and Reports and sent to Alka for review.\n'
     }
 
     if request.method == 'POST':

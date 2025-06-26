@@ -11,7 +11,7 @@ COLOR_CHOICES = [
 class per_user_edit_Form(forms.Form):
     color = forms.ChoiceField(choices=COLOR_CHOICES, label='Color')
     comments = forms.CharField(
-        widget=forms.Textarea(attrs={'rows': 10, 'cols': 80}),
+        widget=forms.Textarea(attrs={'rows': 10, 'cols': 100}),
         label='Comments'
     )
     completion = forms.CharField(
