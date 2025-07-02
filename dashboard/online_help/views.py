@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from online_help.management.utility import display_your_activity, display_online_help_reference, display_online_help_user_guides, display_standalone_tools, display_pdf_documents, display_documentation
+from online_help.management.utility import display_your_activity, display_online_help_reference, display_online_help_user_guides, display_standalone_tools, display_pdf_documents, display_documentation, db_online_help_user_guides
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -12,6 +12,7 @@ from .forms import per_user_edit_Form, EditSectionForm, EditSubSectionForm, AddW
 @login_required
 def home(request):
     ctx = {
+        'db': db_online_help_user_guides,
         'section_user_guide':display_online_help_user_guides.section_data_user_guide,
         'section_reference': display_online_help_reference.section_data_reference,
         'section_standalone': display_standalone_tools.section_data_standalone,
