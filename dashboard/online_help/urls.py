@@ -3,8 +3,13 @@ from . import views
 
 app_name = 'online_help'
 urlpatterns = [
-    path('', views.home, name='home'),
+    # path('', views.home, name='home'),
+    path('home/', views.home, name='home'),
+    path('home/writer/<int:pk>/', views.writer_detail, name='writer_detail'),
+    path('home_test/', views.home_test, name='home_test'),
+    # path('erd/<int:pk>', views.erd, name='erd'),
     path('tasks/', views.tasks, name='tasks'),
+    path('tasks_test/', views.tasks_test, name='tasks_test'),
     path('activity/', views.your_activity, name='activity'),
     path('erd/', views.erd, name='erd'),
     path('login/', views.login_view, name='login'),
@@ -19,6 +24,8 @@ urlpatterns = [
     path('documentation_edit/', views.documentation_edit, name='documentation_edit'),
     path('section_edit/', views.section_edit, name='section_edit'),
     path('per_section_edit/', views.per_section_edit, name='per_section_edit'),
+    path('test/', views.test, name='test'),
+    path('test2/', views.test2, name='test2'),
     # path('color-comment/', views.color_comment_view, name='color_comment'),
 
     # path('per_subsection/<str:section_name>/', views.per_subsection, name='per_subsection'),

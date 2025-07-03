@@ -1,0 +1,30 @@
+{% extends 'online_help/base.html' %}
+
+{% block content %}
+<h1>Task and Writer List</h1>
+
+<table border="1">
+    <tr>
+        <th>Task ID</th>
+        <th>Document</th>
+        <th>Section</th>
+        <th>Sub-section</th>
+        <th>Comments</th>
+        <th>SME</th>
+        <th>Color</th>
+        <th>Writer</th>
+    </tr>
+    {% for tw in task_writers %}
+    <tr>
+        <td>{{ tw.task.id }}</td>
+        <td>{{ tw.task.document }}</td>
+        <td>{{ tw.task.section }}</td>
+        <td>{{ tw.task.sub_section }}</td>
+        <td>{{ tw.task.comments }}</td>
+        <td>{{ tw.task.SME }}</td>
+        <td>{{ tw.task.color }}</td>
+        <td>{{ tw.writer.writer_name }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

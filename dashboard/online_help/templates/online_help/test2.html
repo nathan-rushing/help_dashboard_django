@@ -1,0 +1,25 @@
+{% extends 'online_help/base.html' %}
+
+{% block content %}
+<h1>Tasks with Writers</h1>
+
+{% for task in tasks %}
+    <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+        <h3>Task {{ task.id }} - {{ task.document }}</h3>
+        <p><strong>Section:</strong> {{ task.section }}</p>
+        <p><strong>Sub-section:</strong> {{ task.sub_section }}</p>
+        <p><strong>Comments:</strong> {{ task.comments }}</p>
+        <p><strong>SME:</strong> {{ task.SME }}</p>
+        <p><strong>Color:</strong> {{ task.color }}</p>
+
+        <h4>Writers:</h4>
+        <ul>
+            {% for tw in task.taskwriter_set.all %}
+                <li>{{ tw.writer.writer_name }}</li>
+            {% empty %}
+                <li>No writers assigned.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endfor %}
+{% endblock content %}

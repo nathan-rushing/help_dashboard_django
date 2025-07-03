@@ -1,0 +1,222 @@
+{% extends 'online_help/base.html' %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <h1>Radiant Help Dashboard</h1>
+    <div class="p-3" style="position: sticky; top: 30px; z-index: 1000;">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
+    </div>
+
+    <!-- * Container -->
+    <div class="container mt-4">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="bg-light rounded scroll-box">
+                    <div class="p-3 text-white text-center" style="background-color: #0747a6;">
+                        <p class="m-0">
+                            <a href="{% url 'online_help:per_user' %}" class="hover-link">Ave Manriquez</a>
+                        </p>
+                    </div>
+                    <div class="p-2">
+                        {% for tk in task_writers %}
+                        <!-- mali pa yung logic dahil mag load ka dapat ng unique at yung sa each writer lang -->
+                            <h5 id="ave_section1">{{ tk.task.document }}</h5> <!-- tulad nito, dapat unique  -->
+                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                    <tr>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <!-- insert for loop para sa sections, subsections, etc -->
+                                     <!-- basta dapat per section lang yung makukuha, hindi kabuoan -->
+
+                                    <tr>
+                                        <td style="border: 1px solid #444; padding: 8px;">
+                                            {{ tk.task.section }}
+                                        </td>
+                                        <td style="border: 1px solid #444; padding: 8px;">
+                                            <!-- pati yung href nito dapat papunta sa tamang subsection; getting started pa lang yung nanjan -->
+                                            <a href='{% url 'online_help:per_subsection' %}' class="hover-link">{{ tk.task.sub_section }}</a>
+                                        </td>
+                                        <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                                            {{ tk.task.color }}
+                                        </td>
+                                        <td style="border: 1px solid #444; padding: 8px;">dapat daling db</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- ! bg-success dati -->
+            <div class="col-md-6">
+                <div class="bg-light rounded scroll-box">
+                    <!-- <div class="p-3 bg-primary text-white text-center"> -->
+                    <div class="p-3 text-white text-center" style="background-color: #0747a6;">
+                        <!-- <h1>Online Help Reference</h1> -->
+                        <p class="m-0">Verna Deatras</p>
+                    </div>
+                    <div class="p-2">
+                        <h5 id="verna_section1">User Guides</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Simulating the Design</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Timing Simulation</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">25%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Applying Design Constraints</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Using Radiant Tools</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: green;">
+                                        Green
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">72%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+
+            <!-- ! bg-warning dati -->
+            <div class="col-md-6">
+                <div class="bg-light rounded scroll-box">
+                    <!-- <div class="p-3 bg-primary text-white text-center"> -->
+                    <div class="p-3 text-white text-center" style="background-color: #0747a6;">
+                        <!-- <h1>Standalone Tools</h1> -->
+                        <p class="m-0">Ruby-Ann Daliva</p>
+                    </div>
+                    <div class="p-2">
+                        <h5 id="ry_section1">User Guides</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Getting Started with Radiant</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">User Guides</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
+                                        Grey
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">20%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Managing Projects</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Designing with Soft IP, Modules, and PMI</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">10%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ! bg-danger dati -->
+            <div class="col-md-6">
+                <div class="bg-light rounded scroll-box">
+                    <div class="p-3 text-white text-center" style="background-color: #0747a6;">
+                        <!-- <h1>PDF Documents</h1> -->
+                        <!-- <div class="p-3 bg-primary text-white text-center"> -->
+                        <!-- <h1>PDF Documents</h1> -->
+                        <p class="m-0">Adel Jambalos</p>
+                    </div>
+                    <div class="p-2">
+                        <h5 id="adel_section1">User Guides</h5>
+                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                                <tr>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Securing the Design</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Securing the Bitstream</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
+                                        White
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">0%</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #444; padding: 8px;">Applying Design Constraints</td>
+                                    <td style="border: 1px solid #444; padding: 8px;">Constraint Propagation</td>
+                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
+                                        Yellow
+                                    </td>
+                                    <td style="border: 1px solid #444; padding: 8px;">50%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function filterContent() {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const headings = document.querySelectorAll("h5");
+        const tables = document.querySelectorAll("table");
+
+        headings.forEach((heading, index) => {
+            const table = tables[index];
+            const rows = table.querySelectorAll("tbody tr");
+            let tableHasMatch = false;
+
+            // Check if heading matches
+            const headingMatch = heading.innerText.toLowerCase().includes(input);
+
+            // Check if any row matches
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                const match = text.includes(input);
+                row.style.display = match ? "" : "none";
+                if (match) tableHasMatch = true;
+            });
+
+            // Show heading if it matches or if any row matches
+            heading.style.display = headingMatch || tableHasMatch ? "" : "none";
+
+            // Show table only if any row matches
+            table.style.display = tableHasMatch ? "" : "none";
+        });
+    }
+    </script>
+
+{% endblock content %}

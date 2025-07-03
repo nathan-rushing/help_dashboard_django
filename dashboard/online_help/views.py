@@ -2,23 +2,43 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from online_help.management.utility import display_your_activity, display_online_help_reference, display_online_help_user_guides, display_standalone_tools, display_pdf_documents, display_documentation, db_online_help_user_guides
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .forms import per_user_edit_Form, EditSectionForm, EditSubSectionForm, AddWriterForm
+from .models import Writers, Task, TaskWriter, MajorDocu
 
 @login_required
+# def home(request):
+#     ctx = {
+#         'db': db_online_help_user_guides,
+#         'section_user_guide':display_online_help_user_guides.section_data_user_guide,
+#         'section_reference': display_online_help_reference.section_data_reference,
+#         'section_standalone': display_standalone_tools.section_data_standalone,
+#         'section_pdf': display_pdf_documents.section_data_pdf,
+#     }
+#     return render(request, 'online_help/home.html', context=ctx)
+
+
 def home(request):
+    writers = Writers.objects.all()
+    return render(request, 'online_help/home.html', {'writers': writers})
+
+def home_test(request):
+    task_writers = TaskWriter.objects.select_related('task', 'writer')
     ctx = {
-        'db': db_online_help_user_guides,
-        'section_user_guide':display_online_help_user_guides.section_data_user_guide,
-        'section_reference': display_online_help_reference.section_data_reference,
-        'section_standalone': display_standalone_tools.section_data_standalone,
-        'section_pdf': display_pdf_documents.section_data_pdf,
+        'task_writers': task_writers
     }
-    return render(request, 'online_help/home.html', context=ctx)
+    return render(request, 'online_help/home_test.html', ctx)
+
+
+def writer_detail(request, pk):
+    writer = get_object_or_404(Writers, pk=pk)
+    tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
+    return render(request, 'online_help/writer_detail.html', {'writer': writer, 'tasks': tasks})
 
 
 @login_required
@@ -30,6 +50,14 @@ def tasks(request):
         'section_pdf': display_pdf_documents.section_data_pdf,
     }
     return render(request, 'online_help/tasks.html', context=ctx)
+
+
+def tasks_test(request):
+    task_writers = TaskWriter.objects.select_related('task', 'writer')
+    ctx = {
+        'task_writers': task_writers
+    }
+    return render(request, 'online_help/tasks_test.html', ctx)
 
 
 @login_required
@@ -425,6 +453,16 @@ def per_subsection_task(request):
         'form': form,
         'docs': SECTION_LIST
     })
+
+
+def test(request):
+    task_writers = TaskWriter.objects.select_related('task', 'writer')
+    return render(request, 'online_help/test.html', {'task_writers': task_writers})
+
+
+def test2(request):
+    tasks = Task.objects.prefetch_related('taskwriter_set__writer')
+    return render(request, 'online_help/test.html', {'tasks': tasks})
 
 
 # def documentation_edit(request):
