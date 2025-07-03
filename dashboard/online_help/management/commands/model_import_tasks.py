@@ -41,17 +41,3 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS('Task imported successfully!'))
 
-
-
-
-
-# If you want to delete all rows in the Task table before importing new data:
-# You should place this in a separate management command file (e.g., delete_tasks.py) to avoid duplicate class names.
-
-# class Command(BaseCommand):
-#     help = 'Deletes all Task entries from the database'
-
-#     def handle(self, *args, **options):
-#         Task.objects.all().delete()
-#         self.stdout.write(self.style.SUCCESS('All Task entries deleted successfully!'))
-
