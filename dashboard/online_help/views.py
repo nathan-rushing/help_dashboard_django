@@ -23,9 +23,9 @@ from .models import Writers, Task, TaskWriter, MajorDocu
 #     return render(request, 'online_help/home.html', context=ctx)
 
 
-def home(request):
-    writers = Writers.objects.all()
-    return render(request, 'online_help/home.html', {'writers': writers})
+# def home(request):
+#     writers = Writers.objects.all()
+#     return render(request, 'online_help/home.html', {'writers': writers})
 
 def home_test(request):
     task_writers = TaskWriter.objects.select_related('task', 'writer')
@@ -35,10 +35,44 @@ def home_test(request):
     return render(request, 'online_help/home_test.html', ctx)
 
 
+def home(request):
+    writers = Writers.objects.all()
+    return render(request, 'online_help/home.html', {'writers': writers})
+
 def writer_detail(request, pk):
     writer = get_object_or_404(Writers, pk=pk)
     tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
     return render(request, 'online_help/writer_detail.html', {'writer': writer, 'tasks': tasks})
+
+def per_user_test(request, writer_pk):
+    writer = get_object_or_404(Writers, pk=writer_pk)
+    tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
+    return render(request, 'online_help/per_user_test.html', {'writer': writer, 'tasks': tasks})
+
+
+def per_subsection_test(request, writer_pk, task_pk):
+    # Get the writer
+    writer = get_object_or_404(Writers, pk=writer_pk)
+
+    # Get the task
+    task = get_object_or_404(Task, pk=task_pk)
+
+    # Render the template
+    return render(request, 'online_help/per_subsection_test.html', {
+        'writer': writer,
+        'task': task
+    })
+
+
+def per_subsection_test(request, writer_pk, task_pk):
+    writer = get_object_or_404(Writers, pk=writer_pk)
+    task = get_object_or_404(Task, pk=task_pk)
+
+    return render(request, 'online_help/per_subsection_test.html', {
+        'writer': writer,
+        'task': task
+    })
+
 
 
 @login_required
