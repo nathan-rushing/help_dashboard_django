@@ -28,9 +28,11 @@ from .models import Writers, Task, TaskWriter, MajorDocu
 #     return render(request, 'online_help/home.html', {'writers': writers})
 
 def home_test(request):
+    writer = Writers.objects.all()
     task_writers = TaskWriter.objects.select_related('task', 'writer')
     ctx = {
-        'task_writers': task_writers
+        'task_writers': task_writers,
+        'writer': writer
     }
     return render(request, 'online_help/home_test.html', ctx)
 
@@ -64,16 +66,43 @@ def per_subsection_test(request, writer_pk, task_pk):
     })
 
 
-def per_subsection_test(request, writer_pk, task_pk):
+def per_subsection_edit_test(request, writer_pk, task_pk):
     writer = get_object_or_404(Writers, pk=writer_pk)
     task = get_object_or_404(Task, pk=task_pk)
 
-    return render(request, 'online_help/per_subsection_test.html', {
+    if request.method == 'POST':
+        form = per_user_edit_Form(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('online_help:per_subsection_test', writer_pk=writer.pk, task_pk=task.pk)
+    else:
+        form = per_user_edit_Form(instance=task)
+
+    return render(request, 'online_help/per_user_edit_test.html', {
+        'form': form,
         'writer': writer,
         'task': task
     })
 
 
+
+def per_user_edit_test(request, writer_pk, task_pk):
+    writer = get_object_or_404(Writers, pk=writer_pk)
+    task = get_object_or_404(Task, pk=task_pk)
+
+    if request.method == 'POST':
+        form = per_user_edit_Form(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('online_help:per_user_edit_test', writer_pk=writer.pk, task_pk=task.pk)
+    else:
+        form = per_user_edit_Form(instance=task)
+
+    return render(request, 'online_help/per_user_edit_test.html', {
+        'form': form,
+        'writer': writer,
+        'task': task
+    })
 
 @login_required
 def tasks(request):

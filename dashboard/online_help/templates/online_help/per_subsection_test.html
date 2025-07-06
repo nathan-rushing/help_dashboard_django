@@ -1,11 +1,40 @@
-<!-- lagay na lang color -->
- 
-<h1>Subsection Details</h1>
+{% extends "online_help/base.html" %}
+{% load static %}
 
-<p><strong>Writer:</strong> {{ writer.writer_name }}</p>
-<p><strong>Document:</strong> {{ task.document }}</p>
-<p><strong>Section:</strong> {{ task.section }}</p>
-<p><strong>Sub-section:</strong> {{ task.sub_section }}</p>
-<p><strong>Comments:</strong> {{ task.comments }}</p>
-<p><strong>SME:</strong> {{ task.SME }}</p>
-<p><strong>Color:</strong> {{ task.color }}</p>
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/per_subsection.css' %}">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">{{ task.section }}</h2>
+            <a href="{% url 'online_help:per_user_edit_test' writer.pk task.pk %}" class="btn btn-outline-dark btn-sm">Edit</a>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <h5 class="text-muted">Writer</h5>
+                <p class="font-weight-bold">{{ writer.writer_name }}</p>
+            </div>
+            <div class="mb-3">
+                <h5 class="text-muted">Subsection</h5>
+                <p class="font-weight-bold">{{ task.sub_section }}</p>
+            </div>
+            <div class="mb-3">
+                <h5 class="text-muted">Color</h5>
+                <p class="font-weight-bold text-warning">{{ task.color }}</p>
+            </div>
+            <div class="mb-3">
+                <h5 class="text-muted">Comments</h5>
+                <p class="font-weight-bold">{{ task.comments }}</p>
+            </div>
+            <div class="mb-3">
+                <h5 class="text-muted">Completion</h5>
+                <p class="font-weight-bold">insert mo completion</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -14,7 +14,7 @@
                 <div class="bg-light rounded scroll-box">
                     <div class="p-3 text-white text-center" style="background-color: #0747a6;">
                         <p class="m-0">
-                            <a href="{% url 'online_help:per_user' %}" class="hover-link">Ave Manriquez</a>
+                            <a href="{% url 'online_help:per_user_test' writer.pk %}" class="hover-link">Ave Manriquez</a>
                         </p>
                     </div>
                     <div class="p-2">
@@ -41,7 +41,7 @@
                                         </td>
                                         <td style="border: 1px solid #444; padding: 8px;">
                                             <!-- pati yung href nito dapat papunta sa tamang subsection; getting started pa lang yung nanjan -->
-                                            <a href='{% url 'online_help:per_subsection' %}' class="hover-link">{{ tk.task.sub_section }}</a>
+                                            <a href='{% url 'online_help:per_subsection_test' tk.writer.pk tk.task.pk %}' class="hover-link">{{ tk.task.sub_section }}</a>
                                         </td>
                                         <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
                                             {{ tk.task.color }}

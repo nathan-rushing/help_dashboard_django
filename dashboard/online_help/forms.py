@@ -1,4 +1,6 @@
 from django import forms
+from .models import Task
+
 
 COLOR_CHOICES = [
     ('Green', 'Green'),
@@ -8,7 +10,8 @@ COLOR_CHOICES = [
 ]
 
 
-class per_user_edit_Form(forms.Form):
+
+class per_user_edit_Form(forms.ModelForm):
     color = forms.ChoiceField(choices=COLOR_CHOICES, label='Color')
     comments = forms.CharField(
         widget=forms.Textarea(attrs={'rows': 10, 'cols': 100}),
@@ -18,8 +21,13 @@ class per_user_edit_Form(forms.Form):
         required=False,
         max_length=100,
         label='Completion',
-        widget=forms.TextInput
+        widget=forms.TextInput()
     )
+
+    class Meta:
+        model = Task
+        fields = ['color', 'comments', 'completion']
+
 
 # from django import forms
 # from .models import Documentation

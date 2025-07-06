@@ -1,0 +1,7 @@
+    <p><strong>Writer:</strong> {{ writer.writer_name }}</p>
+    <p><strong>Document:</strong> {{ task.document }}</p>
+    <p><strong>Section:</strong> {{ task.section }}</p>
+    <p><strong>Sub-section:</strong> {{ task.sub_section }}</p>
+    <p><strong>Comments:</strong> {{ task.comments }}</p>
+    <p><strong>SME:</strong> {{ task.SME }}</p>
+    <p><strong>Color:</strong> {{ task.color }}</p>

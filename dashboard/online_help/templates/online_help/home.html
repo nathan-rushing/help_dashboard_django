@@ -568,16 +568,6 @@
         </div>
     </div>
 
-    <div>
-
-        <ul>
-          {% for writer in writers %}
-            <li><a href="{% url 'online_help:per_user_test' writer.pk %}">{{ writer.writer_name }}</a></li>
-          {% endfor %}
-        </ul>
-
-    </div>
-
     <script>
     function filterContent() {
         const input = document.getElementById("searchInput").value.toLowerCase();
