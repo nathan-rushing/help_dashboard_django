@@ -25,6 +25,7 @@ class Task(models.Model):
     comments = models.TextField()
     SME = models.CharField(max_length=255)
     color = models.CharField(max_length=50)
+    completion = models.CharField(max_length=100, default='0%')
     # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
 
     def __str__(self):

@@ -14,11 +14,12 @@ class Command(BaseCommand):
             'Sub-sections',
             'Comments',
             'Subject Matter Expert/Engineering',
-            'color'
+            'color',
+            'completion'
         ]]
 
         # Optional: Rename columns to match Django model fields
-        filtered_df.columns = ['document', 'section', 'sub_section', 'comments', 'SME', 'color']
+        filtered_df.columns = ['document', 'section', 'sub_section', 'comments', 'SME', 'color','completion']
 
         
         # print(f"Filtered rows: {filtered_df.shape[0]}")
@@ -32,7 +33,8 @@ class Command(BaseCommand):
                 sub_section=row['sub_section'],
                 comments=row['comments'],
                 SME=row['SME'],
-                color=row['color']
+                color=row['color'],
+                completion=row['completion'],
             )
 
         

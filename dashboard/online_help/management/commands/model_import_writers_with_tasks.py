@@ -14,7 +14,8 @@ class Command(BaseCommand):
                 sub_section=row['Sub-sections'],
                 comments=row.get('Comments', ''),
                 SME=row.get('Subject Matter Expert/Engineering', ''),
-                color=row.get('color', '')
+                color=row.get('color', ''),
+                completion=row.get('completion', ''),
             )
 
             writers = str(row.get('Writer', '')).split('\n')

@@ -1,72 +1,65 @@
 {% extends "online_help/base.html" %}
-
 {% block content %}
 {% load static %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="{% static 'css/per_user.css' %}">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 <div class="col-md-12">
     <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
         <h3 class="m-0">{{ writer.writer_name }}</h3>
-        <!-- <a href="" class="btn btn-outline-dark btn-sm">Edit</a> -->
     </div>
+
     <div class="p-3" style="position: sticky; top: 30px; z-index: 1000;">
         <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
     </div>
 
     <div class="p-2">
-      {% for taskwriter in tasks %}
+        {% for document, tasks in grouped_tasks.items %}
+            <h5>{{ document }}</h5>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
+                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
+                    <tr>
+                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
+                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
+                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
+                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
+                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for taskwriter in tasks %}
+                        <style>
+                            .task-color {
+                                border: 1px solid #444;
+                                padding: 8px;
+                            }
+                        </style>
+                    <tr>
+                        <td style="border: 1px solid #444; padding: 8px;">{{ taskwriter.task.section }}</td>
+                        <td style="border: 1px solid #444; padding: 8px;">
+                            <a href="{% url 'online_help:per_subsection_test' writer.pk taskwriter.task.pk %}" class="hover-link">
+                                {{ taskwriter.task.sub_section }}
+                            </a>
+                        </td>
+                        <td style="border: 1px solid #444; padding: 8px;">
 
-        <h5 id="ave_section1">{{ taskwriter.task.document }}</h5>
-        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                <tr>
-                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
-                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="border: 1px solid #444; padding: 8px;">
-                        {{ taskwriter.task.section }}
-                    </td>
-                    <td style="border: 1px solid #444; padding: 8px;">
-                        <a href="{% url 'online_help:per_subsection_test' writer.pk taskwriter.task.pk %}" class="hover-link">{{ taskwriter.task.sub_section }}</a>
-                    </td>
-                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                        {{ taskwriter.task.color }}
-                    </td>
-                    <td style="border: 1px solid #444; padding: 8px;">wala pa ata completion</td>
-                    <td style="border: 1px solid #444; padding: 8px;">
-                        <a href="{% url 'online_help:per_user_edit' %}">Edit</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <td class="task-color-{{ taskwriter.task.pk }}">
+                            {{ taskwriter.task.color }}
+                        </td>
 
-      {% endfor %}
+                        </td>
+                        <td style="border: 1px solid #444; padding: 8px;">wala pa ata completion</td>
+                        <td style="border: 1px solid #444; padding: 8px;">
+                            <a href="{% url 'online_help:per_user_edit_test' writer.pk taskwriter.task.pk %}">Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
     </div>
-</div>
-
-
-
-<div>
-
-  <!-- ang writer_detail.html ay katumbas ng per_user -->
-<h1>{{ writer.writer_name }}</h1>
-
-<h2>Tasks:</h2>
-<ul>
-  {% for taskwriter in tasks %}
-    <li>{{ taskwriter.task.document }} - {{ taskwriter.task.section }} - {{ taskwriter.task.comments }}</li>
-  {% empty %}
-    <li>No tasks assigned.</li>
-  {% endfor %}
-</ul>
-
 </div>
 
 <script>
@@ -80,10 +73,8 @@ function filterContent() {
         const rows = table.querySelectorAll("tbody tr");
         let tableHasMatch = false;
 
-        // Check if heading matches
         const headingMatch = heading.innerText.toLowerCase().includes(input);
 
-        // Check if any row matches
         rows.forEach(row => {
             const text = row.innerText.toLowerCase();
             const match = text.includes(input);
@@ -91,14 +82,10 @@ function filterContent() {
             if (match) tableHasMatch = true;
         });
 
-        // Show heading if it matches or if any row matches
         heading.style.display = headingMatch || tableHasMatch ? "" : "none";
-
-        // Show table only if any row matches
         table.style.display = tableHasMatch ? "" : "none";
     });
 }
 </script>
 
 {% endblock %}
-

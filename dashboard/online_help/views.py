@@ -66,10 +66,24 @@ def writer_detail(request, pk):
     tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
     return render(request, 'online_help/writer_detail.html', {'writer': writer, 'tasks': tasks})
 
+# def per_user_test(request, writer_pk):
+#     writer = get_object_or_404(Writers, pk=writer_pk)
+#     tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
+#     return render(request, 'online_help/per_user_test.html', {'writer': writer, 'tasks': tasks})
+
+
 def per_user_test(request, writer_pk):
     writer = get_object_or_404(Writers, pk=writer_pk)
     tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
-    return render(request, 'online_help/per_user_test.html', {'writer': writer, 'tasks': tasks})
+
+    grouped_tasks = defaultdict(list)
+    for tw in tasks:
+        grouped_tasks[tw.task.document].append(tw)
+
+    return render(request, 'online_help/per_user_test.html', {
+        'writer': writer,
+        'grouped_tasks': dict(grouped_tasks),  # convert to regular dict
+    })
 
 
 def per_subsection_test(request, writer_pk, task_pk):
@@ -98,7 +112,7 @@ def per_subsection_edit_test(request, writer_pk, task_pk):
     else:
         form = per_user_edit_Form(instance=task)
 
-    return render(request, 'online_help/per_user_edit_test.html', {
+    return render(request, 'online_help/per_subsection_edit_test.html', {
         'form': form,
         'writer': writer,
         'task': task
