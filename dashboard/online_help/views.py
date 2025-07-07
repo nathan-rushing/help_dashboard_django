@@ -195,30 +195,47 @@ def tasks_test(request):
 #         'grouped_documents': dict(grouped_by_document),
 #     })
 
-from django.shortcuts import render, get_object_or_404
-from .models import Task
-
 def per_documentation_test(request, document_pk):
     # Get one task to extract the document name
-    task = get_object_or_404(Task, pk=document_pk)
-    document_name = task.document
+    reference_task = get_object_or_404(Task, pk=document_pk)
+    document_name = reference_task.document
 
     # Get all tasks with the same document name
     tasks = Task.objects.filter(document=document_name)
 
-    # Extract unique sections in original order
-    seen = set()
-    sections = []
-    for t in tasks:
-        if t.section not in seen:
-            seen.add(t.section)
-            sections.append(t.section)
+    # Get one task per unique section
+    seen_sections = set()
+    unique_section_tasks = []
+    for task in tasks:
+        if task.section not in seen_sections:
+            seen_sections.add(task.section)
+            unique_section_tasks.append(task)
 
     return render(request, 'online_help/per_documentation_test.html', {
         'document_name': document_name,
-        'sections': sections,
+        'document_pk': document_pk,
+        'sections': unique_section_tasks,  # list of Task objects
     })
 
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Task
+
+def per_section_test(request, document_pk, section_pk):
+    # Get the reference task to extract document and section names
+    reference_task = get_object_or_404(Task, pk=section_pk)
+    document_name = reference_task.document
+    section_name = reference_task.section
+
+    # Get all tasks that match the same document and section
+    tasks = Task.objects.filter(document=document_name, section=section_name)
+
+    return render(request, 'online_help/per_section_test.html', {
+        'document_name': document_name,
+        'section_name': section_name,
+        'tasks': tasks,
+    })
 
 
 @login_required

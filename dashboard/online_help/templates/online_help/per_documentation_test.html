@@ -1,9 +1,9 @@
-
 {% extends "online_help/base.html" %}
 {% block content %}
 {% load static %}
+
 <link rel="stylesheet" href="{% static 'css/per_documentation.css' %}">
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 <div class="container mt-5">
     <div class="card shadow-sm">
@@ -13,19 +13,18 @@
         </div>
         <div class="card-body">
             {% if sections %}
-                <ul class="list-group">
-                    {% for section in sections %}
-                        <li class="list-group-item">
-                            <h5 class="text-muted">
-                                <a href="{% url 'online_help:per_section' %}" class="hover-link">{{ section }}</a>
-                            </h5>
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% for section in sections %}
+                    <h5 class="text-muted">
+                        <a href="{% url 'online_help:per_section_test' document_pk=document_pk section_pk=section.pk %}" class="hover-link">
+                            {{ section.section }}
+                        </a>
+                    </h5>
+                {% endfor %}
             {% else %}
                 <p>No sections found for this document.</p>
             {% endif %}
         </div>
     </div>
 </div>
+
 {% endblock %}
