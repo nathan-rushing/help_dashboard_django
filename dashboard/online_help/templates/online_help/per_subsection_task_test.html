@@ -19,8 +19,14 @@
                     {% for tw in task_writers %}
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <p class="mb-0"><strong>{{ tw.writer.writer_name }}</strong></p>
-                            <button class="btn btn-sm btn-danger" onclick="confirmRemoval('{{ tw.writer.writer_name }}')">Remove</button>
+                            <a href="?remove_writer={{ tw.writer.writer_name }}" class="btn btn-sm btn-danger"
+                               onclick="return confirm('Are you sure you want to remove {{ tw.writer.writer_name }}?')">
+                               Remove
+                            </a>
                         </div>
+
+
+
                     {% endfor %}
                 {% else %}
                     <p>No writers found for this subsection.</p>
