@@ -1,7 +1,7 @@
 {% extends 'online_help/base.html' %}
 {% block content %}
-{% load static %}
 {% load static custom_filters %}
+
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 <h1>Radiant Help Dashboard</h1>
 
@@ -20,42 +20,51 @@
                     </p>
                 </div>
                 <div class="p-2">
-                    {% for tk in writer_tasks|get_item:writer.pk %}
-                        <h5>{{ tk.task.document }}</h5>
-                        <table class="table table-bordered mb-3">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Section</th>
-                                    <th>Sub</th>
-                                    <th>Color</th>
-                                    <th>Completion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>{{ tk.task.section }}</td>
-                                    <td>
-                                        <a href="{% url 'online_help:per_subsection_test' tk.writer.pk tk.task.pk %}" class="hover-link">
-                                            {{ tk.task.sub_section }}
-                                        </a>
-                                    </td>
-                                    <td>{{ tk.task.color }}</td>
-                                    <td>From DB</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    {% empty %}
-                        <p>No tasks assigned.</p>
+
+{% with writer_tasks_grouped|get_item:writer.pk as documents %}
+    {% if documents %}
+        {% for document, tasks in documents.items %}
+            <h5>{{ document }}</h5>
+            <table class="table table-bordered mb-3">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Section</th>
+                        <th>Sub</th>
+                        <th>Color</th>
+                        <th>Completion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tk in tasks %}
+                    <tr>
+                        <td>{{ tk.task.section }}</td>
+                        <td>
+                            <a href="{% url 'online_help:per_subsection_test' tk.writer.pk tk.task.pk %}" class="hover-link">
+                                {{ tk.task.sub_section }}
+                            </a>
+                        </td>
+                        <td>{{ tk.task.color }}</td>
+                        <td>From DB</td>
+                    </tr>
                     {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    {% else %}
+        <p>No tasks assigned.</p>
+    {% endif %}
+{% endwith %}
+
+                        </div>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
-    </div>
-</div>
-
-<script>
-function filterContent() {
+        
+        
+        <script>
+        function filterContent() {
     const input = document.getElementById("searchInput").value.toLowerCase();
     const headings = document.querySelectorAll("h5");
     const tables = document.querySelectorAll("table");
@@ -79,4 +88,5 @@ function filterContent() {
     });
 }
 </script>
+
 {% endblock %}

@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import per_user_edit_Form, EditSectionForm, EditSubSectionForm, AddWriterForm
 from .models import Writers, Task, TaskWriter, MajorDocu
 
-@login_required
+# @login_required
 # def home(request):
 #     ctx = {
 #         'db': db_online_help_user_guides,
@@ -36,18 +36,24 @@ from .models import Writers, Task, TaskWriter, MajorDocu
 #     }
 #     return render(request, 'online_help/home_test.html', ctx)
 
+from collections import defaultdict
+
 def home_test(request):
     writers = Writers.objects.all()
     task_writers = TaskWriter.objects.select_related('task', 'writer')
 
-    # Group tasks by writer
-    writer_tasks = {}
+    writer_tasks_grouped = {}
+
     for writer in writers:
-        writer_tasks[writer.pk] = task_writers.filter(writer=writer)
+        grouped_by_doc = defaultdict(list)
+        for tw in task_writers:
+            if tw.writer_id == writer.pk:
+                grouped_by_doc[tw.task.document].append(tw)
+        writer_tasks_grouped[writer.pk] = dict(grouped_by_doc)  # Convert to regular dict
 
     ctx = {
         'writers': writers,
-        'writer_tasks': writer_tasks,
+        'writer_tasks_grouped': writer_tasks_grouped,
     }
     return render(request, 'online_help/home_test.html', ctx)
 
