@@ -28,11 +28,11 @@ from .models import Writers, Task, TaskWriter, MajorDocu
 #     return render(request, 'online_help/home.html', {'writers': writers})
 
 def home_test(request):
-    writer = Writers.objects.all()
+    writers = Writers.objects.all()
     task_writers = TaskWriter.objects.select_related('task', 'writer')
     ctx = {
         'task_writers': task_writers,
-        'writer': writer
+        'writers': writers
     }
     return render(request, 'online_help/home_test.html', ctx)
 

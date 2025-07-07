@@ -11,10 +11,11 @@
     <div class="container mt-4">
         <div class="row mb-3">
             <div class="col-md-6">
+                {% for writer in writers %}
                 <div class="bg-light rounded scroll-box">
                     <div class="p-3 text-white text-center" style="background-color: #0747a6;">
                         <p class="m-0">
-                            <a href="{% url 'online_help:per_user_test' writer.pk %}" class="hover-link">Ave Manriquez</a>
+                            <a href="{% url 'online_help:per_user_test' writer.pk %}" class="hover-link">{{ writer.writer_name }}</a>
                         </p>
                     </div>
                     <div class="p-2">
@@ -54,137 +55,9 @@
                         {% endfor %}
                     </div>
                 </div>
+                {% endfor %}
             </div>
 
-            <!-- ! bg-success dati -->
-            <div class="col-md-6">
-                <div class="bg-light rounded scroll-box">
-                    <!-- <div class="p-3 bg-primary text-white text-center"> -->
-                    <div class="p-3 text-white text-center" style="background-color: #0747a6;">
-                        <!-- <h1>Online Help Reference</h1> -->
-                        <p class="m-0">Verna Deatras</p>
-                    </div>
-                    <div class="p-2">
-                        <h5 id="verna_section1">User Guides</h5>
-                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Simulating the Design</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Timing Simulation</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                        White
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">25%</td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Applying Design Constraints</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Using Radiant Tools</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: green;">
-                                        Green
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">72%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-
-            <!-- ! bg-warning dati -->
-            <div class="col-md-6">
-                <div class="bg-light rounded scroll-box">
-                    <!-- <div class="p-3 bg-primary text-white text-center"> -->
-                    <div class="p-3 text-white text-center" style="background-color: #0747a6;">
-                        <!-- <h1>Standalone Tools</h1> -->
-                        <p class="m-0">Ruby-Ann Daliva</p>
-                    </div>
-                    <div class="p-2">
-                        <h5 id="ry_section1">User Guides</h5>
-                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Getting Started with Radiant</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">User Guides</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: grey;">
-                                        Grey
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">20%</td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Managing Projects</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Designing with Soft IP, Modules, and PMI</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                        White
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">10%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ! bg-danger dati -->
-            <div class="col-md-6">
-                <div class="bg-light rounded scroll-box">
-                    <div class="p-3 text-white text-center" style="background-color: #0747a6;">
-                        <!-- <h1>PDF Documents</h1> -->
-                        <!-- <div class="p-3 bg-primary text-white text-center"> -->
-                        <!-- <h1>PDF Documents</h1> -->
-                        <p class="m-0">Adel Jambalos</p>
-                    </div>
-                    <div class="p-2">
-                        <h5 id="adel_section1">User Guides</h5>
-                        <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                            <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                <tr>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                    <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Securing the Design</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Securing the Bitstream</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: white;">
-                                        White
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">0%</td>
-                                </tr>
-                                <tr>
-                                    <td style="border: 1px solid #444; padding: 8px;">Applying Design Constraints</td>
-                                    <td style="border: 1px solid #444; padding: 8px;">Constraint Propagation</td>
-                                    <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                        Yellow
-                                    </td>
-                                    <td style="border: 1px solid #444; padding: 8px;">50%</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
