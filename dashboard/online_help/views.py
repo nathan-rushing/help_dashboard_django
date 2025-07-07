@@ -27,15 +27,29 @@ from .models import Writers, Task, TaskWriter, MajorDocu
 #     writers = Writers.objects.all()
 #     return render(request, 'online_help/home.html', {'writers': writers})
 
+# def home_test(request):
+#     writers = Writers.objects.all()
+#     task_writers = TaskWriter.objects.select_related('task', 'writer')
+#     ctx = {
+#         'task_writers': task_writers,
+#         'writers': writers
+#     }
+#     return render(request, 'online_help/home_test.html', ctx)
+
 def home_test(request):
     writers = Writers.objects.all()
     task_writers = TaskWriter.objects.select_related('task', 'writer')
+
+    # Group tasks by writer
+    writer_tasks = {}
+    for writer in writers:
+        writer_tasks[writer.pk] = task_writers.filter(writer=writer)
+
     ctx = {
-        'task_writers': task_writers,
-        'writers': writers
+        'writers': writers,
+        'writer_tasks': writer_tasks,
     }
     return render(request, 'online_help/home_test.html', ctx)
-
 
 def home(request):
     writers = Writers.objects.all()

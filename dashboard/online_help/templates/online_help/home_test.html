@@ -1,95 +1,82 @@
 {% extends 'online_help/base.html' %}
 {% block content %}
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/home.css' %}">
-    <h1>Radiant Help Dashboard</h1>
-    <div class="p-3" style="position: sticky; top: 30px; z-index: 1000;">
-        <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
-    </div>
+{% load static %}
+{% load static custom_filters %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<h1>Radiant Help Dashboard</h1>
 
-    <!-- * Container -->
-    <div class="container mt-4">
-        <div class="row mb-3">
-            <div class="col-md-6">
-                {% for writer in writers %}
-                <div class="bg-light rounded scroll-box">
-                    <div class="p-3 text-white text-center" style="background-color: #0747a6;">
-                        <p class="m-0">
-                            <a href="{% url 'online_help:per_user_test' writer.pk %}" class="hover-link">{{ writer.writer_name }}</a>
-                        </p>
-                    </div>
-                    <div class="p-2">
-                        {% for tk in task_writers %}
-                        <!-- mali pa yung logic dahil mag load ka dapat ng unique at yung sa each writer lang -->
-                            <h5 id="ave_section1">{{ tk.task.document }}</h5> <!-- tulad nito, dapat unique  -->
-                            <table style="width: 600px; border-collapse: collapse; margin-bottom: 20px; border: 1px solid #444;">
-                                <thead style="color: #2a4d9b; background-color: #f2f2f2;">
-                                    <tr>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Section</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Sub</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Color</th>
-                                        <th style="border: 1px solid #444; padding: 8px; text-align: left;">Completion</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+<div class="p-3" style="position: sticky; top: 30px; z-index: 1000;">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
+</div>
 
-                                    <!-- insert for loop para sa sections, subsections, etc -->
-                                     <!-- basta dapat per section lang yung makukuha, hindi kabuoan -->
-
-                                    <tr>
-                                        <td style="border: 1px solid #444; padding: 8px;">
-                                            {{ tk.task.section }}
-                                        </td>
-                                        <td style="border: 1px solid #444; padding: 8px;">
-                                            <!-- pati yung href nito dapat papunta sa tamang subsection; getting started pa lang yung nanjan -->
-                                            <a href='{% url 'online_help:per_subsection_test' tk.writer.pk tk.task.pk %}' class="hover-link">{{ tk.task.sub_section }}</a>
-                                        </td>
-                                        <td style="border: 1px solid #444; padding: 8px; background-color: yellow;">
-                                            {{ tk.task.color }}
-                                        </td>
-                                        <td style="border: 1px solid #444; padding: 8px;">dapat daling db</td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        {% endfor %}
-                    </div>
+<div class="container mt-4">
+    <div class="row">
+        {% for writer in writers %}
+        <div class="col-md-6 mb-4">
+            <div class="bg-light rounded scroll-box">
+                <div class="p-3 text-white text-center" style="background-color: #0747a6;">
+                    <p class="m-0">
+                        <a href="{% url 'online_help:per_user_test' writer.pk %}" class="hover-link">{{ writer.writer_name }}</a>
+                    </p>
                 </div>
-                {% endfor %}
+                <div class="p-2">
+                    {% for tk in writer_tasks|get_item:writer.pk %}
+                        <h5>{{ tk.task.document }}</h5>
+                        <table class="table table-bordered mb-3">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>Section</th>
+                                    <th>Sub</th>
+                                    <th>Color</th>
+                                    <th>Completion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ tk.task.section }}</td>
+                                    <td>
+                                        <a href="{% url 'online_help:per_subsection_test' tk.writer.pk tk.task.pk %}" class="hover-link">
+                                            {{ tk.task.sub_section }}
+                                        </a>
+                                    </td>
+                                    <td>{{ tk.task.color }}</td>
+                                    <td>From DB</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    {% empty %}
+                        <p>No tasks assigned.</p>
+                    {% endfor %}
+                </div>
             </div>
-
         </div>
+        {% endfor %}
     </div>
+</div>
 
-    <script>
-    function filterContent() {
-        const input = document.getElementById("searchInput").value.toLowerCase();
-        const headings = document.querySelectorAll("h5");
-        const tables = document.querySelectorAll("table");
+<script>
+function filterContent() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const headings = document.querySelectorAll("h5");
+    const tables = document.querySelectorAll("table");
 
-        headings.forEach((heading, index) => {
-            const table = tables[index];
-            const rows = table.querySelectorAll("tbody tr");
-            let tableHasMatch = false;
+    headings.forEach((heading, index) => {
+        const table = tables[index];
+        const rows = table.querySelectorAll("tbody tr");
+        let tableHasMatch = false;
 
-            // Check if heading matches
-            const headingMatch = heading.innerText.toLowerCase().includes(input);
+        const headingMatch = heading.innerText.toLowerCase().includes(input);
 
-            // Check if any row matches
-            rows.forEach(row => {
-                const text = row.innerText.toLowerCase();
-                const match = text.includes(input);
-                row.style.display = match ? "" : "none";
-                if (match) tableHasMatch = true;
-            });
-
-            // Show heading if it matches or if any row matches
-            heading.style.display = headingMatch || tableHasMatch ? "" : "none";
-
-            // Show table only if any row matches
-            table.style.display = tableHasMatch ? "" : "none";
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            const match = text.includes(input);
+            row.style.display = match ? "" : "none";
+            if (match) tableHasMatch = true;
         });
-    }
-    </script>
 
-{% endblock content %}
+        heading.style.display = headingMatch || tableHasMatch ? "" : "none";
+        table.style.display = tableHasMatch ? "" : "none";
+    });
+}
+</script>
+{% endblock %}
