@@ -149,12 +149,76 @@ def tasks(request):
     return render(request, 'online_help/tasks.html', context=ctx)
 
 
+# def tasks_test(request):
+#     task_writers = TaskWriter.objects.select_related('task', 'writer')
+#     ctx = {
+#         'task_writers': task_writers
+#     }
+#     return render(request, 'online_help/tasks_test.html', ctx)
+
+
+
 def tasks_test(request):
     task_writers = TaskWriter.objects.select_related('task', 'writer')
+
+    # Group by document
+    grouped_by_document = defaultdict(list)
+    for tw in task_writers:
+        grouped_by_document[tw.task.document].append(tw)
+
     ctx = {
-        'task_writers': task_writers
+        'grouped_documents': dict(grouped_by_document),
     }
     return render(request, 'online_help/tasks_test.html', ctx)
+
+
+# def per_documentation_test(request, task_pk):
+#     # Get the writer
+#     # writer = get_object_or_404(Writers, pk=writer_pk)
+
+#     # Get the task
+#     task = get_object_or_404(Task, pk=task_pk)
+
+#     task_writers = TaskWriter.objects.select_related('task', 'writer')
+
+#     # Group by document
+#     grouped_by_document = defaultdict(list)
+#     for tw in task_writers:
+#         grouped_by_document[tw.task.document].append(tw)
+
+
+#     # Render the template
+#     return render(request, 'online_help/per_documentation_test.html', {
+#         # 'writer': writer,
+#         'task': task,
+#         'task_writers': task_writers,
+#         'grouped_documents': dict(grouped_by_document),
+#     })
+
+from django.shortcuts import render, get_object_or_404
+from .models import Task
+
+def per_documentation_test(request, document_pk):
+    # Get one task to extract the document name
+    task = get_object_or_404(Task, pk=document_pk)
+    document_name = task.document
+
+    # Get all tasks with the same document name
+    tasks = Task.objects.filter(document=document_name)
+
+    # Extract unique sections in original order
+    seen = set()
+    sections = []
+    for t in tasks:
+        if t.section not in seen:
+            seen.add(t.section)
+            sections.append(t.section)
+
+    return render(request, 'online_help/per_documentation_test.html', {
+        'document_name': document_name,
+        'sections': sections,
+    })
+
 
 
 @login_required

@@ -12,59 +12,56 @@
 <div class="container mt-4">
     <div class="row">
         {% for writer in writers %}
-        <div class="col-md-6 mb-4">
-            <div class="bg-light rounded scroll-box">
-                <div class="p-3 text-white text-center" style="background-color: #0747a6;">
-                    <p class="m-0">
-                        <a href="{% url 'online_help:per_user_test' writer.pk %}" class="hover-link">{{ writer.writer_name }}</a>
-                    </p>
-                </div>
-                <div class="p-2">
-
-{% with writer_tasks_grouped|get_item:writer.pk as documents %}
-    {% if documents %}
-        {% for document, tasks in documents.items %}
-            <h5>{{ document }}</h5>
-            <table class="table table-bordered mb-3">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Section</th>
-                        <th>Sub</th>
-                        <th>Color</th>
-                        <th>Completion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for tk in tasks %}
-                    <tr>
-                        <td>{{ tk.task.section }}</td>
-                        <td>
-                            <a href="{% url 'online_help:per_subsection_test' tk.writer.pk tk.task.pk %}" class="hover-link">
-                                {{ tk.task.sub_section }}
-                            </a>
-                        </td>
-                        <td>{{ tk.task.color }}</td>
-                        <td>{{ tk.task.completion }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% endfor %}
-    {% else %}
-        <p>No tasks assigned.</p>
-    {% endif %}
-{% endwith %}
-
-                        </div>
+            <div class="col-md-6 mb-4">
+                <div class="bg-light rounded scroll-box">
+                    <div class="p-3 text-white text-center" style="background-color: #0747a6;">
+                        <p class="m-0">
+                            <a href="{% url 'online_help:per_user_test' writer.pk %}" class="hover-link">{{ writer.writer_name }}</a>
+                        </p>
+                    </div>
+                    <div class="p-2">
+                        {% with writer_tasks_grouped|get_item:writer.pk as documents %}
+                            {% if documents %}
+                                {% for document, tasks in documents.items %}
+                                    <h5>{{ document }}</h5>
+                                    <table class="table table-bordered mb-3">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Section</th>
+                                                <th>Sub</th>
+                                                <th>Color</th>
+                                                <th>Completion</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for tk in tasks %}
+                                                <tr>
+                                                    <td>{{ tk.task.section }}</td>
+                                                    <td>
+                                                        <a href="{% url 'online_help:per_subsection_test' tk.writer.pk tk.task.pk %}" class="hover-link">
+                                                            {{ tk.task.sub_section }}
+                                                        </a>
+                                                    </td>
+                                                    <td>{{ tk.task.color }}</td>
+                                                    <td>{{ tk.task.completion }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% endfor %}
+                            {% else %}
+                                <p>No tasks assigned.</p>
+                            {% endif %}
+                        {% endwith %}
                     </div>
                 </div>
-                {% endfor %}
             </div>
-        </div>
-        
-        
-        <script>
-        function filterContent() {
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+function filterContent() {
     const input = document.getElementById("searchInput").value.toLowerCase();
     const headings = document.querySelectorAll("h5");
     const tables = document.querySelectorAll("table");
