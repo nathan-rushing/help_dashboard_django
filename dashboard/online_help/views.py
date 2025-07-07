@@ -223,18 +223,43 @@ from django.shortcuts import render, get_object_or_404
 from .models import Task
 
 def per_section_test(request, document_pk, section_pk):
-    # Get the reference task to extract document and section names
     reference_task = get_object_or_404(Task, pk=section_pk)
     document_name = reference_task.document
     section_name = reference_task.section
 
-    # Get all tasks that match the same document and section
     tasks = Task.objects.filter(document=document_name, section=section_name)
 
     return render(request, 'online_help/per_section_test.html', {
         'document_name': document_name,
         'section_name': section_name,
         'tasks': tasks,
+        'document_pk': document_pk,
+        'section_pk': section_pk,
+    })
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import TaskWriter, Task
+
+def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
+    # Get the reference task
+    reference_task = get_object_or_404(Task, pk=subsection_pk)
+    document_name = reference_task.document
+    section_name = reference_task.section
+    sub_section_name = reference_task.sub_section
+
+    # Get all TaskWriter entries that match the same document, section, and sub_section
+    task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
+        task__document=document_name,
+        task__section=section_name,
+        task__sub_section=sub_section_name
+    )
+
+    return render(request, 'online_help/per_subsection_task_test.html', {
+        'document_name': document_name,
+        'section_name': section_name,
+        'sub_section_name': sub_section_name,
+        'task_writers': task_writers,
     })
 
 

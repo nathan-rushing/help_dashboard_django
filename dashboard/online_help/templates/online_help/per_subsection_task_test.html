@@ -1,0 +1,55 @@
+{% extends "online_help/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/per_subsection_task.css' %}">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/cssin.css">
+
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">{{ document_name }} — {{ section_name }} — {{ sub_section_name }}</h4>
+            <button class="btn btn-outline-dark btn-sm" onclick="showAddForm()">Add Writer</button>
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <h5 class="text-muted">Writers</h5>
+                {% if task_writers %}
+                    {% for tw in task_writers %}
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <p class="mb-0"><strong>{{ tw.writer.writer_name }}</strong></p>
+                            <button class="btn btn-sm btn-danger" onclick="confirmRemoval('{{ tw.writer.writer_name }}')">Remove</button>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No writers found for this subsection.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div id="add-doc-form" class="add-form mt-3" style="display: none;">
+        <h3>Add Writer</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-outline-dark btn-sm">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function confirmRemoval(writerName) {
+    if (confirm(`Are you sure you want to remove ${writerName}?`)) {
+        alert(`${writerName} would be removed (if backend was connected).`);
+    }
+}
+
+function showAddForm() {
+    const form = document.getElementById('add-doc-form');
+    form.style.display = 'block';
+    form.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+{% endblock %}

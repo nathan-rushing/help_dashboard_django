@@ -18,6 +18,7 @@ urlpatterns = [
     path('tasks_test/', views.tasks_test, name='tasks_test'),
     path('tasks_test/per_documentation_test/<int:document_pk>/', views.per_documentation_test, name='per_documentation_test'),
     path('tasks_test/per_documentation_test/<int:document_pk>/per_section_test/<int:section_pk>/', views.per_section_test, name='per_section_test'),
+    path('tasks_test/per_documentation_test/<int:document_pk>/per_section_test/<int:section_pk>/per_subsection_task_test/<int:subsection_pk>/', views.per_subsection_task_test, name='per_subsection_task_test'),
 
     path('activity/', views.your_activity, name='activity'),
     path('erd/', views.erd, name='erd'),
