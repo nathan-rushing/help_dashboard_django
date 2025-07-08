@@ -30,12 +30,6 @@
                 </thead>
                 <tbody>
                     {% for taskwriter in tasks %}
-                        <style>
-                            .task-color {
-                                border: 1px solid #444;
-                                padding: 8px;
-                            }
-                        </style>
                     <tr>
                         <td style="border: 1px solid #444; padding: 8px;">{{ taskwriter.task.section }}</td>
                         <td style="border: 1px solid #444; padding: 8px;">
@@ -43,14 +37,12 @@
                                 {{ taskwriter.task.sub_section }}
                             </a>
                         </td>
-                        <td style="border: 1px solid #444; padding: 8px;">
 
-                        <td class="task-color-{{ taskwriter.task.pk }}">
+                        <td style="border: 1px solid #444; padding: 8px;">
                             {{ taskwriter.task.color }}
                         </td>
 
-                        </td>
-                        <td style="border: 1px solid #444; padding: 8px;">wala pa ata completion</td>
+                        <td style="border: 1px solid #444; padding: 8px;">{{ taskwriter.task.completion}}</td>
                         <td style="border: 1px solid #444; padding: 8px;">
                             <a href="{% url 'online_help:per_user_edit_test' writer.pk taskwriter.task.pk %}">Edit</a>
                         </td>

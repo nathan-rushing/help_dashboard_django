@@ -85,6 +85,24 @@ def per_user_test(request, writer_pk):
         'grouped_tasks': dict(grouped_tasks),  # convert to regular dict
     })
 
+def per_user_edit_test(request, writer_pk, task_pk):
+    writer = get_object_or_404(Writers, pk=writer_pk)
+    task = get_object_or_404(Task, pk=task_pk)
+
+    if request.method == 'POST':
+        form = per_user_edit_Form(request.POST, instance=task)
+        if form.is_valid():
+            form.save()
+            return redirect('online_help:per_user_edit_test', writer_pk=writer.pk, task_pk=task.pk)
+    else:
+        form = per_user_edit_Form(instance=task)
+
+    return render(request, 'online_help/per_user_edit_test.html', {
+        'form': form,
+        'writer': writer,
+        'task': task
+    })
+
 
 def per_subsection_test(request, writer_pk, task_pk):
     # Get the writer
@@ -118,25 +136,6 @@ def per_subsection_edit_test(request, writer_pk, task_pk):
         'task': task
     })
 
-
-
-def per_user_edit_test(request, writer_pk, task_pk):
-    writer = get_object_or_404(Writers, pk=writer_pk)
-    task = get_object_or_404(Task, pk=task_pk)
-
-    if request.method == 'POST':
-        form = per_user_edit_Form(request.POST, instance=task)
-        if form.is_valid():
-            form.save()
-            return redirect('online_help:per_user_edit_test', writer_pk=writer.pk, task_pk=task.pk)
-    else:
-        form = per_user_edit_Form(instance=task)
-
-    return render(request, 'online_help/per_user_edit_test.html', {
-        'form': form,
-        'writer': writer,
-        'task': task
-    })
 
 @login_required
 def tasks(request):
