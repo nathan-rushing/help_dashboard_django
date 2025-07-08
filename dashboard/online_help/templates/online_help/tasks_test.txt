@@ -1,0 +1,37 @@
+{% extends "online_help/base.html" %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/tasks_test.css' %}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<div class="container mt-5">
+    <h2 class="mb-4">Tasks by Document</h2>
+
+    {% for document, writers in grouped_documents.items %}
+        <div class="card mb-3 shadow-sm">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{ document }}</h5>
+                {% if writers %}
+                    <a href="{% url 'online_help:tasks_edit_test' writers.0.task.pk %}" class="btn btn-light btn-sm">
+                        Radiant Documentation
+                    </a>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for tw in writers %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ tw.writer.writer_name }}
+                            <span class="badge badge-secondary">{{ tw.task.section }}</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% empty %}
+        <p>No tasks found.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

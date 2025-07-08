@@ -17,6 +17,7 @@ urlpatterns = [
     # path('erd/<int:pk>', views.erd, name='erd'),
     path('tasks/', views.tasks, name='tasks'),
     path('tasks_test/', views.tasks_test, name='tasks_test'),
+    path('tasks_test/tasks_edit_test/', views.tasks_edit_test, name='tasks_edit_test'),
     path('tasks_test/per_section_test/<int:section_pk>/', views.per_section_test2, name='per_section_test2'),
     path('tasks_test/per_subsection_task_test/<int:subsection_pk>/', views.per_subsection_task_test2, name='per_subsection_task_test2'),
     path('tasks_test/per_documentation_test/<int:document_pk>/', views.per_documentation_test, name='per_documentation_test'),
@@ -28,6 +29,20 @@ urlpatterns = [
         views.delete_section,
         name='delete_section'
     ),
+
+    path(
+        'tasks_test/per_documentation_test/<int:document_pk>/documentation_edit_test/',
+        views.documentation_edit_test,
+        name='documentation_edit_test'
+    ),
+
+
+
+    # path('per_documentation_test2/<str:document_name>/', views.per_documentation_test2, name='per_documentation_test2'),
+    path('tasks_test/tasks_edit_test/per_documentation_test/<int:document_pk>/', views.per_documentation_test2, name='per_documentation_test2'),
+
+    # path('per_documentation_test/<int:pk>/', views.per_documentation_test2, name='per_documentation_test2'),
+
 
 
     path('activity/', views.your_activity, name='activity'),
