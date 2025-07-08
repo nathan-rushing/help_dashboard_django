@@ -20,8 +20,15 @@ urlpatterns = [
     path('tasks_test/per_section_test/<int:section_pk>/', views.per_section_test2, name='per_section_test2'),
     path('tasks_test/per_subsection_task_test/<int:subsection_pk>/', views.per_subsection_task_test2, name='per_subsection_task_test2'),
     path('tasks_test/per_documentation_test/<int:document_pk>/', views.per_documentation_test, name='per_documentation_test'),
+    path('tasks_test/per_documentation_test/<int:document_pk>/section_edit_test', views.section_edit_test, name='section_edit_test'),
     path('tasks_test/per_documentation_test/<int:document_pk>/per_section_test/<int:section_pk>/', views.per_section_test, name='per_section_test'),
     path('tasks_test/per_documentation_test/<int:document_pk>/per_section_test/<int:section_pk>/per_subsection_task_test/<int:subsection_pk>/', views.per_subsection_task_test, name='per_subsection_task_test'),
+    path(
+        'tasks_test/per_documentation_test/<int:document_pk>/section_edit_test/delete/<str:section_name>/',
+        views.delete_section,
+        name='delete_section'
+    ),
+
 
     path('activity/', views.your_activity, name='activity'),
     path('erd/', views.erd, name='erd'),

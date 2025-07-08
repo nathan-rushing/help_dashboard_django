@@ -569,6 +569,63 @@ def section_edit(request):
         'docs': SECTION_LIST
     })
 
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.http import require_POST
+from .models import Task
+from .forms import EditSectionForm  # Make sure this form exists and is imported
+
+def section_edit_test(request, document_pk):
+    # Get one task to extract the document name
+    reference_task = get_object_or_404(Task, pk=document_pk)
+    document_name = reference_task.document
+
+    # Get all tasks with the same document name
+    tasks = Task.objects.filter(document=document_name)
+
+    # Get one task per unique section
+    seen_sections = set()
+    unique_section_tasks = []
+    for task in tasks:
+        if task.section not in seen_sections:
+            seen_sections.add(task.section)
+            unique_section_tasks.append(task)
+
+    if request.method == 'POST':
+        form = EditSectionForm(request.POST)
+        if form.is_valid():
+            section = form.cleaned_data['section']
+            # subsection = form.cleaned_data['subsection']
+            # writer = form.cleaned_data['writer']
+            # color = form.cleaned_data['color']
+
+            # Create a new Task entry
+            Task.objects.create(
+                document=document_name,
+                section=section,
+                # subsection=subsection,
+                # writer=writer,
+                # color=color
+            )
+
+            return redirect('online_help:section_edit_test', document_pk=document_pk)
+    else:
+        form = EditSectionForm()
+
+    # Always return a response
+    return render(request, 'online_help/section_edit_test.html', {
+        'form': form,
+        'document_name': document_name,
+        'document_pk': document_pk,
+        'sections': unique_section_tasks,
+    })
+
+@require_POST
+def delete_section(request, document_pk, section_name):
+    # Delete all tasks with the same document and section
+    Task.objects.filter(document__pk=document_pk, section=section_name).delete()
+    return redirect('online_help:section_edit_test', document_pk=document_pk)
+
+
 GETTING_STARTED_LIST = [
     "Introduction",
     "Tutorials",
