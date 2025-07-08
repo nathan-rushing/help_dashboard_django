@@ -236,6 +236,21 @@ def per_section_test(request, document_pk, section_pk):
         'section_pk': section_pk,
     })
 
+def per_section_test2(request, section_pk):
+    reference_task = get_object_or_404(Task, pk=section_pk)
+    document_name = reference_task.document
+    section_name = reference_task.section
+
+    tasks = Task.objects.filter(document=document_name, section=section_name)
+
+    return render(request, 'online_help/per_section_test.html', {
+        'document_name': document_name,
+        'section_name': section_name,
+        'tasks': tasks,
+        'document_pk': 1, # Replace with the actual document PK
+        'section_pk': section_pk,
+    })
+
 
 from django.shortcuts import render, get_object_or_404
 from .models import TaskWriter, Task
@@ -246,6 +261,50 @@ from .forms import AddWriterForm
 from django.contrib import messages
 
 def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
+    reference_task = get_object_or_404(Task, pk=subsection_pk)
+    document_name = reference_task.document
+    section_name = reference_task.section
+    sub_section_name = reference_task.sub_section
+
+    task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
+        task__document=document_name,
+        task__section=section_name,
+        task__sub_section=sub_section_name
+    )
+
+    form = AddWriterForm()
+
+    # Handle form submission
+    if request.method == 'POST':
+        form = AddWriterForm(request.POST)
+        if form.is_valid():
+            writer_name = form.cleaned_data['writer'].strip()
+            if writer_name:
+                writer, created = Writers.objects.get_or_create(writer_name=writer_name)
+                TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
+                messages.success(request, f"Writer '{writer_name}' added successfully.")
+                return redirect(request.path_info)
+
+    # Handle removal via GET parameter (?remove_writer=Name)
+    writer_to_remove = request.GET.get('remove_writer')
+    if writer_to_remove:
+        try:
+            writer = Writers.objects.get(writer_name=writer_to_remove)
+            TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
+            messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
+            return redirect(request.path_info)
+        except Writers.DoesNotExist:
+            messages.error(request, f"Writer '{writer_to_remove}' not found.")
+
+    return render(request, 'online_help/per_subsection_task_test.html', {
+        'document_name': document_name,
+        'section_name': section_name,
+        'sub_section_name': sub_section_name,
+        'task_writers': task_writers,
+        'form': form,
+    })
+
+def per_subsection_task_test2(request, subsection_pk):
     reference_task = get_object_or_404(Task, pk=subsection_pk)
     document_name = reference_task.document
     section_name = reference_task.section

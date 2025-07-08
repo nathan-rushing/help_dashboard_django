@@ -33,9 +33,11 @@
                             {% for tw in tasks %}
                             <tr>
                                 <td style="border: 1px solid #444; padding: 8px;">{{ tw.writer.writer_name }}</td>
-                                <td style="border: 1px solid #444; padding: 8px;">{{ tw.task.section }}</td>
                                 <td style="border: 1px solid #444; padding: 8px;">
-                                    <a href="{% url 'online_help:per_subsection_task' %}" class="hover-link">{{ tw.task.sub_section }}</a>
+                                    <a href="{% url 'online_help:per_section_test2' tw.task.pk %}" class="hover-link">{{ tw.task.section }}</a>
+                                </td>
+                                <td style="border: 1px solid #444; padding: 8px;">
+                                    <a href="{% url 'online_help:per_subsection_task_test2' tw.task.pk %}" class="hover-link">{{ tw.task.sub_section }}</a>
                                 </td>
                                 <td style="border: 1px solid #444; padding: 8px;">
                                     {{ tw.task.color }}

@@ -14,13 +14,13 @@
             <div class="mb-3">
             {% if tasks %}
 
-{% for task in tasks %}
-    <h5 class="text-muted">
-        <a href="{% url 'online_help:per_subsection_task_test' document_pk=document_pk section_pk=task.pk subsection_pk=task.pk %}" class="hover-link text-muted">
-            {{ task.sub_section }}
-        </a>
-    </h5>
-{% endfor %}
+                {% for task in tasks %}
+                    <h5 class="text-muted">
+                        <a href="{% url 'online_help:per_subsection_task_test' document_pk=document_pk section_pk=task.pk subsection_pk=task.pk %}" class="hover-link text-muted">
+                            {{ task.sub_section }}
+                        </a>
+                    </h5>
+                {% endfor %}
 
 
             {% else %}
