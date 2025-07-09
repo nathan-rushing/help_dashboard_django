@@ -424,7 +424,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            next_url = request.GET.get('next') or request.POST.get('next') or 'online_help:home'
+            next_url = request.GET.get('next') or request.POST.get('next') or 'online_help:home_test'
             return redirect(next_url)
         else:
             messages.error(request, 'Invalid username or password.')

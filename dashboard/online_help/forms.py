@@ -67,7 +67,7 @@ class EditSectionForm(forms.ModelForm):
 
     class Meta:
         model = Task
-        fields = ['sub_section', 'writer']
+        fields = ['section', 'writer']
 
 
 class EditSubSectionForm(forms.Form):
