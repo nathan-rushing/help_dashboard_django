@@ -1,43 +1,32 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from online_help.management.utility import display_your_activity, display_online_help_reference, display_online_help_user_guides, display_standalone_tools, display_pdf_documents, display_documentation, db_online_help_user_guides
+from collections import defaultdict
 
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 
-from .forms import per_user_edit_Form, EditDocuForm, EditSectionForm, EditSubSectionForm, AddWriterForm
+from online_help.management.utility import (
+    display_your_activity,
+    display_online_help_reference,
+    display_online_help_user_guides,
+    display_standalone_tools,
+    display_pdf_documents,
+    display_documentation,
+    db_online_help_user_guides,
+)
+
+from .forms import (
+    per_user_edit_Form,
+    EditDocuForm,
+    EditSectionForm,
+    EditSubSectionForm,
+    AddWriterForm,
+)
 from .models import Writers, Task, TaskWriter, MajorDocu
 
 # @login_required
-# def home(request):
-#     ctx = {
-#         'db': db_online_help_user_guides,
-#         'section_user_guide':display_online_help_user_guides.section_data_user_guide,
-#         'section_reference': display_online_help_reference.section_data_reference,
-#         'section_standalone': display_standalone_tools.section_data_standalone,
-#         'section_pdf': display_pdf_documents.section_data_pdf,
-#     }
-#     return render(request, 'online_help/home.html', context=ctx)
-
-
-# def home(request):
-#     writers = Writers.objects.all()
-#     return render(request, 'online_help/home.html', {'writers': writers})
-
-# def home_test(request):
-#     writers = Writers.objects.all()
-#     task_writers = TaskWriter.objects.select_related('task', 'writer')
-#     ctx = {
-#         'task_writers': task_writers,
-#         'writers': writers
-#     }
-#     return render(request, 'online_help/home_test.html', ctx)
-
-from collections import defaultdict
-
 def home_test(request):
     writers = Writers.objects.all()
     task_writers = TaskWriter.objects.select_related('task', 'writer')
@@ -57,6 +46,17 @@ def home_test(request):
     }
     return render(request, 'online_help/home_test.html', ctx)
 
+def tasks_by_color(request, writer_pk, color):
+    writer = get_object_or_404(Writers, pk=writer_pk)
+    tasks = TaskWriter.objects.filter(writer=writer, task__color=color).select_related('task')
+
+    return render(request, 'online_help/tasks_by_color.html', {
+        'writer': writer,
+        'color': color,
+        'tasks': tasks,
+    })
+
+
 def home(request):
     writers = Writers.objects.all()
     return render(request, 'online_help/home.html', {'writers': writers})
@@ -66,24 +66,29 @@ def writer_detail(request, pk):
     tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
     return render(request, 'online_help/writer_detail.html', {'writer': writer, 'tasks': tasks})
 
-# def per_user_test(request, writer_pk):
-#     writer = get_object_or_404(Writers, pk=writer_pk)
-#     tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
-#     return render(request, 'online_help/per_user_test.html', {'writer': writer, 'tasks': tasks})
 
+from collections import defaultdict, Counter
 
 def per_user_test(request, writer_pk):
     writer = get_object_or_404(Writers, pk=writer_pk)
     tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
 
     grouped_tasks = defaultdict(list)
+    color_counts = Counter()
+
     for tw in tasks:
         grouped_tasks[tw.task.document].append(tw)
+        color_counts[tw.task.color] += 1
+
+    total_tasks = sum(color_counts.values())
 
     return render(request, 'online_help/per_user_test.html', {
         'writer': writer,
-        'grouped_tasks': dict(grouped_tasks),  # convert to regular dict
+        'grouped_tasks': dict(grouped_tasks),
+        'color_counts': dict(color_counts),
+        'total_tasks': total_tasks,
     })
+
 
 def per_user_edit_test(request, writer_pk, task_pk):
     writer = get_object_or_404(Writers, pk=writer_pk)
@@ -136,7 +141,6 @@ def per_subsection_edit_test(request, writer_pk, task_pk):
         'task': task
     })
 
-
 @login_required
 def tasks(request):
     ctx = {
@@ -146,16 +150,6 @@ def tasks(request):
         'section_pdf': display_pdf_documents.section_data_pdf,
     }
     return render(request, 'online_help/tasks.html', context=ctx)
-
-
-# def tasks_test(request):
-#     task_writers = TaskWriter.objects.select_related('task', 'writer')
-#     ctx = {
-#         'task_writers': task_writers
-#     }
-#     return render(request, 'online_help/tasks_test.html', ctx)
-
-
 
 def tasks_test(request):
     task_writers = TaskWriter.objects.select_related('task', 'writer')
@@ -169,31 +163,6 @@ def tasks_test(request):
         'grouped_documents': dict(grouped_by_document),
     }
     return render(request, 'online_help/tasks_test.html', ctx)
-
-
-# def per_documentation_test(request, task_pk):
-#     # Get the writer
-#     # writer = get_object_or_404(Writers, pk=writer_pk)
-
-#     # Get the task
-#     task = get_object_or_404(Task, pk=task_pk)
-
-#     task_writers = TaskWriter.objects.select_related('task', 'writer')
-
-#     # Group by document
-#     grouped_by_document = defaultdict(list)
-#     for tw in task_writers:
-#         grouped_by_document[tw.task.document].append(tw)
-
-
-#     # Render the template
-#     return render(request, 'online_help/per_documentation_test.html', {
-#         # 'writer': writer,
-#         'task': task,
-#         'task_writers': task_writers,
-#         'grouped_documents': dict(grouped_by_document),
-#     })
-
 def per_documentation_test(request, document_pk):
     # Get one task to extract the document name
     reference_task = get_object_or_404(Task, pk=document_pk)
@@ -215,19 +184,6 @@ def per_documentation_test(request, document_pk):
         'document_pk': document_pk,
         'sections': unique_section_tasks,  # list of Task objects
     })
-
-# def per_documentation_test2(request, document_name):
-#     sections = Task.objects.filter(document=document_name).values_list('section', flat=True).distinct()
-#     ctx = {
-#         'document_name': document_name,
-#         'sections': sections
-#     }
-#     # return render(request, 'online_help/per_documentation_test2.html', context=ctx)
-#     return render(request, 'online_help/per_documentation_test.html', context=ctx)
-
-
-from django.shortcuts import get_object_or_404
-from .models import Task
 
 def per_documentation_test2(request, document_pk):
     task = get_object_or_404(Task, pk=document_pk)
@@ -281,15 +237,6 @@ def per_section_test2(request, section_pk):
         'document_pk': 1, # Replace with the actual document PK
         'section_pk': section_pk,
     })
-
-
-from django.shortcuts import render, get_object_or_404
-from .models import TaskWriter, Task
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Task, TaskWriter, Writers
-from .forms import AddWriterForm
-from django.contrib import messages
 
 def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
     reference_task = get_object_or_404(Task, pk=subsection_pk)
@@ -379,10 +326,6 @@ def per_subsection_task_test2(request, subsection_pk):
         'form': form,
     })
 
-
-
-
-
 @login_required
 def your_activity(request):
     ctx = {
@@ -399,22 +342,6 @@ def erd(request):
         'section_pdf': display_pdf_documents.section_data_pdf,
     }
     return render(request, 'online_help/erd.html', context=ctx)
-
-
-# def login_view(request):
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(request, username=username, password=password)
-
-#         if user is not None:
-#             login(request, user)
-#             return redirect('online_help:home')  # Redirect to dashboard or home
-#         else:
-#             messages.error(request, 'Invalid username or password.')
-
-#     return render(request, 'online_help/login.html')
-
 
 def login_view(request):
     if request.method == 'POST':
@@ -513,9 +440,6 @@ def tasks_edit(request):
     }
     return render(request, 'online_help/tasks_edit.html', context=ctx)
 
-from django.shortcuts import render
-from .models import Task
-
 def tasks_edit_test(request):
     all_tasks = Task.objects.all().order_by('document')
     
@@ -543,9 +467,6 @@ DOCUMENTATION_LIST = [
     "Standalone Tools",
     "PDF Documents"
 ]
-
-# Make sure to import EditDocuForm at the top of the file:
-# from .forms import DocumentationForm
 
 def documentation_edit(request):
     if request.method == 'POST':
@@ -610,8 +531,6 @@ def documentation_edit_test(request):
         'first_task_id': unique_tasks[0].id if unique_tasks else None,
     })
 
-from django.shortcuts import get_object_or_404, redirect
-from .models import Task
 
 def delete_document(request, document_pk):
     task = get_object_or_404(Task, pk=document_pk)
@@ -666,11 +585,6 @@ def section_edit(request):
         'docs': SECTION_LIST
     })
 
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.decorators.http import require_POST
-from .models import Task
-from .forms import EditSectionForm  # Make sure this form exists and is imported
-
 def section_edit_test(request, document_pk):
     # Get one task to extract the document name
     reference_task = get_object_or_404(Task, pk=document_pk)
@@ -715,6 +629,13 @@ def section_edit_test(request, document_pk):
         'document_pk': document_pk,
         'sections': unique_section_tasks,
     })
+
+def user_activity_test(request):
+    writers   = Writers.objects.all()
+    ctx = {
+        'writers': writers
+    }
+    return render(request, 'online_help/user_activity_test.html', ctx)
 
 @require_POST
 def delete_section(request, document_pk, section_name):
@@ -873,13 +794,6 @@ def per_section_edit(request):
         'docs': GETTING_STARTED_LIST
     })
 
-from .models import Task
-from django.shortcuts import render, get_object_or_404
-
-from .forms import EditSectionForm
-from .models import Task, TaskWriter, Writers
-from django.shortcuts import render, get_object_or_404, redirect
-
 def per_section_edit_test(request, section_pk):
     section_task = get_object_or_404(Task, pk=section_pk)
     section_name = section_task.section
@@ -914,17 +828,10 @@ def per_section_edit_test(request, section_pk):
         'section_pk': section_pk
     })
 
-
-
-from django.shortcuts import redirect
-
 def delete_subsection(request, section_pk, task_pk):
     task = get_object_or_404(Task, pk=task_pk)
     task.delete()
     return redirect('online_help:per_section_edit_test', section_pk=section_pk)
-
-
-
 
 def per_subsection_task(request):
     if request.method == 'POST':
@@ -952,7 +859,6 @@ def per_subsection_task(request):
         'docs': SECTION_LIST
     })
 
-
 def test(request):
     task_writers = TaskWriter.objects.select_related('task', 'writer')
     return render(request, 'online_help/test.html', {'task_writers': task_writers})
@@ -961,26 +867,3 @@ def test(request):
 def test2(request):
     tasks = Task.objects.prefetch_related('taskwriter_set__writer')
     return render(request, 'online_help/test.html', {'tasks': tasks})
-
-
-# def documentation_edit(request):
-#     if request.method == 'POST':
-#         form = EditDocuForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('documentation_edit')
-#     else:
-#         form = EditDocuForm()
-
-# #     docs = Documentation.objects.all()
-#     return render(request, 'online_help/documentation_edit.html', {'form': form, 'docs': docs})
-
-
-# def per_section(request, section_name):
-#     ctx = {
-#         'section_user_guide':display_online_help_user_guides.section_data_user_guide,
-#         'section_reference': display_online_help_reference.section_data_reference,
-#         'section_standalone': display_standalone_tools.section_data_standalone,
-#         'section_pdf': display_pdf_documents.section_data_pdf,
-#     }
-#     return render(request, 'online_help/per_section.html', context=ctx)

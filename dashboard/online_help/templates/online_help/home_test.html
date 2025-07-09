@@ -5,6 +5,15 @@
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 <h1>Radiant Help Dashboard</h1>
 
+<div style="display: flex; align-items: center; gap: 10px;">
+  <h5>Version:</h5>
+  <h5 id="version-text">2025.1</h5>
+  <input type="text" id="version-input" style="display: none; width: 80px;" />
+  <button class="btn btn-outline-dark btn-sm" onclick="toggleEdit()">Edit</button>
+</div>
+
+
+
 <div class="p-3" style="position: sticky; top: 30px; z-index: 1000;">
     <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
 </div>
@@ -59,6 +68,43 @@
         {% endfor %}
     </div>
 </div>
+
+<script>
+  let editing = false;
+
+  // Load saved version from localStorage on page load
+  window.onload = function () {
+    const savedVersion = localStorage.getItem('version');
+    if (savedVersion) {
+      document.getElementById('version-text').textContent = savedVersion;
+    }
+  };
+
+  function toggleEdit() {
+    const versionText = document.getElementById('version-text');
+    const versionInput = document.getElementById('version-input');
+    const button = event.target;
+
+    if (!editing) {
+      versionInput.value = versionText.textContent;
+      versionText.style.display = 'none';
+      versionInput.style.display = 'inline-block';
+      button.textContent = 'Save';
+    } else {
+      const newVersion = versionInput.value;
+      versionText.textContent = newVersion;
+      versionText.style.display = 'inline-block';
+      versionInput.style.display = 'none';
+      button.textContent = 'Edit';
+
+      // Save to localStorage
+      localStorage.setItem('version', newVersion);
+    }
+
+    editing = !editing;
+  }
+</script>
+
 
 <script>
 function filterContent() {

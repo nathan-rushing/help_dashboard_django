@@ -11,6 +11,7 @@ urlpatterns = [
     path('home_test/per_user_test/<int:writer_pk>/per_user_edit_test/<int:task_pk>/', views.per_user_edit_test, name='per_user_edit_test'),
     path('home_test/per_user_test/<int:writer_pk>/per_subsection_test/<int:task_pk>/', views.per_subsection_test, name='per_subsection_test'),
     path('home_test/per_user_test/<int:writer_pk>/per_subsection_test/<int:task_pk>/per_user_edit_test/', views.per_subsection_edit_test, name='per_subsection_edit_test'),
+    path('home_test/per_user_test/<int:writer_pk>/color/<str:color>/', views.tasks_by_color, name='tasks_by_color'),
     # path('home/per_user/<int:pk>/', views.per_user_test, name='per_user_test'),
     # path('home/per_subsection/<int:pk>/', views.per_subsection_test, name='per_subsection_test'),
     # path('home/per_user/<int:writer_pk>/per_subsection/<int:task_pk>/', views.per_subsection_test, name='per_user_test'),
@@ -55,6 +56,10 @@ urlpatterns = [
         views.delete_subsection,
         name='delete_subsection'
     ),
+
+    path('user_activity_test', views.user_activity_test, name='user_activity_test'),
+
+
         
     
 
