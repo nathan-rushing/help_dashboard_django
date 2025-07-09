@@ -46,17 +46,29 @@ class per_user_edit_Form(forms.ModelForm):
 
 
 class EditDocuForm(forms.Form):
-    documentation = forms.CharField(required=False, max_length=255)
-    section = forms.CharField(required=False, max_length=255)
-    subsection = forms.CharField(required=False, max_length=255)
-    writer = forms.CharField(required=False, max_length=255)
-    color = forms.CharField(required=False, max_length=50)
-
-class EditSectionForm(forms.Form):
-    section = forms.CharField(required=False, max_length=255)
+    document = forms.CharField(label='Document Name', required=False, max_length=255)
+    # section = forms.CharField(required=False, max_length=255)
     # subsection = forms.CharField(required=False, max_length=255)
     # writer = forms.CharField(required=False, max_length=255)
     # color = forms.CharField(required=False, max_length=50)
+
+# class EditSectionForm(forms.Form):
+    # section = forms.CharField(required=False, max_length=255)
+    # subsection = forms.CharField(required=False, max_length=255)
+    # writer = forms.CharField(required=False, max_length=255)
+    # color = forms.CharField(required=False, max_length=50)
+
+
+from django import forms
+from .models import Task, Writers
+
+class EditSectionForm(forms.ModelForm):
+    writer = forms.ModelChoiceField(queryset=Writers.objects.all(), required=True)
+
+    class Meta:
+        model = Task
+        fields = ['sub_section', 'writer']
+
 
 class EditSubSectionForm(forms.Form):
     subsection = forms.CharField(required=False, max_length=255)

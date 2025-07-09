@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
-from .forms import per_user_edit_Form, EditSectionForm, EditSubSectionForm, AddWriterForm
+from .forms import per_user_edit_Form, EditDocuForm, EditSectionForm, EditSubSectionForm, AddWriterForm
 from .models import Writers, Task, TaskWriter, MajorDocu
 
 # @login_required
@@ -576,37 +576,49 @@ def documentation_edit(request):
         'docs': DOCUMENTATION_LIST
     })
 
-def documentation_edit_test(request, document_pk):
-    reference_task = get_object_or_404(Task, pk=document_pk)
-    document_name = reference_task.document
+def documentation_edit_test(request):
+    all_tasks = Task.objects.all().order_by('document')
 
-    tasks = Task.objects.filter(document=document_name)
+    seen_documents = set()
+    unique_tasks = []
 
-    seen_sections = set()
-    unique_section_tasks = []
-    for task in tasks:
-        if task.section not in seen_sections:
-            seen_sections.add(task.section)
-            unique_section_tasks.append(task)
+    for task in all_tasks:
+        if task.document not in seen_documents:
+            unique_tasks.append(task)
+            seen_documents.add(task.document)
 
     if request.method == 'POST':
-        form = EditSectionForm(request.POST)
+        form = EditDocuForm(request.POST)
         if form.is_valid():
-            section = form.cleaned_data['section']
+            document_name = form.cleaned_data['document']
             Task.objects.create(
                 document=document_name,
-                section=section
+                section='',
+                sub_section='',
+                comments='',
+                SME='',
+                color='',
+                completion='0%'
             )
-            return redirect('online_help:documentation_edit_test', document_pk=document_pk)
+            return redirect('online_help:documentation_edit_test')
     else:
-        form = EditSectionForm()
+        form = EditDocuForm()
 
     return render(request, 'online_help/documentation_edit_test.html', {
+        'tasks': unique_tasks,
         'form': form,
-        'document_name': document_name,
-        'document_pk': document_pk,
-        'sections': unique_section_tasks,
+        'first_task_id': unique_tasks[0].id if unique_tasks else None,
     })
+
+from django.shortcuts import get_object_or_404, redirect
+from .models import Task
+
+def delete_document(request, document_pk):
+    task = get_object_or_404(Task, pk=document_pk)
+    Task.objects.filter(document=task.document).delete()
+    return redirect('online_help:documentation_edit_test')
+
+
 
 # Temporary in-memory storage (not persistent)
 SECTION_LIST = [
@@ -860,6 +872,58 @@ def per_section_edit(request):
         'form': form,
         'docs': GETTING_STARTED_LIST
     })
+
+from .models import Task
+from django.shortcuts import render, get_object_or_404
+
+from .forms import EditSectionForm
+from .models import Task, TaskWriter, Writers
+from django.shortcuts import render, get_object_or_404, redirect
+
+def per_section_edit_test(request, section_pk):
+    section_task = get_object_or_404(Task, pk=section_pk)
+    section_name = section_task.section
+    document_name = section_task.document
+
+    subsections = Task.objects.filter(section=section_name)
+
+    if request.method == 'POST':
+        form = EditSectionForm(request.POST)
+        if form.is_valid():
+            new_sub = form.save(commit=False)
+            new_sub.section = section_name
+            new_sub.document = document_name
+            new_sub.SME = section_task.SME
+            new_sub.color = section_task.color
+            new_sub.comments = ''
+            new_sub.completion = '0%'
+            new_sub.save()
+
+            # ✅ Create TaskWriter entry using selected writer
+            selected_writer = form.cleaned_data['writer']
+            TaskWriter.objects.create(task=new_sub, writer=selected_writer)
+
+            return redirect('online_help:per_section_edit_test', section_pk=section_pk)
+    else:
+        form = EditSectionForm()
+
+    return render(request, 'online_help/per_section_edit_test.html', {
+        'section_name': section_name,
+        'subsections': subsections,
+        'form': form,
+        'section_pk': section_pk
+    })
+
+
+
+from django.shortcuts import redirect
+
+def delete_subsection(request, section_pk, task_pk):
+    task = get_object_or_404(Task, pk=task_pk)
+    task.delete()
+    return redirect('online_help:per_section_edit_test', section_pk=section_pk)
+
+
 
 
 def per_subsection_task(request):

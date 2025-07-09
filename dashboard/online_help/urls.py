@@ -40,6 +40,24 @@ urlpatterns = [
 
     # path('per_documentation_test2/<str:document_name>/', views.per_documentation_test2, name='per_documentation_test2'),
     path('tasks_test/tasks_edit_test/per_documentation_test/<int:document_pk>/', views.per_documentation_test2, name='per_documentation_test2'),
+    path('tasks_test/tasks_edit_test/documentation_edit_test/', views.documentation_edit_test, name='documentation_edit_test'),
+    path(
+        'tasks_test/documentation_edit_test/<int:document_pk>/delete/',
+        views.delete_document,
+        name='delete_document'
+    ),
+
+
+    path('tasks_test/per_section_test/<int:section_pk>/per_section_edit_test', views.per_section_edit_test, name='per_section_edit_test'),
+
+    path(
+        'tasks_test/per_section_test/<int:section_pk>/per_section_edit_test/delete/<int:task_pk>/',
+        views.delete_subsection,
+        name='delete_subsection'
+    ),
+        
+    
+
 
     # path('per_documentation_test/<int:pk>/', views.per_documentation_test2, name='per_documentation_test2'),
 
