@@ -14,7 +14,7 @@ class Task(models.Model):
     SME = models.CharField(max_length=255)
     color = models.CharField(max_length=50)
     completion = models.CharField(max_length=100, default='0%')
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
+    created_at = models.DateTimeField(auto_now_add=True)  # Add this line
 
     def __str__(self):
         return f"Task {self.id} - {self.document}"
@@ -46,3 +46,6 @@ class Version(models.Model):
         return self.number
 
 
+# input this when prompted in makemigrations: 
+# choose option 1
+# timezone.now

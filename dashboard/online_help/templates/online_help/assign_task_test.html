@@ -1,0 +1,70 @@
+{% extends "online_help/base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/per_subsection_task.css' %}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<h3>Assign Writer to Task</h3>
+<form method="post" id="assignForm">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ form.document.label_tag }}
+        {{ form.document }}
+    </div>
+    <div class="form-group">
+        {{ form.section.label_tag }}
+        <select name="section" id="id_section" class="form-control">
+            <option value="">Select section</option>
+        </select>
+    </div>
+    <div class="form-group">
+        {{ form.sub_section.label_tag }}
+        <select name="sub_section" id="id_sub_section" class="form-control">
+            <option value="">Select subsection</option>
+        </select>
+    </div>
+    <div class="form-group">
+        {{ form.writer.label_tag }}
+        {{ form.writer }}
+    </div>
+    <button type="submit" class="btn btn-outline-dark btn-sm">Submit</button>
+</form>
+
+<!-- jQuery and Bootstrap JS -->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+$(document).ready(function () {
+    $("#id_document").change(function () {
+        const document = $(this).val();
+        $.ajax({
+            url: "{% url 'online_help:ajax_load_sections' %}",
+            data: { 'document': document },
+            success: function (data) {
+                $("#id_section").html('<option value="">Select section</option>');
+                data.forEach(function (section) {
+                    $("#id_section").append(`<option value="${section}">${section}</option>`);
+                });
+                $("#id_sub_section").html('<option value="">Select subsection</option>');
+            }
+        });
+    });
+
+    $("#id_section").change(function () {
+        const section = $(this).val();
+        $.ajax({
+            url: "{% url 'online_help:ajax_load_subsections' %}",
+            data: { 'section': section },
+            success: function (data) {
+                $("#id_sub_section").html('<option value="">Select subsection</option>');
+                data.forEach(function (sub) {
+                    $("#id_sub_section").append(`<option value="${sub}">${sub}</option>`);
+                });
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

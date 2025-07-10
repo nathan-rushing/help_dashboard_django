@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="{% static 'css/per_subsection_task.css' %}">
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/cssin.css">
 
-
 <div class="container mt-5">
     <div class="card shadow-sm">
         <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
@@ -24,9 +23,6 @@
                                Remove
                             </a>
                         </div>
-
-
-
                     {% endfor %}
                 {% else %}
                     <p>No writers found for this subsection.</p>
@@ -35,14 +31,18 @@
         </div>
     </div>
 
-    <div id="add-doc-form" class="add-form mt-3" style="display: none;">
-        <h3>Add Writer</h3>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-outline-dark btn-sm">Submit</button>
-        </form>
-    </div>
+<div id="add-doc-form" class="add-form mt-3" style="display: none;">
+    <h3>Add Writer</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.writer.label_tag }}
+            {{ form.writer }}
+        </div>
+        <button type="submit" class="btn btn-outline-dark btn-sm">Submit</button>
+    </form>
+</div>
+
 </div>
 
 <script>

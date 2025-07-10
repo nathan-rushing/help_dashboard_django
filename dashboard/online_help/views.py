@@ -7,16 +7,6 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.http import require_POST
 
-from online_help.management.utility import (
-    display_your_activity,
-    display_online_help_reference,
-    display_online_help_user_guides,
-    display_standalone_tools,
-    display_pdf_documents,
-    display_documentation,
-    db_online_help_user_guides,
-)
-
 from .forms import (
     per_user_edit_Form,
     EditDocuForm,
@@ -26,9 +16,20 @@ from .forms import (
 )
 from .models import Writers, Task, TaskWriter, MajorDocu, Version
 
-
 # @login_required
 from .models import Version  # Make sure this is imported
+
+from collections import defaultdict, Counter
+
+# from online_help.management.utility import (
+#     display_your_activity,
+#     display_online_help_reference,
+#     display_online_help_user_guides,
+#     display_standalone_tools,
+#     display_pdf_documents,
+#     display_documentation,
+#     db_online_help_user_guides,
+# )
 
 def home_test(request):
     writers = Writers.objects.all()
@@ -71,19 +72,6 @@ def tasks_by_color(request, writer_pk, color):
         'color': color,
         'tasks': tasks,
     })
-
-
-def home(request):
-    writers = Writers.objects.all()
-    return render(request, 'online_help/home.html', {'writers': writers})
-
-def writer_detail(request, pk):
-    writer = get_object_or_404(Writers, pk=pk)
-    tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
-    return render(request, 'online_help/writer_detail.html', {'writer': writer, 'tasks': tasks})
-
-
-from collections import defaultdict, Counter
 
 def per_user_test(request, writer_pk):
     writer = get_object_or_404(Writers, pk=writer_pk)
@@ -179,17 +167,6 @@ def verify_password(request):
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error', 'message': 'Invalid password'}, status=403)
 
-
-@login_required
-def tasks(request):
-    ctx = {
-        'section_user_guide':display_online_help_user_guides.section_data_user_guide,
-        'section_reference': display_online_help_reference.section_data_reference,
-        'section_standalone': display_standalone_tools.section_data_standalone,
-        'section_pdf': display_pdf_documents.section_data_pdf,
-    }
-    return render(request, 'online_help/tasks.html', context=ctx)
-
 def tasks_test(request):
     task_writers = TaskWriter.objects.select_related('task', 'writer')
 
@@ -202,6 +179,7 @@ def tasks_test(request):
         'grouped_documents': dict(grouped_by_document),
     }
     return render(request, 'online_help/tasks_test.html', ctx)
+
 def per_documentation_test(request, document_pk):
     # Get one task to extract the document name
     reference_task = get_object_or_404(Task, pk=document_pk)
@@ -244,8 +222,7 @@ def per_documentation_test2(request, document_pk):
     return render(request, 'online_help/per_documentation_test.html', context=ctx)
 
 
-from django.shortcuts import render, get_object_or_404
-from .models import Task
+
 
 def per_section_test(request, document_pk, section_pk):
     reference_task = get_object_or_404(Task, pk=section_pk)
@@ -295,12 +272,11 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
     if request.method == 'POST':
         form = AddWriterForm(request.POST)
         if form.is_valid():
-            writer_name = form.cleaned_data['writer'].strip()
-            if writer_name:
-                writer, created = Writers.objects.get_or_create(writer_name=writer_name)
-                TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
-                messages.success(request, f"Writer '{writer_name}' added successfully.")
-                return redirect(request.path_info)
+            writer = form.cleaned_data['writer']
+            TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
+            messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
+            return redirect(request.path_info)
+
 
     # Handle removal via GET parameter (?remove_writer=Name)
     writer_to_remove = request.GET.get('remove_writer')
@@ -339,12 +315,10 @@ def per_subsection_task_test2(request, subsection_pk):
     if request.method == 'POST':
         form = AddWriterForm(request.POST)
         if form.is_valid():
-            writer_name = form.cleaned_data['writer'].strip()
-            if writer_name:
-                writer, created = Writers.objects.get_or_create(writer_name=writer_name)
-                TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
-                messages.success(request, f"Writer '{writer_name}' added successfully.")
-                return redirect(request.path_info)
+            writer = form.cleaned_data['writer']
+            TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
+            messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
+            return redirect(request.path_info)
 
     # Handle removal via GET parameter (?remove_writer=Name)
     writer_to_remove = request.GET.get('remove_writer')
@@ -365,22 +339,6 @@ def per_subsection_task_test2(request, subsection_pk):
         'form': form,
     })
 
-@login_required
-def your_activity(request):
-    ctx = {
-        'users': display_your_activity.writer_column,
-    }
-    return render(request, 'online_help/your_activity.html', context=ctx)
-
-@login_required
-def erd(request):
-    ctx = {
-        'section_user_guide':display_online_help_user_guides.section_data_user_guide,
-        'section_reference': display_online_help_reference.section_data_reference,
-        'section_standalone': display_standalone_tools.section_data_standalone,
-        'section_pdf': display_pdf_documents.section_data_pdf,
-    }
-    return render(request, 'online_help/erd.html', context=ctx)
 
 def login_view(request):
     if request.method == 'POST':
@@ -402,6 +360,223 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('online_help:login')
+
+
+def tasks_edit_test(request):
+    all_tasks = Task.objects.all().order_by('document')
+    
+    # Use a set to track unique document names
+    seen_documents = set()
+    unique_tasks = []
+
+    for task in all_tasks:
+        if task.document not in seen_documents:
+            unique_tasks.append(task)
+            seen_documents.add(task.document)
+
+
+    ctx = {
+        'tasks': unique_tasks,
+        'first_task_id': unique_tasks[0].id if unique_tasks else None
+    }
+
+    return render(request, 'online_help/tasks_edit_test.html', context=ctx)
+
+def documentation_edit_test(request):
+    all_tasks = Task.objects.all().order_by('document')
+
+    seen_documents = set()
+    unique_tasks = []
+
+    for task in all_tasks:
+        if task.document not in seen_documents:
+            unique_tasks.append(task)
+            seen_documents.add(task.document)
+
+    if request.method == 'POST':
+        form = EditDocuForm(request.POST)
+        if form.is_valid():
+            document_name = form.cleaned_data['document']
+            Task.objects.create(
+                document=document_name,
+                section='',
+                sub_section='',
+                comments='',
+                SME='',
+                color='',
+                completion='0%'
+            )
+            return redirect('online_help:documentation_edit_test')
+    else:
+        form = EditDocuForm()
+
+    return render(request, 'online_help/documentation_edit_test.html', {
+        'tasks': unique_tasks,
+        'form': form,
+        'first_task_id': unique_tasks[0].id if unique_tasks else None,
+    })
+
+def section_edit_test(request, document_pk):
+    # Get one task to extract the document name
+    reference_task = get_object_or_404(Task, pk=document_pk)
+    document_name = reference_task.document
+
+    # Get all tasks with the same document name
+    tasks = Task.objects.filter(document=document_name)
+
+    # Get one task per unique section
+    seen_sections = set()
+    unique_section_tasks = []
+    for task in tasks:
+        if task.section not in seen_sections:
+            seen_sections.add(task.section)
+            unique_section_tasks.append(task)
+
+    if request.method == 'POST':
+        form = EditSectionForm(request.POST)
+        if form.is_valid():
+            section = form.cleaned_data['section']
+            # subsection = form.cleaned_data['subsection']
+            # writer = form.cleaned_data['writer']
+            # color = form.cleaned_data['color']
+
+            # Create a new Task entry
+            Task.objects.create(
+                document=document_name,
+                section=section,
+                # subsection=subsection,
+                # writer=writer,
+                # color=color
+            )
+
+            return redirect('online_help:section_edit_test', document_pk=document_pk)
+    else:
+        form = EditSectionForm()
+
+    # Always return a response
+    return render(request, 'online_help/section_edit_test.html', {
+        'form': form,
+        'document_name': document_name,
+        'document_pk': document_pk,
+        'sections': unique_section_tasks,
+    })
+
+@require_POST
+def delete_section(request, document_pk, section_name):
+    # Delete all tasks with the same document and section
+    Task.objects.filter(document__pk=document_pk, section=section_name).delete()
+    return redirect('online_help:section_edit_test', document_pk=document_pk)
+
+def per_section_edit_test(request, section_pk):
+    section_task = get_object_or_404(Task, pk=section_pk)
+    section_name = section_task.section
+    document_name = section_task.document
+
+    subsections = Task.objects.filter(section=section_name)
+
+    if request.method == 'POST':
+        form = EditSectionForm(request.POST)
+        if form.is_valid():
+            new_sub = form.save(commit=False)
+            new_sub.section = section_name
+            new_sub.document = document_name
+            new_sub.SME = section_task.SME
+            new_sub.color = section_task.color
+            new_sub.comments = ''
+            new_sub.completion = '0%'
+            new_sub.save()
+
+            # ✅ Create TaskWriter entry using selected writer
+            selected_writer = form.cleaned_data['writer']
+            TaskWriter.objects.create(task=new_sub, writer=selected_writer)
+
+            return redirect('online_help:per_section_edit_test', section_pk=section_pk)
+    else:
+        form = EditSectionForm()
+
+    return render(request, 'online_help/per_section_edit_test.html', {
+        'section_name': section_name,
+        'subsections': subsections,
+        'form': form,
+        'section_pk': section_pk
+    })
+
+def delete_subsection(request, section_pk, task_pk):
+    task = get_object_or_404(Task, pk=task_pk)
+    task.delete()
+    return redirect('online_help:per_section_edit_test', section_pk=section_pk)
+
+def delete_document(request, document_pk):
+    task = get_object_or_404(Task, pk=document_pk)
+    Task.objects.filter(document=task.document).delete()
+    return redirect('online_help:documentation_edit_test')
+
+from .forms import AssignTaskForm
+def assign_task_test(request):
+    if request.method == 'POST':
+        form = AssignTaskForm(request.POST)
+        if form.is_valid():
+            document = form.cleaned_data['document']
+            section = form.cleaned_data['section']
+            sub_section = form.cleaned_data['sub_section']
+            writer = form.cleaned_data['writer']
+
+            try:
+                task = Task.objects.get(document=document, section=section, sub_section=sub_section)
+                TaskWriter.objects.get_or_create(task=task, writer=writer)
+                return redirect('tasks_test')
+            except Task.DoesNotExist:
+                form.add_error(None, "Task not found for the selected document, section, and subsection.")
+    else:
+        form = AssignTaskForm()
+
+    return render(request, 'online_help/assign_task_test.html', {'form': form})
+
+def load_sections(request):
+    document = request.GET.get('document')
+    sections = Task.objects.filter(document=document).values_list('section', flat=True).distinct()
+    return JsonResponse(list(sections), safe=False)
+
+def load_subsections(request):
+    section = request.GET.get('section')
+    subsections = Task.objects.filter(section=section).values_list('sub_section', flat=True).distinct()
+    return JsonResponse(list(subsections), safe=False)
+
+"""
+@login_required
+def your_activity(request):
+    ctx = {
+        'users': display_your_activity.writer_column,
+    }
+    return render(request, 'online_help/your_activity.html', context=ctx)
+
+def home(request):
+    writers = Writers.objects.all()
+    return render(request, 'online_help/home.html', {'writers': writers})
+
+def writer_detail(request, pk):
+    writer = get_object_or_404(Writers, pk=pk)
+    tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
+    return render(request, 'online_help/writer_detail.html', {'writer': writer, 'tasks': tasks})
+
+@login_required
+def erd(request):
+    ctx = {
+        'section_user_guide':display_online_help_user_guides.section_data_user_guide,
+        'section_reference': display_online_help_reference.section_data_reference,
+        'section_standalone': display_standalone_tools.section_data_standalone,
+        'section_pdf': display_pdf_documents.section_data_pdf,
+    }
+    return render(request, 'online_help/erd.html', context=ctx)
+@login_required
+def tasks(request):
+    ctx = {
+        'section_user_guide':display_online_help_user_guides.section_data_user_guide,
+        'section_reference': display_online_help_reference.section_data_reference,
+        'section_standalone': display_standalone_tools.section_data_standalone,
+        'section_pdf': display_pdf_documents.section_data_pdf,
+    }
+    return render(request, 'online_help/tasks.html', context=ctx)
 
 def per_user(request):
     ctx = {
@@ -479,25 +654,6 @@ def tasks_edit(request):
     }
     return render(request, 'online_help/tasks_edit.html', context=ctx)
 
-def tasks_edit_test(request):
-    all_tasks = Task.objects.all().order_by('document')
-    
-    # Use a set to track unique document names
-    seen_documents = set()
-    unique_tasks = []
-
-    for task in all_tasks:
-        if task.document not in seen_documents:
-            unique_tasks.append(task)
-            seen_documents.add(task.document)
-
-
-    ctx = {
-        'tasks': unique_tasks,
-        'first_task_id': unique_tasks[0].id if unique_tasks else None
-    }
-
-    return render(request, 'online_help/tasks_edit_test.html', context=ctx)
 
 # Temporary in-memory storage (not persistent)
 DOCUMENTATION_LIST = [
@@ -536,45 +692,8 @@ def documentation_edit(request):
         'docs': DOCUMENTATION_LIST
     })
 
-def documentation_edit_test(request):
-    all_tasks = Task.objects.all().order_by('document')
-
-    seen_documents = set()
-    unique_tasks = []
-
-    for task in all_tasks:
-        if task.document not in seen_documents:
-            unique_tasks.append(task)
-            seen_documents.add(task.document)
-
-    if request.method == 'POST':
-        form = EditDocuForm(request.POST)
-        if form.is_valid():
-            document_name = form.cleaned_data['document']
-            Task.objects.create(
-                document=document_name,
-                section='',
-                sub_section='',
-                comments='',
-                SME='',
-                color='',
-                completion='0%'
-            )
-            return redirect('online_help:documentation_edit_test')
-    else:
-        form = EditDocuForm()
-
-    return render(request, 'online_help/documentation_edit_test.html', {
-        'tasks': unique_tasks,
-        'form': form,
-        'first_task_id': unique_tasks[0].id if unique_tasks else None,
-    })
 
 
-def delete_document(request, document_pk):
-    task = get_object_or_404(Task, pk=document_pk)
-    Task.objects.filter(document=task.document).delete()
-    return redirect('online_help:documentation_edit_test')
 
 
 
@@ -624,50 +743,6 @@ def section_edit(request):
         'docs': SECTION_LIST
     })
 
-def section_edit_test(request, document_pk):
-    # Get one task to extract the document name
-    reference_task = get_object_or_404(Task, pk=document_pk)
-    document_name = reference_task.document
-
-    # Get all tasks with the same document name
-    tasks = Task.objects.filter(document=document_name)
-
-    # Get one task per unique section
-    seen_sections = set()
-    unique_section_tasks = []
-    for task in tasks:
-        if task.section not in seen_sections:
-            seen_sections.add(task.section)
-            unique_section_tasks.append(task)
-
-    if request.method == 'POST':
-        form = EditSectionForm(request.POST)
-        if form.is_valid():
-            section = form.cleaned_data['section']
-            # subsection = form.cleaned_data['subsection']
-            # writer = form.cleaned_data['writer']
-            # color = form.cleaned_data['color']
-
-            # Create a new Task entry
-            Task.objects.create(
-                document=document_name,
-                section=section,
-                # subsection=subsection,
-                # writer=writer,
-                # color=color
-            )
-
-            return redirect('online_help:section_edit_test', document_pk=document_pk)
-    else:
-        form = EditSectionForm()
-
-    # Always return a response
-    return render(request, 'online_help/section_edit_test.html', {
-        'form': form,
-        'document_name': document_name,
-        'document_pk': document_pk,
-        'sections': unique_section_tasks,
-    })
 
 def user_activity_test(request):
     writers   = Writers.objects.all()
@@ -676,11 +751,6 @@ def user_activity_test(request):
     }
     return render(request, 'online_help/user_activity_test.html', ctx)
 
-@require_POST
-def delete_section(request, document_pk, section_name):
-    # Delete all tasks with the same document and section
-    Task.objects.filter(document__pk=document_pk, section=section_name).delete()
-    return redirect('online_help:section_edit_test', document_pk=document_pk)
 
 
 GETTING_STARTED_LIST = [
@@ -833,45 +903,6 @@ def per_section_edit(request):
         'docs': GETTING_STARTED_LIST
     })
 
-def per_section_edit_test(request, section_pk):
-    section_task = get_object_or_404(Task, pk=section_pk)
-    section_name = section_task.section
-    document_name = section_task.document
-
-    subsections = Task.objects.filter(section=section_name)
-
-    if request.method == 'POST':
-        form = EditSectionForm(request.POST)
-        if form.is_valid():
-            new_sub = form.save(commit=False)
-            new_sub.section = section_name
-            new_sub.document = document_name
-            new_sub.SME = section_task.SME
-            new_sub.color = section_task.color
-            new_sub.comments = ''
-            new_sub.completion = '0%'
-            new_sub.save()
-
-            # ✅ Create TaskWriter entry using selected writer
-            selected_writer = form.cleaned_data['writer']
-            TaskWriter.objects.create(task=new_sub, writer=selected_writer)
-
-            return redirect('online_help:per_section_edit_test', section_pk=section_pk)
-    else:
-        form = EditSectionForm()
-
-    return render(request, 'online_help/per_section_edit_test.html', {
-        'section_name': section_name,
-        'subsections': subsections,
-        'form': form,
-        'section_pk': section_pk
-    })
-
-def delete_subsection(request, section_pk, task_pk):
-    task = get_object_or_404(Task, pk=task_pk)
-    task.delete()
-    return redirect('online_help:per_section_edit_test', section_pk=section_pk)
-
 def per_subsection_task(request):
     if request.method == 'POST':
         form = AddWriterForm(request.POST)
@@ -906,3 +937,4 @@ def test(request):
 def test2(request):
     tasks = Task.objects.prefetch_related('taskwriter_set__writer')
     return render(request, 'online_help/test.html', {'tasks': tasks})
+"""
