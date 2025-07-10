@@ -6,6 +6,9 @@ urlpatterns = [
     # path('', views.home, name='home'),
     path('home/', views.home, name='home'),
     path('home/writer/<int:pk>/', views.writer_detail, name='writer_detail'),
+
+    
+    path('', views.home_test, name='home_test'),
     path('home_test/', views.home_test, name='home_test'),
     path('home_test/per_user_test/<int:writer_pk>/', views.per_user_test, name='per_user_test'),
     path('home_test/per_user_test/<int:writer_pk>/per_user_edit_test/<int:task_pk>/', views.per_user_edit_test, name='per_user_edit_test'),
@@ -59,9 +62,10 @@ urlpatterns = [
 
     path('user_activity_test', views.user_activity_test, name='user_activity_test'),
 
+    path('update-version/', views.update_version, name='update_version'),
 
-        
-    
+    path('verify-password/', views.verify_password, name='verify_password'),
+
 
 
     # path('per_documentation_test/<int:pk>/', views.per_documentation_test2, name='per_documentation_test2'),

@@ -1,10 +1,10 @@
 from collections import defaultdict
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.http import require_POST
 
 from online_help.management.utility import (
@@ -24,25 +24,41 @@ from .forms import (
     EditSubSectionForm,
     AddWriterForm,
 )
-from .models import Writers, Task, TaskWriter, MajorDocu
+from .models import Writers, Task, TaskWriter, MajorDocu, Version
+
 
 # @login_required
+from .models import Version  # Make sure this is imported
+
 def home_test(request):
     writers = Writers.objects.all()
     task_writers = TaskWriter.objects.select_related('task', 'writer')
 
     writer_tasks_grouped = {}
+    color_classes = [
+        "color-blue", "color-green", "color-red", "color-purple",
+        "color-cyan", "color-orange", "color-teal", "color-yellow"
+    ]
 
-    for writer in writers:
+    writer_color_classes = {}
+    for i, writer in enumerate(writers):
+        writer_color_classes[writer.pk] = color_classes[i % len(color_classes)]
+
         grouped_by_doc = defaultdict(list)
         for tw in task_writers:
             if tw.writer_id == writer.pk:
                 grouped_by_doc[tw.task.document].append(tw)
-        writer_tasks_grouped[writer.pk] = dict(grouped_by_doc)  # Convert to regular dict
+        writer_tasks_grouped[writer.pk] = dict(grouped_by_doc)
+
+    # Get the version object (or None if not set)
+    version = Version.objects.first()
 
     ctx = {
         'writers': writers,
         'writer_tasks_grouped': writer_tasks_grouped,
+        'writer_color_classes': writer_color_classes,
+        'version': version,
+        'can_edit': request.user.is_authenticated and (request.user.is_superuser or request.user.is_staff),
     }
     return render(request, 'online_help/home_test.html', ctx)
 
@@ -140,6 +156,29 @@ def per_subsection_edit_test(request, writer_pk, task_pk):
         'writer': writer,
         'task': task
     })
+
+
+@require_POST
+@login_required
+@user_passes_test(lambda u: u.is_superuser or u.is_staff)
+def update_version(request):
+    new_version = request.POST.get('version')
+    if new_version:
+        version_obj, _ = Version.objects.get_or_create(id=1)
+        version_obj.number = new_version
+        version_obj.save()
+        return JsonResponse({'status': 'success', 'version': new_version})
+    return JsonResponse({'status': 'error', 'message': 'No version provided'}, status=400)
+
+@require_POST
+@login_required
+def verify_password(request):
+    password = request.POST.get('password')
+    user = authenticate(username=request.user.username, password=password)
+    if user:
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid password'}, status=403)
+
 
 @login_required
 def tasks(request):

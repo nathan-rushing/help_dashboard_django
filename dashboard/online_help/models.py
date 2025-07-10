@@ -37,3 +37,12 @@ class MajorDocu(models.Model):
 
     def __str__(self):
         return f"MajorDocu {self.id} - {self.projects}"
+
+class Version(models.Model):
+    number = models.CharField(max_length=20)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.number
+
+

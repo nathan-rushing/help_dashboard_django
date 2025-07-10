@@ -16,9 +16,6 @@
     </div>
 
     <div class="p-2">
-      
-<p><strong>Total Tasks:</strong> {{ total_tasks }}</p>
-
         {% regroup tasks by task.document as grouped_tasks %}
         {% for group in grouped_tasks %}
             <h5>{{ group.grouper }}</h5>
