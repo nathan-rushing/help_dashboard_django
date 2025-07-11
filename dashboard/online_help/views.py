@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
@@ -13,13 +13,12 @@ from .forms import (
     EditSectionForm,
     EditSubSectionForm,
     AddWriterForm,
+    AssignTaskForm,
 )
 from .models import Writers, Task, TaskWriter, MajorDocu, Version
 
 # @login_required
 from .models import Version  # Make sure this is imported
-
-from collections import defaultdict, Counter
 
 # from online_help.management.utility import (
 #     display_your_activity,
@@ -511,7 +510,7 @@ def delete_document(request, document_pk):
     Task.objects.filter(document=task.document).delete()
     return redirect('online_help:documentation_edit_test')
 
-from .forms import AssignTaskForm
+
 def assign_task_test(request):
     if request.method == 'POST':
         form = AssignTaskForm(request.POST)
@@ -521,16 +520,23 @@ def assign_task_test(request):
             sub_section = form.cleaned_data['sub_section']
             writer = form.cleaned_data['writer']
 
+            print("Form submitted with:", document, section, sub_section, writer)
+
             try:
                 task = Task.objects.get(document=document, section=section, sub_section=sub_section)
-                TaskWriter.objects.get_or_create(task=task, writer=writer)
+                obj, created = TaskWriter.objects.get_or_create(task=task, writer=writer)
+                print("TaskWriter created:", created)
                 return redirect('tasks_test')
             except Task.DoesNotExist:
+                print("Task not found!")
                 form.add_error(None, "Task not found for the selected document, section, and subsection.")
+        else:
+            print("Form is invalid:", form.errors)
     else:
         form = AssignTaskForm()
 
     return render(request, 'online_help/assign_task_test.html', {'form': form})
+
 
 def load_sections(request):
     document = request.GET.get('document')
