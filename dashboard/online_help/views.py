@@ -20,6 +20,9 @@ from .models import Writers, Task, TaskWriter, MajorDocu, Version
 # @login_required
 from .models import Version  # Make sure this is imported
 
+from django.db.models import F, Value, CharField
+from django.db.models.functions import Coalesce
+
 # from online_help.management.utility import (
 #     display_your_activity,
 #     display_online_help_reference,
@@ -29,9 +32,6 @@ from .models import Version  # Make sure this is imported
 #     display_documentation,
 #     db_online_help_user_guides,
 # )
-
-from django.db.models import F, Value, CharField
-from django.db.models.functions import Coalesce
 
 def home_test(request):
     # Annotate to handle nulls and sort accordingly
@@ -185,6 +185,29 @@ def tasks_test(request):
         'grouped_documents': dict(grouped_by_document),
     }
     return render(request, 'online_help/tasks_test.html', ctx)
+
+from collections import defaultdict
+from .models import Task, TaskWriter
+
+def tasks_test(request):
+    tasks = Task.objects.all().order_by('document')
+    task_writers = TaskWriter.objects.select_related('task', 'writer')
+
+    # Group writers by task
+    writers_by_task_id = defaultdict(list)
+    for tw in task_writers:
+        writers_by_task_id[tw.task_id].append(tw)
+
+    # Group tasks by document
+    grouped_by_document = defaultdict(list)
+    for task in tasks:
+        grouped_by_document[task.document].extend(writers_by_task_id.get(task.id, []))
+
+    ctx = {
+        'grouped_documents': dict(grouped_by_document),
+    }
+    return render(request, 'online_help/tasks_test.html', ctx)
+
 
 def per_documentation_test(request, document_pk):
     # Get one task to extract the document name
@@ -421,6 +444,50 @@ def documentation_edit_test(request):
         'form': form,
         'first_task_id': unique_tasks[0].id if unique_tasks else None,
     })
+
+from .models import Task, TaskWriter, Writers  # Make sure Writer is imported
+
+def documentation_edit_test(request):
+    all_tasks = Task.objects.all().order_by('document')
+
+    seen_documents = set()
+    unique_tasks = []
+
+    for task in all_tasks:
+        if task.document not in seen_documents:
+            unique_tasks.append(task)
+            seen_documents.add(task.document)
+
+    if request.method == 'POST':
+        form = EditDocuForm(request.POST)
+        if form.is_valid():
+            document_name = form.cleaned_data['document']
+            new_task = Task.objects.create(
+                document=document_name,
+                section='nan',
+                sub_section='nan',
+                comments='',
+                SME='',
+                color='',
+                completion='0%'
+            )
+
+            # Optional: Assign a default writer (e.g., first writer in DB)
+            # default_writer = Writers.objects.first()
+            default_writer = Writers.objects.filter(writer_name='nan').first()
+            if default_writer:
+                TaskWriter.objects.create(task=new_task, writer=default_writer)
+
+            return redirect('online_help:documentation_edit_test')
+    else:
+        form = EditDocuForm()
+
+    return render(request, 'online_help/documentation_edit_test.html', {
+        'tasks': unique_tasks,
+        'form': form,
+        'first_task_id': unique_tasks[0].id if unique_tasks else None,
+    })
+
 
 def section_edit_test(request, document_pk):
     # Get one task to extract the document name

@@ -16,8 +16,12 @@
         <div class="col-md-6 mb-4">
             <div class="bg-light rounded scroll-box">
                 <div class="p-3 text-white text-center" style="background-color: #0747a6;">
-                    <p class="m-0">                
-                        <a href="{% url 'online_help:per_documentation_test' tasks.0.task.pk %}" class="hover-link">{{ document }}</a>
+                    <p class="m-0">
+                        {% if tasks %}
+                            <a href="{% url 'online_help:per_documentation_test' tasks.0.task.pk %}" class="hover-link">{{ document }}</a>
+                        {% else %}
+                            <span>{{ document }}</span>
+                        {% endif %}
                     </p>
                 </div>
                 <div class="p-2">
@@ -44,6 +48,10 @@
                                     {{ tw.task.color }}
                                 </td>
                             </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted" style="padding: 8px;">No tasks assigned yet.</td>
+                            </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -53,6 +61,7 @@
         {% endfor %}
     </div>
 </div>
+
 
 <script>
 function filterContent() {
