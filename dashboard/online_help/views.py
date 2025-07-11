@@ -33,6 +33,8 @@ from django.db.models.functions import Coalesce
 #     db_online_help_user_guides,
 # )
 
+from .forms import AddWriterForm, AddSMEForm
+
 def home_test(request):
     # Annotate to handle nulls and sort accordingly
     writers = Writers.objects.annotate(
@@ -288,64 +290,62 @@ def per_section_test2(request, section_pk):
         'section_pk': section_pk,
     })
 
-from .forms import AddWriterForm, AddSMEForm
+# def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
+#     reference_task = get_object_or_404(Task, pk=subsection_pk)
+#     document_name = reference_task.document
+#     section_name = reference_task.section
+#     sub_section_name = reference_task.sub_section
 
-def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
-    reference_task = get_object_or_404(Task, pk=subsection_pk)
-    document_name = reference_task.document
-    section_name = reference_task.section
-    sub_section_name = reference_task.sub_section
+#     task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
+#         task__document=document_name,
+#         task__section=section_name,
+#         task__sub_section=sub_section_name
+#     )
 
-    task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
-        task__document=document_name,
-        task__section=section_name,
-        task__sub_section=sub_section_name
-    )
+#     form = AddWriterForm()
+#     sme_form = AddSMEForm()
 
-    form = AddWriterForm()
-    sme_form = AddSMEForm()
+#     if request.method == 'POST':
+#         if 'edit_sme_form' in request.POST:
+#             sme_form = AddSMEForm(request.POST)
+#             if sme_form.is_valid():
+#                 reference_task.SME = sme_form.cleaned_data['sme']
+#                 reference_task.save()
+#                 messages.success(request, f"SME updated to '{reference_task.SME}'.")
+#                 return redirect(request.path_info)
 
-    if request.method == 'POST':
-        if 'edit_sme_form' in request.POST:
-            sme_form = AddSMEForm(request.POST)
-            if sme_form.is_valid():
-                reference_task.SME = sme_form.cleaned_data['sme']
-                reference_task.save()
-                messages.success(request, f"SME updated to '{reference_task.SME}'.")
-                return redirect(request.path_info)
+#         else:
+#             form = AddWriterForm(request.POST)
+#             if form.is_valid():
+#                 writer = form.cleaned_data['writer']
+#                 TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
+#                 messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
+#                 return redirect(request.path_info)
 
-        else:
-            form = AddWriterForm(request.POST)
-            if form.is_valid():
-                writer = form.cleaned_data['writer']
-                TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
-                messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
-                return redirect(request.path_info)
+#     writer_to_remove = request.GET.get('remove_writer')
+#     if writer_to_remove:
+#         try:
+#             writer = Writers.objects.get(writer_name=writer_to_remove)
+#             TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
+#             if reference_task.SME == writer_to_remove:
+#                 reference_task.SME = ''
+#                 reference_task.save()
+#                 messages.success(request, f"SME '{writer_to_remove}' removed successfully.")
+#             else:
+#                 messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
+#             return redirect(request.path_info)
+#         except Writers.DoesNotExist:
+#             messages.error(request, f"Writer '{writer_to_remove}' not found.")
 
-    writer_to_remove = request.GET.get('remove_writer')
-    if writer_to_remove:
-        try:
-            writer = Writers.objects.get(writer_name=writer_to_remove)
-            TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
-            if reference_task.SME == writer_to_remove:
-                reference_task.SME = ''
-                reference_task.save()
-                messages.success(request, f"SME '{writer_to_remove}' removed successfully.")
-            else:
-                messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
-            return redirect(request.path_info)
-        except Writers.DoesNotExist:
-            messages.error(request, f"Writer '{writer_to_remove}' not found.")
-
-    return render(request, 'online_help/per_subsection_task_test.html', {
-        'document_name': document_name,
-        'section_name': section_name,
-        'sub_section_name': sub_section_name,
-        'task_writers': task_writers,
-        'form': form,
-        'sme_form': sme_form,
-        'sme': reference_task.SME,
-    })
+#     return render(request, 'online_help/per_subsection_task_test.html', {
+#         'document_name': document_name,
+#         'section_name': section_name,
+#         'sub_section_name': sub_section_name,
+#         'task_writers': task_writers,
+#         'form': form,
+#         'sme_form': sme_form,
+#         'sme': reference_task.SME,
+#     })
 
 
 # from .forms import AddWriterForm, AddSMEForm  # Make sure AddSMEForm is defined
@@ -408,7 +408,7 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
 #     })
 
 
-def per_subsection_task_test2(request, document_pk, section_pk, subsection_pk):
+def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
     reference_task = get_object_or_404(Task, pk=subsection_pk)
     document_name = reference_task.document
     section_name = reference_task.section
@@ -465,47 +465,64 @@ def per_subsection_task_test2(request, document_pk, section_pk, subsection_pk):
         'sme': reference_task.SME,
     })
 
-# def per_subsection_task_test2(request, subsection_pk):
-#     reference_task = get_object_or_404(Task, pk=subsection_pk)
-#     document_name = reference_task.document
-#     section_name = reference_task.section
-#     sub_section_name = reference_task.sub_section
+def per_subsection_task_test2(request, subsection_pk):
+    reference_task = get_object_or_404(Task, pk=subsection_pk)
+    document_name = reference_task.document
+    section_name = reference_task.section
+    sub_section_name = reference_task.sub_section
 
-#     task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
-#         task__document=document_name,
-#         task__section=section_name,
-#         task__sub_section=sub_section_name
-#     )
+    task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
+        task__document=document_name,
+        task__section=section_name,
+        task__sub_section=sub_section_name
+    )
 
-#     form = AddWriterForm()
+    form = AddWriterForm()
+    sme_form = AddSMEForm()
 
-#     # Handle form submission
-#     if request.method == 'POST':
-#         form = AddWriterForm(request.POST)
-#         if form.is_valid():
-#             writer = form.cleaned_data['writer']
-#             TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
-#             messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
-#             return redirect(request.path_info)
+    # Handle form submission
+    if request.method == 'POST':
+        if 'edit_sme_form' in request.POST:
+            sme_form = AddSMEForm(request.POST)
+            if sme_form.is_valid():
+                reference_task.SME = sme_form.cleaned_data['sme']
+                reference_task.save()
+                messages.success(request, f"SME updated to '{reference_task.SME}'.")
+                return redirect(request.path_info)
 
-#     # Handle removal via GET parameter (?remove_writer=Name)
-#     writer_to_remove = request.GET.get('remove_writer')
-#     if writer_to_remove:
-#         try:
-#             writer = Writers.objects.get(writer_name=writer_to_remove)
-#             TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
-#             messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
-#             return redirect(request.path_info)
-#         except Writers.DoesNotExist:
-#             messages.error(request, f"Writer '{writer_to_remove}' not found.")
+        else:
+            form = AddWriterForm(request.POST)
+            if form.is_valid():
+                writer = form.cleaned_data['writer']
+                TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
+                messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
+                return redirect(request.path_info)
 
-#     return render(request, 'online_help/per_subsection_task_test.html', {
-#         'document_name': document_name,
-#         'section_name': section_name,
-#         'sub_section_name': sub_section_name,
-#         'task_writers': task_writers,
-#         'form': form,
-#     })
+    # Handle removal via GET parameter (?remove_writer=Name)
+    writer_to_remove = request.GET.get('remove_writer')
+    if writer_to_remove:
+        try:
+            writer = Writers.objects.get(writer_name=writer_to_remove)
+            TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
+            if reference_task.SME == writer_to_remove:
+                reference_task.SME = ''
+                reference_task.save()
+                messages.success(request, f"SME '{writer_to_remove}' removed successfully.")
+            else:
+                messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
+            return redirect(request.path_info)
+        except Writers.DoesNotExist:
+            messages.error(request, f"Writer '{writer_to_remove}' not found.")
+
+    return render(request, 'online_help/per_subsection_task_test.html', {
+        'document_name': document_name,
+        'section_name': section_name,
+        'sub_section_name': sub_section_name,
+        'task_writers': task_writers,
+        'form': form,
+        'sme_form': sme_form,
+        'sme': reference_task.SME,
+    })
 
 
 def login_view(request):
@@ -550,39 +567,39 @@ def tasks_edit_test(request):
 
     return render(request, 'online_help/tasks_edit_test.html', context=ctx)
 
-def documentation_edit_test(request):
-    all_tasks = Task.objects.all().order_by('document')
+# def documentation_edit_test(request):
+#     all_tasks = Task.objects.all().order_by('document')
 
-    seen_documents = set()
-    unique_tasks = []
+#     seen_documents = set()
+#     unique_tasks = []
 
-    for task in all_tasks:
-        if task.document not in seen_documents:
-            unique_tasks.append(task)
-            seen_documents.add(task.document)
+#     for task in all_tasks:
+#         if task.document not in seen_documents:
+#             unique_tasks.append(task)
+#             seen_documents.add(task.document)
 
-    if request.method == 'POST':
-        form = EditDocuForm(request.POST)
-        if form.is_valid():
-            document_name = form.cleaned_data['document']
-            Task.objects.create(
-                document=document_name,
-                section='',
-                sub_section='',
-                comments='',
-                SME='',
-                color='',
-                completion='0%'
-            )
-            return redirect('online_help:documentation_edit_test')
-    else:
-        form = EditDocuForm()
+#     if request.method == 'POST':
+#         form = EditDocuForm(request.POST)
+#         if form.is_valid():
+#             document_name = form.cleaned_data['document']
+#             Task.objects.create(
+#                 document=document_name,
+#                 section='',
+#                 sub_section='',
+#                 comments='',
+#                 SME='',
+#                 color='',
+#                 completion='0%'
+#             )
+#             return redirect('online_help:documentation_edit_test')
+#     else:
+#         form = EditDocuForm()
 
-    return render(request, 'online_help/documentation_edit_test.html', {
-        'tasks': unique_tasks,
-        'form': form,
-        'first_task_id': unique_tasks[0].id if unique_tasks else None,
-    })
+#     return render(request, 'online_help/documentation_edit_test.html', {
+#         'tasks': unique_tasks,
+#         'form': form,
+#         'first_task_id': unique_tasks[0].id if unique_tasks else None,
+#     })
 
 from .models import Task, TaskWriter, Writers  # Make sure Writer is imported
 
@@ -606,7 +623,7 @@ def documentation_edit_test(request):
                 section='nan',
                 sub_section='nan',
                 comments='',
-                SME='',
+                SME='nan',
                 color='',
                 completion='0%'
             )

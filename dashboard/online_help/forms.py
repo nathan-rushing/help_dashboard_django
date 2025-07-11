@@ -77,6 +77,9 @@ class AddWriterForm(forms.Form):
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
+from django import forms
+from .models import Writers, Task
+
 class AssignTaskForm(forms.Form):
     document = forms.ChoiceField(
         label="Document",
@@ -99,19 +102,21 @@ class AssignTaskForm(forms.Form):
         required=True,
         widget=forms.Select(attrs={'class': 'form-control'})
     )
+    # sme = forms.CharField(
+    #     label="SME (optional)",
+    #     required=False,
+    #     widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter SME name (optional)'})
+    # )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Populate document choices
         documents = Task.objects.values_list('document', flat=True).distinct()
         self.fields['document'].choices = [('', 'Select document')] + [(doc, doc) for doc in documents]
 
-        # Default empty choices
         self.fields['section'].choices = [('', 'Select section')]
         self.fields['sub_section'].choices = [('', 'Select subsection')]
 
-        # If POST data exists, populate section and sub_section choices accordingly
         if 'document' in self.data:
             document = self.data.get('document')
             sections = Task.objects.filter(document=document).values_list('section', flat=True).distinct()
@@ -121,7 +126,6 @@ class AssignTaskForm(forms.Form):
             section = self.data.get('section')
             subsections = Task.objects.filter(section=section).values_list('sub_section', flat=True).distinct()
             self.fields['sub_section'].choices += [(s, s) for s in subsections]
-
 
 class AddSMEForm(forms.Form):
     sme = forms.CharField(label="Enter SME Name", max_length=255)
