@@ -511,9 +511,15 @@ def delete_document(request, document_pk):
     return redirect('online_help:documentation_edit_test')
 
 
+from django.shortcuts import render, redirect
+from .forms import AssignTaskForm
+from .models import Task, Writers, TaskWriter
+
 def assign_task_test(request):
     if request.method == 'POST':
         form = AssignTaskForm(request.POST)
+        print('we are before form.is_valid()')
+
         if form.is_valid():
             document = form.cleaned_data['document']
             section = form.cleaned_data['section']
@@ -522,16 +528,24 @@ def assign_task_test(request):
 
             print("Form submitted with:", document, section, sub_section, writer)
 
-            try:
-                task = Task.objects.get(document=document, section=section, sub_section=sub_section)
+            # Try to find the first matching task
+            task = Task.objects.filter(
+                document=document,
+                section=section,
+                sub_section=sub_section
+            ).first()
+
+            if not task:
+                print("No matching task found.")
+                form.add_error(None, "Task not found for the selected document, section, and subsection.")
+            else:
                 obj, created = TaskWriter.objects.get_or_create(task=task, writer=writer)
                 print("TaskWriter created:", created)
-                return redirect('tasks_test')
-            except Task.DoesNotExist:
-                print("Task not found!")
-                form.add_error(None, "Task not found for the selected document, section, and subsection.")
+                return redirect('online_help:tasks_test')  # Redirect to task list after successful assignment
+
         else:
             print("Form is invalid:", form.errors)
+
     else:
         form = AssignTaskForm()
 

@@ -77,12 +77,6 @@ class AddWriterForm(forms.Form):
         widget=forms.Select(attrs={'class': 'form-control'})
     )
 
-from django import forms
-from .models import Writers, Task
-
-from django import forms
-from .models import Writers, Task
-
 class AssignTaskForm(forms.Form):
     document = forms.ChoiceField(
         label="Document",
@@ -109,10 +103,21 @@ class AssignTaskForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Populate document dropdown with distinct document names
+        # Populate document choices
         documents = Task.objects.values_list('document', flat=True).distinct()
         self.fields['document'].choices = [('', 'Select document')] + [(doc, doc) for doc in documents]
 
-        # Leave section and sub_section empty; they will be filled via JavaScript
+        # Default empty choices
         self.fields['section'].choices = [('', 'Select section')]
         self.fields['sub_section'].choices = [('', 'Select subsection')]
+
+        # If POST data exists, populate section and sub_section choices accordingly
+        if 'document' in self.data:
+            document = self.data.get('document')
+            sections = Task.objects.filter(document=document).values_list('section', flat=True).distinct()
+            self.fields['section'].choices += [(s, s) for s in sections]
+
+        if 'section' in self.data:
+            section = self.data.get('section')
+            subsections = Task.objects.filter(section=section).values_list('sub_section', flat=True).distinct()
+            self.fields['sub_section'].choices += [(s, s) for s in subsections]
