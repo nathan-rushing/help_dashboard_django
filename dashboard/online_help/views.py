@@ -79,6 +79,10 @@ def tasks_by_color(request, writer_pk, color):
         'tasks': tasks,
     })
 
+
+import json
+
+
 def per_user_test(request, writer_pk):
     writer = get_object_or_404(Writers, pk=writer_pk)
     tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
@@ -92,11 +96,14 @@ def per_user_test(request, writer_pk):
 
     total_tasks = sum(color_counts.values())
 
+    document_task_counts = {doc: len(tws) for doc, tws in grouped_tasks.items()}
     return render(request, 'online_help/per_user_test.html', {
         'writer': writer,
         'grouped_tasks': dict(grouped_tasks),
         'color_counts': dict(color_counts),
         'total_tasks': total_tasks,
+        'document_task_counts_json': json.dumps(document_task_counts),  # <-- Add this
+
     })
 
 

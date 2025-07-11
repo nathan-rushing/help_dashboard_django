@@ -18,22 +18,37 @@
         <input type="text" id="searchInput" class="form-control" placeholder="Search sections or subsections..." onkeyup="filterContent()">
     </div>
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h3 class="card-title">Task Summary by Color</h3>
-            <p><strong>Total Tasks:</strong> {{ total_tasks }}</p>
-            <ul class="list-group list-group-flush">
-                {% for color, count in color_counts.items %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <span><strong>{{ color }}:</strong></span>
-                        <a href="{% url 'online_help:tasks_by_color' writer.pk color %}" class="badge badge-pill badge-primary">
-                            {{ count }} task{{ count|pluralize }}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
+
+<div class="row">
+    <div class="col-md-6 d-flex">
+        <div class="card shadow-sm mb-4 w-100 h-75">
+            <div class="card-body">
+                <h3 class="card-title">Task Summary by Color</h3>
+                <p><strong>Total Tasks:</strong> {{ total_tasks }}</p>
+                <ul class="list-group list-group-flush">
+                    {% for color, count in color_counts.items %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <span><strong>{{ color }}:</strong></span>
+                            <a href="{% url 'online_help:tasks_by_color' writer.pk color %}" class="badge badge-pill badge-primary">
+                                {{ count }} task{{ count|pluralize }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
+
+    <div class="col-md-6 d-flex">
+        <div class="card shadow-sm mb-4 w-100 h-100">
+            <div class="card-body">
+                <h3 class="card-title">Task Distribution by Document</h3>
+                <canvas id="documentPieChart" width="400" height="400"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
 
     <div class="p-2">
         {% for document, tasks in grouped_tasks.items %}
@@ -73,6 +88,46 @@
         {% endfor %}
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+  const documentTaskCounts = JSON.parse('{{ document_task_counts_json|escapejs }}');
+
+  const labels = Object.keys(documentTaskCounts);
+  const data = Object.values(documentTaskCounts);
+
+  const ctx = document.getElementById('documentPieChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Tasks per Document',
+        data: data,
+        backgroundColor: [
+          '#007bff', '#28a745', '#dc3545', '#6f42c1',
+          '#17a2b8', '#fd7e14', '#20c997', '#ffc107'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        },
+        title: {
+          display: true,
+          text: 'Number of Tasks per Document'
+        }
+      }
+    }
+  });
+</script>
+
 
 
 <script>
