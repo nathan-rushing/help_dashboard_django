@@ -41,7 +41,7 @@
         {% for writer in writers %}
             <div class="col-md-6 mb-4">
                 <div class="bg-light rounded scroll-box">
-                    <div class="p-3 text-white text-center" style="background-color: #0747a6;">
+                  <div class="p-3 text-white text-center {{ writer_color_classes|get_item:writer.pk }}">
                         <p class="m-0">
                             <a href="{% url 'online_help:per_user_test' writer.pk %}" class="hover-link">{{ writer.writer_name }}</a>
                         </p>
