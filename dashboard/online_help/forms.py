@@ -121,3 +121,7 @@ class AssignTaskForm(forms.Form):
             section = self.data.get('section')
             subsections = Task.objects.filter(section=section).values_list('sub_section', flat=True).distinct()
             self.fields['sub_section'].choices += [(s, s) for s in subsections]
+
+
+class AddSMEForm(forms.Form):
+    sme = forms.CharField(label="Enter SME Name", max_length=255)

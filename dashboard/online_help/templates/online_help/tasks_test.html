@@ -31,6 +31,7 @@
                                 <th style="border: 1px solid #444; padding: 8px;">Writer</th>
                                 <th style="border: 1px solid #444; padding: 8px;">Section</th>
                                 <th style="border: 1px solid #444; padding: 8px;">Subsection</th>
+                                <th style="border: 1px solid #444; padding: 8px;">SME</th>
                                 <th style="border: 1px solid #444; padding: 8px;">Color</th>
                             </tr>
                         </thead>
@@ -44,6 +45,7 @@
                                 <td style="border: 1px solid #444; padding: 8px;">
                                     <a href="{% url 'online_help:per_subsection_task_test2' tw.task.pk %}" class="hover-link">{{ tw.task.sub_section }}</a>
                                 </td>
+                                <td style="border: 1px solid #444; padding: 8px;">{{ tw.task.SME }}</td>
                                 <td style="border: 1px solid #444; padding: 8px;">
                                     {{ tw.task.color }}
                                 </td>

@@ -12,6 +12,7 @@ class Task(models.Model):
     sub_section = models.CharField(max_length=255)
     comments = models.TextField()
     SME = models.CharField(max_length=255)
+    # SME = models.ForeignKey(Writers, on_delete=models.SET_NULL, null=True, blank=True, related_name='sme_tasks')
     color = models.CharField(max_length=50)
     completion = models.CharField(max_length=100, default='0%')
     created_at = models.DateTimeField(auto_now_add=True)  # Add this line
