@@ -30,8 +30,15 @@ from .models import Version  # Make sure this is imported
 #     db_online_help_user_guides,
 # )
 
+from django.db.models import F, Value, CharField
+from django.db.models.functions import Coalesce
+
 def home_test(request):
-    writers = Writers.objects.all()
+    # Annotate to handle nulls and sort accordingly
+    writers = Writers.objects.annotate(
+        sort_name=Coalesce('writer_name', Value('zzz'))  # 'zzz' ensures nulls go last
+    ).order_by('sort_name')
+
     task_writers = TaskWriter.objects.select_related('task', 'writer')
 
     writer_tasks_grouped = {}
@@ -50,7 +57,6 @@ def home_test(request):
                 grouped_by_doc[tw.task.document].append(tw)
         writer_tasks_grouped[writer.pk] = dict(grouped_by_doc)
 
-    # Get the version object (or None if not set)
     version = Version.objects.first()
 
     ctx = {
@@ -61,6 +67,7 @@ def home_test(request):
         'can_edit': request.user.is_authenticated and (request.user.is_superuser or request.user.is_staff),
     }
     return render(request, 'online_help/home_test.html', ctx)
+
 
 def tasks_by_color(request, writer_pk, color):
     writer = get_object_or_404(Writers, pk=writer_pk)
