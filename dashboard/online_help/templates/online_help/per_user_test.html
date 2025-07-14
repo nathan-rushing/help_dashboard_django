@@ -26,14 +26,21 @@
                 <h3 class="card-title">Task Summary by Color</h3>
                 <p><strong>Total Tasks:</strong> {{ total_tasks }}</p>
                 <ul class="list-group list-group-flush">
-                    {% for color, count in color_counts.items %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span><strong>{{ color }}:</strong></span>
+                {% for color, count in color_counts.items %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span><strong>{{ color|default:"No Color" }}:</strong></span>
+                        {% if color %}
                             <a href="{% url 'online_help:tasks_by_color' writer.pk color %}" class="badge badge-pill badge-primary">
                                 {{ count }} task{{ count|pluralize }}
                             </a>
-                        </li>
-                    {% endfor %}
+                        {% else %}
+                            <span class="badge badge-pill badge-secondary">
+                                {{ count }} task{{ count|pluralize }}
+                            </span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+
                 </ul>
             </div>
         </div>
