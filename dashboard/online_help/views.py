@@ -578,6 +578,7 @@ def section_edit_test(request, document_pk):
         if form.is_valid():
             section = form.cleaned_data['section']
             # subsection = form.cleaned_data['subsection']
+            subsection = 'nan'  # Default value for subsection
             # writer = form.cleaned_data['writer']
             # color = form.cleaned_data['color']
 
@@ -585,7 +586,7 @@ def section_edit_test(request, document_pk):
             Task.objects.create(
                 document=document_name,
                 section=section,
-                # subsection=subsection,
+                sub_section=subsection,
                 # writer=writer,
                 # color=color
             )

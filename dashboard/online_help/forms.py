@@ -59,11 +59,12 @@ class EditDocuForm(forms.Form):
     # color = forms.CharField(required=False, max_length=50)
 
 class EditSectionForm(forms.ModelForm):
-    writer = forms.ModelChoiceField(queryset=Writers.objects.all(), required=True)
+    # writer = forms.ModelChoiceField(queryset=Writers.objects.all(), required=True)
 
     class Meta:
         model = Task
-        fields = ['section', 'writer']
+        # fields = ['section', 'writer']
+        fields = ['section']
 
 
 from django import forms

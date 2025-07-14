@@ -13,7 +13,7 @@ class Task(models.Model):
     sub_section = models.CharField(max_length=255)
     comments = models.TextField()
     # SME = models.CharField(max_length=255, default='nan')
-    SME = models.CharField(max_length=255, blank=True, null=True, default='no sme')
+    SME = models.CharField(max_length=255, blank=True, null=True)
 
     # SME = models.ForeignKey(Writers, on_delete=models.SET_NULL, null=True, blank=True, related_name='sme_tasks')
     color = models.CharField(max_length=50)
