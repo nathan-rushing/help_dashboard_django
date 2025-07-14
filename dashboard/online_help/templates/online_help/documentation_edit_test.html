@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{% static 'css/documentation_edit.css' %}">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+<p><a href="{% url 'online_help:tasks_edit_test' %}">← Back to Radiant Documentation</a></p>
+
 <div class="top-bar bg-warning text-dark card-header mt-5">
     <h2>Document Editor: {{ document_name }}</h2>
     <button class="btn btn-outline-dark btn-sm" onclick="showAddForm()">Add Document</button>

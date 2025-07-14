@@ -66,10 +66,23 @@ class EditSectionForm(forms.ModelForm):
         fields = ['section', 'writer']
 
 
-class EditSubSectionForm(forms.Form):
-    subsection = forms.CharField(required=False, max_length=255)
-    writer = forms.CharField(required=False, max_length=255)
-    color = forms.CharField(required=False, max_length=50)
+from django import forms
+from .models import Task, Writers
+
+class EditSubSectionForm(forms.ModelForm):
+    writer = forms.ModelChoiceField(queryset=Writers.objects.all(), required=False)
+
+    class Meta:
+        model = Task
+        fields = ['sub_section', 'color']  # Use actual model field names
+        labels = {
+            'sub_section': 'Subsection',
+            'color': 'Color',
+        }
+        widgets = {
+            'sub_section': forms.TextInput(attrs={'placeholder': 'Enter subsection name'}),
+            'color': forms.Select(choices=COLOR_CHOICES, attrs={'placeholder': 'Enter color'}),
+        }
 
 class AddWriterForm(forms.Form):
     writer = forms.ModelChoiceField(

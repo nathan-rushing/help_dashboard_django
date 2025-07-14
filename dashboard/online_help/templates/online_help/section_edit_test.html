@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{% static 'css/documentation_edit.css' %}">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
+<p><a href="{% url 'online_help:per_documentation_test' document_pk=document_pk %}">← Back to Section</a></p>
+
 <div class="top-bar bg-warning text-dark card-header mt-5">
     <h2>Section Editor</h2>
     <button class="btn btn-outline-dark btn-sm" onclick="showAddForm()">Add Section</button>

@@ -302,122 +302,6 @@ def per_section_test2(request, section_pk):
         'section_pk': section_pk,
     })
 
-# def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
-#     reference_task = get_object_or_404(Task, pk=subsection_pk)
-#     document_name = reference_task.document
-#     section_name = reference_task.section
-#     sub_section_name = reference_task.sub_section
-
-#     task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
-#         task__document=document_name,
-#         task__section=section_name,
-#         task__sub_section=sub_section_name
-#     )
-
-#     form = AddWriterForm()
-#     sme_form = AddSMEForm()
-
-#     if request.method == 'POST':
-#         if 'edit_sme_form' in request.POST:
-#             sme_form = AddSMEForm(request.POST)
-#             if sme_form.is_valid():
-#                 reference_task.SME = sme_form.cleaned_data['sme']
-#                 reference_task.save()
-#                 messages.success(request, f"SME updated to '{reference_task.SME}'.")
-#                 return redirect(request.path_info)
-
-#         else:
-#             form = AddWriterForm(request.POST)
-#             if form.is_valid():
-#                 writer = form.cleaned_data['writer']
-#                 TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
-#                 messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
-#                 return redirect(request.path_info)
-
-#     writer_to_remove = request.GET.get('remove_writer')
-#     if writer_to_remove:
-#         try:
-#             writer = Writers.objects.get(writer_name=writer_to_remove)
-#             TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
-#             if reference_task.SME == writer_to_remove:
-#                 reference_task.SME = ''
-#                 reference_task.save()
-#                 messages.success(request, f"SME '{writer_to_remove}' removed successfully.")
-#             else:
-#                 messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
-#             return redirect(request.path_info)
-#         except Writers.DoesNotExist:
-#             messages.error(request, f"Writer '{writer_to_remove}' not found.")
-
-#     return render(request, 'online_help/per_subsection_task_test.html', {
-#         'document_name': document_name,
-#         'section_name': section_name,
-#         'sub_section_name': sub_section_name,
-#         'task_writers': task_writers,
-#         'form': form,
-#         'sme_form': sme_form,
-#         'sme': reference_task.SME,
-#     })
-
-
-# from .forms import AddWriterForm, AddSMEForm  # Make sure AddSMEForm is defined
-
-# def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
-#     reference_task = get_object_or_404(Task, pk=subsection_pk)
-#     document_name = reference_task.document
-#     section_name = reference_task.section
-#     sub_section_name = reference_task.sub_section
-
-#     task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
-#         task=reference_task
-#     )
-
-#     form = AddWriterForm()
-#     sme_form = AddSMEForm()
-
-#     if request.method == 'POST':
-#         if 'add_writer' in request.POST:
-#             form = AddWriterForm(request.POST)
-#             if form.is_valid():
-#                 writer = form.cleaned_data['writer']
-#                 TaskWriter.objects.get_or_create(task=reference_task, writer=writer)
-#                 messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
-#                 return redirect(request.path_info)
-
-#         elif 'add_sme' in request.POST:
-#             sme_form = AddSMEForm(request.POST)
-#             if sme_form.is_valid():
-#                 reference_task.SME = sme_form.cleaned_data['writer']
-#                 reference_task.save()
-#                 messages.success(request, f"SME '{reference_task.SME.writer_name}' assigned successfully.")
-#                 return redirect(request.path_info)
-
-#     # Handle removals
-#     writer_to_remove = request.GET.get('remove_writer')
-#     if writer_to_remove:
-#         try:
-#             writer = Writers.objects.get(writer_name=writer_to_remove)
-#             TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
-#             messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
-#             return redirect(request.path_info)
-#         except Writers.DoesNotExist:
-#             messages.error(request, f"Writer '{writer_to_remove}' not found.")
-
-#     if request.GET.get('remove_sme'):
-#         reference_task.SME = None
-#         reference_task.save()
-#         messages.success(request, "SME removed successfully.")
-#         return redirect(request.path_info)
-
-#     return render(request, 'online_help/per_subsection_task_test.html', {
-#         'document_name': document_name,
-#         'section_name': section_name,
-#         'sub_section_name': sub_section_name,
-#         'task_writers': task_writers,
-#         'form': form,
-#         'sme_form': sme_form,
-#         'task_sme': reference_task.SME,
-#     })
 
 import math
 @login_required
@@ -438,7 +322,7 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
         task__document=document_name,
         task__section=section_name,
         task__sub_section=sub_section_name,
-        task__sme=sme_name,
+        # task__sme=sme_name,
     )
 
     form = AddWriterForm()
@@ -464,20 +348,6 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
                 messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
                 return redirect(request.path_info)
 
-    # writer_to_remove = request.GET.get('remove_writer')
-    # if writer_to_remove:
-    #     try:
-    #         writer = Writers.objects.get(writer_name=writer_to_remove)
-    #         TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
-    #         if reference_task.SME == writer_to_remove:
-    #             reference_task.SME = ''
-    #             reference_task.save()
-    #             messages.success(request, f"SME '{writer_to_remove}' removed successfully.")
-    #         else:
-    #             messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
-    #         return redirect(request.path_info)
-    #     except Writers.DoesNotExist:
-    #         messages.error(request, f"Writer '{writer_to_remove}' not found.")
             
     writer_to_remove = request.GET.get('remove_writer')
     if writer_to_remove:
@@ -500,6 +370,9 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
         'form': form,
         'sme_form': sme_form,
         'sme': reference_task.SME,
+        'document_pk': document_pk,
+        'section_pk': section_pk,
+
     })
 
 @login_required
@@ -744,12 +617,13 @@ def per_section_edit_test(request, section_pk):
     subsections = Task.objects.filter(section=section_name)
 
     if request.method == 'POST':
-        form = EditSectionForm(request.POST)
+        form = EditSubSectionForm(request.POST)
         if form.is_valid():
             new_sub = form.save(commit=False)
             new_sub.section = section_name
+            new_sub.sub_section = form.cleaned_data['sub_section']
             new_sub.document = document_name
-            new_sub.SME = section_task.SME
+            new_sub.SME = 'nan'
             new_sub.color = section_task.color
             new_sub.comments = ''
             new_sub.completion = '0%'
@@ -761,13 +635,15 @@ def per_section_edit_test(request, section_pk):
 
             return redirect('online_help:per_section_edit_test', section_pk=section_pk)
     else:
-        form = EditSectionForm()
+        form = EditSubSectionForm()
 
     return render(request, 'online_help/per_section_edit_test.html', {
         'section_name': section_name,
         'subsections': subsections,
         'form': form,
-        'section_pk': section_pk
+        'section_pk': section_pk,
+        'document_pk': section_task.pk,  # Use section_task.pk as document_pk
+
     })
 
 def delete_subsection(request, section_pk, task_pk):
