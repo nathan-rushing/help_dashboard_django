@@ -126,7 +126,8 @@ def per_user_edit_test(request, writer_pk, task_pk):
         form = per_user_edit_Form(request.POST, instance=task)
         if form.is_valid():
             form.save()
-            return redirect('online_help:per_user_edit_test', writer_pk=writer.pk, task_pk=task.pk)
+            return redirect('online_help:per_user_test', writer_pk=writer.pk)
+            # return redirect('online_help:per_user_edit_test', writer_pk=writer.pk, task_pk=task.pk)
     else:
         form = per_user_edit_Form(instance=task)
 
@@ -418,17 +419,26 @@ def per_section_test2(request, section_pk):
 #         'task_sme': reference_task.SME,
 #     })
 
+import math
 @login_required
 def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
     reference_task = get_object_or_404(Task, pk=subsection_pk)
+
+    # Normalize SME value
+    if reference_task.SME is None or (isinstance(reference_task.SME, float) and math.isnan(reference_task.SME)):
+        reference_task.SME = 'nan'
+        reference_task.save()
+
     document_name = reference_task.document
     section_name = reference_task.section
     sub_section_name = reference_task.sub_section
+    sme_name = reference_task.SME
 
     task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
         task__document=document_name,
         task__section=section_name,
-        task__sub_section=sub_section_name
+        task__sub_section=sub_section_name,
+        task__sme=sme_name,
     )
 
     form = AddWriterForm()
@@ -440,6 +450,9 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
             if sme_form.is_valid():
                 reference_task.SME = sme_form.cleaned_data['sme']
                 reference_task.save()
+                # if reference_task.SME is None or (isinstance(reference_task.SME, float) and math.isnan(reference_task.SME)):
+                #     reference_task.SME = 'nan'
+                #     reference_task.save()
                 messages.success(request, f"SME updated to '{reference_task.SME}'.")
                 return redirect(request.path_info)
 
@@ -451,20 +464,33 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
                 messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
                 return redirect(request.path_info)
 
+    # writer_to_remove = request.GET.get('remove_writer')
+    # if writer_to_remove:
+    #     try:
+    #         writer = Writers.objects.get(writer_name=writer_to_remove)
+    #         TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
+    #         if reference_task.SME == writer_to_remove:
+    #             reference_task.SME = ''
+    #             reference_task.save()
+    #             messages.success(request, f"SME '{writer_to_remove}' removed successfully.")
+    #         else:
+    #             messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
+    #         return redirect(request.path_info)
+    #     except Writers.DoesNotExist:
+    #         messages.error(request, f"Writer '{writer_to_remove}' not found.")
+            
     writer_to_remove = request.GET.get('remove_writer')
     if writer_to_remove:
         try:
             writer = Writers.objects.get(writer_name=writer_to_remove)
             TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
-            if reference_task.SME == writer_to_remove:
-                reference_task.SME = ''
-                reference_task.save()
-                messages.success(request, f"SME '{writer_to_remove}' removed successfully.")
-            else:
-                messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
+
+            # Only show SME removal message if the SME is being explicitly edited elsewhere
+            messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
             return redirect(request.path_info)
         except Writers.DoesNotExist:
             messages.error(request, f"Writer '{writer_to_remove}' not found.")
+
 
     return render(request, 'online_help/per_subsection_task_test.html', {
         'document_name': document_name,

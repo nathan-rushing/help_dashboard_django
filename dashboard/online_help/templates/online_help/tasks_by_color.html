@@ -16,6 +16,7 @@
     </div>
 
     <div class="p-2">
+        <p><a href="{% url 'online_help:per_user_test' writer.pk %}">← Back to all tasks</a></p>
         {% regroup tasks by task.document as grouped_tasks %}
         {% for group in grouped_tasks %}
             <h5>{{ group.grouper }}</h5>
@@ -50,7 +51,6 @@
         {% endfor %}
     </div>
 
-    <p><a href="{% url 'online_help:per_user_test' writer.pk %}">← Back to all tasks</a></p>
 </div>
 
 

@@ -4,21 +4,24 @@ class Writers(models.Model):
     writer_name = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.writer_name}"
+        return f"{self.writer_name }"
+        # return f"{self.writer_name } - {self.id}"
 
 class Task(models.Model):
     document = models.CharField(max_length=255)
     section = models.CharField(max_length=255)
     sub_section = models.CharField(max_length=255)
     comments = models.TextField()
-    SME = models.CharField(max_length=255)
+    # SME = models.CharField(max_length=255, default='nan')
+    SME = models.CharField(max_length=255, blank=True, null=True, default='no sme')
+
     # SME = models.ForeignKey(Writers, on_delete=models.SET_NULL, null=True, blank=True, related_name='sme_tasks')
     color = models.CharField(max_length=50)
     completion = models.CharField(max_length=100, default='0%')
     created_at = models.DateTimeField(auto_now_add=True)  # Add this line
 
     def __str__(self):
-        return f"Task {self.id} - {self.document}"
+        return f"Task {self.id} - {self.document}: {self.section} - {self.sub_section}"
 
 class TaskWriter(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
@@ -28,7 +31,7 @@ class TaskWriter(models.Model):
         unique_together = ('task', 'writer')
 
     def __str__(self):
-        return f"Writer {self.writer_id} for Task {self.task_id}"
+        return f"{self.writer.writer_name} ({self.writer.id}) assigned for {self.task.document}. ID: {self.task.id}"
 
 class MajorDocu(models.Model):
     projects = models.CharField(max_length=255)

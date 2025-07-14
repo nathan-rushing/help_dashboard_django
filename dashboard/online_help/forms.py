@@ -1,11 +1,14 @@
 from django import forms
 from .models import Task, Writers, TaskWriter
 
+from django import forms
+from .models import Writers, Task
+
 COLOR_CHOICES = [
-    ('Green', 'Green'),
-    ('Yellow', 'Yellow'),
-    ('Grey', 'Grey'),
-    ('White', 'White'),
+    ('green', 'green'),
+    ('yellow', 'yellow'),
+    ('grey', 'grey'),
+    ('white', 'white'),
 ]
 
 class per_user_edit_Form(forms.ModelForm):
@@ -15,7 +18,7 @@ class per_user_edit_Form(forms.ModelForm):
         label='Comments'
     )
     completion = forms.CharField(
-        required=False,
+        required=True,
         max_length=100,
         label='Completion',
         widget=forms.TextInput()
@@ -76,9 +79,6 @@ class AddWriterForm(forms.Form):
         empty_label="Choose a writer",
         widget=forms.Select(attrs={'class': 'form-control'})
     )
-
-from django import forms
-from .models import Writers, Task
 
 class AssignTaskForm(forms.Form):
     document = forms.ChoiceField(
