@@ -35,6 +35,15 @@ from django.db.models.functions import Coalesce
 
 from .forms import AddWriterForm, AddSMEForm
 
+import json
+
+from .models import Task, TaskWriter, Writers  # Make sure Writer is imported
+
+from django.shortcuts import render, redirect
+from .forms import AssignTaskForm
+from .models import Task, Writers, TaskWriter
+
+@login_required
 def home_test(request):
     # Annotate to handle nulls and sort accordingly
     writers = Writers.objects.annotate(
@@ -70,7 +79,7 @@ def home_test(request):
     }
     return render(request, 'online_help/home_test.html', ctx)
 
-
+@login_required
 def tasks_by_color(request, writer_pk, color):
     writer = get_object_or_404(Writers, pk=writer_pk)
     tasks = TaskWriter.objects.filter(writer=writer, task__color=color).select_related('task')
@@ -82,9 +91,9 @@ def tasks_by_color(request, writer_pk, color):
     })
 
 
-import json
 
 
+@login_required
 def per_user_test(request, writer_pk):
     writer = get_object_or_404(Writers, pk=writer_pk)
     tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
@@ -108,7 +117,7 @@ def per_user_test(request, writer_pk):
 
     })
 
-
+@login_required
 def per_user_edit_test(request, writer_pk, task_pk):
     writer = get_object_or_404(Writers, pk=writer_pk)
     task = get_object_or_404(Task, pk=task_pk)
@@ -127,7 +136,7 @@ def per_user_edit_test(request, writer_pk, task_pk):
         'task': task
     })
 
-
+@login_required
 def per_subsection_test(request, writer_pk, task_pk):
     # Get the writer
     writer = get_object_or_404(Writers, pk=writer_pk)
@@ -141,7 +150,7 @@ def per_subsection_test(request, writer_pk, task_pk):
         'task': task
     })
 
-
+@login_required
 def per_subsection_edit_test(request, writer_pk, task_pk):
     writer = get_object_or_404(Writers, pk=writer_pk)
     task = get_object_or_404(Task, pk=task_pk)
@@ -195,7 +204,7 @@ def verify_password(request):
 #     }
 #     return render(request, 'online_help/tasks_test.html', ctx)
 
-
+@login_required
 def tasks_test(request):
     tasks = Task.objects.all().order_by('document')
     task_writers = TaskWriter.objects.select_related('task', 'writer')
@@ -215,7 +224,7 @@ def tasks_test(request):
     }
     return render(request, 'online_help/tasks_test.html', ctx)
 
-
+@login_required
 def per_documentation_test(request, document_pk):
     # Get one task to extract the document name
     reference_task = get_object_or_404(Task, pk=document_pk)
@@ -238,6 +247,7 @@ def per_documentation_test(request, document_pk):
         'sections': unique_section_tasks,  # list of Task objects
     })
 
+@login_required
 def per_documentation_test2(request, document_pk):
     task = get_object_or_404(Task, pk=document_pk)
     tasks = Task.objects.filter(document=task.document)
@@ -259,7 +269,7 @@ def per_documentation_test2(request, document_pk):
 
 
 
-
+@login_required
 def per_section_test(request, document_pk, section_pk):
     reference_task = get_object_or_404(Task, pk=section_pk)
     document_name = reference_task.document
@@ -275,6 +285,7 @@ def per_section_test(request, document_pk, section_pk):
         'section_pk': section_pk,
     })
 
+@login_required
 def per_section_test2(request, section_pk):
     reference_task = get_object_or_404(Task, pk=section_pk)
     document_name = reference_task.document
@@ -407,7 +418,7 @@ def per_section_test2(request, section_pk):
 #         'task_sme': reference_task.SME,
 #     })
 
-
+@login_required
 def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
     reference_task = get_object_or_404(Task, pk=subsection_pk)
     document_name = reference_task.document
@@ -465,6 +476,7 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
         'sme': reference_task.SME,
     })
 
+@login_required
 def per_subsection_task_test2(request, subsection_pk):
     reference_task = get_object_or_404(Task, pk=subsection_pk)
     document_name = reference_task.document
@@ -524,7 +536,7 @@ def per_subsection_task_test2(request, subsection_pk):
         'sme': reference_task.SME,
     })
 
-
+# @login_required
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -541,12 +553,12 @@ def login_view(request):
     next_url = request.GET.get('next', '')
     return render(request, 'online_help/login.html', {'next': next_url})
 
-
+@login_required
 def logout_view(request):
     logout(request)
     return redirect('online_help:login')
 
-
+@login_required
 def tasks_edit_test(request):
     all_tasks = Task.objects.all().order_by('document')
     
@@ -601,8 +613,8 @@ def tasks_edit_test(request):
 #         'first_task_id': unique_tasks[0].id if unique_tasks else None,
 #     })
 
-from .models import Task, TaskWriter, Writers  # Make sure Writer is imported
 
+@login_required
 def documentation_edit_test(request):
     all_tasks = Task.objects.all().order_by('document')
 
@@ -645,6 +657,7 @@ def documentation_edit_test(request):
     })
 
 
+@login_required
 def section_edit_test(request, document_pk):
     # Get one task to extract the document name
     reference_task = get_object_or_404(Task, pk=document_pk)
@@ -696,6 +709,7 @@ def delete_section(request, document_pk, section_name):
     Task.objects.filter(document__pk=document_pk, section=section_name).delete()
     return redirect('online_help:section_edit_test', document_pk=document_pk)
 
+@login_required
 def per_section_edit_test(request, section_pk):
     section_task = get_object_or_404(Task, pk=section_pk)
     section_name = section_task.section
@@ -741,10 +755,7 @@ def delete_document(request, document_pk):
     return redirect('online_help:documentation_edit_test')
 
 
-from django.shortcuts import render, redirect
-from .forms import AssignTaskForm
-from .models import Task, Writers, TaskWriter
-
+@login_required
 def assign_task_test(request):
     if request.method == 'POST':
         form = AssignTaskForm(request.POST)
