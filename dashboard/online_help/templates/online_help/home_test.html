@@ -63,14 +63,17 @@
                                         <tbody>
                                             {% for tk in tasks %}
                                                 <tr>
-                                                    <td>{{ tk.task.section }}</td>
-                                                    <td>
+                                                    <td style="background-color: {{ tk.task.color }}; ">{{ tk.task.section }}</td>
+                                                    <td style="background-color: {{ tk.task.color }}; ">
                                                         <a href="{% url 'online_help:per_subsection_test' tk.writer.pk tk.task.pk %}" class="hover-link">
                                                             {{ tk.task.sub_section }}
                                                         </a>
                                                     </td>
-                                                    <td>{{ tk.task.color }}</td>
-                                                    <td>{{ tk.task.completion }}</td>
+                                                    <td style="background-color: {{ tk.task.color }}; ">
+                                                        {{ tk.task.color }}
+                                                    </td>
+
+                                                    <td style="background-color: {{ tk.task.color }}; ">{{ tk.task.completion }}</td>
                                                 </tr>
                                             {% endfor %}
                                         </tbody>

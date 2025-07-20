@@ -39,7 +39,7 @@
                                 {{ taskwriter.task.sub_section }}
                             </a>
                         </td>
-                        <td style="border: 1px solid #444; padding: 8px;">{{ taskwriter.task.color }}</td>
+                        <td style="border: 1px solid #444; padding: 8px; background-color: {{ taskwriter.task.color }};">{{ taskwriter.task.color }}</td>
                         <td style="border: 1px solid #444; padding: 8px;">{{ taskwriter.task.completion }}</td>
                         <td style="border: 1px solid #444; padding: 8px;">
                             <a href="{% url 'online_help:per_user_edit_test' writer.pk taskwriter.task.pk %}">Edit</a>
