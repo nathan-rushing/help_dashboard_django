@@ -5,14 +5,28 @@
 <link rel="stylesheet" href="{% static 'css/home.css' %}">
 <h1>Radiant Help Dashboard</h1>
 
-<div style="display: flex; align-items: center; gap: 10px;">
-  <h5>Version:</h5>
-  <h5 id="version-text">{{ version.number }}</h5>
-  <input type="text" id="version-input" style="display: none; width: 80px;" />
-  {% if can_edit %}
-    <button class="btn btn-outline-dark btn-sm" onclick="toggleEdit()">Edit</button>
-  {% endif %}
+<!-- Flex container for Version and Download Excel -->
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+  
+  <!-- Version Info -->
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <h5>Version:</h5>
+    <h5 id="version-text">{{ version.number }}</h5>
+    <input type="text" id="version-input" style="display: none; width: 80px;" />
+    {% if can_edit %}
+      <button class="btn btn-outline-dark btn-sm" onclick="toggleEdit()">Edit</button>
+    {% endif %}
+  </div>
+
+  <!-- Download Excel Button -->
+  <div>
+    <a href="{% url 'online_help:export_taskwriters_excel' %}" class="btn btn-success">
+      📥 Download Excel
+    </a>
+  </div>
+
 </div>
+
 
 <!-- Password Modal -->
 <div class="modal" id="passwordModal" tabindex="-1">

@@ -19,6 +19,7 @@ class Task(models.Model):
     color = models.CharField(max_length=50)
     completion = models.CharField(max_length=100, default='0%')
     created_at = models.DateTimeField(auto_now_add=True)  # Add this line
+    modified_at = models.DateTimeField(auto_now=True)  # Add this line
 
     def __str__(self):
         return f"Task {self.id} - {self.document}: {self.section} - {self.sub_section}"

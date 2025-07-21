@@ -50,6 +50,8 @@ urlpatterns = [
     path('ajax/load-sections/', views.load_sections, name='ajax_load_sections'),
     path('ajax/load-subsections/', views.load_subsections, name='ajax_load_subsections'),
 
+    path('export-taskwriters/', views.export_taskwriters_excel, name='export_taskwriters_excel'),
+
     # Commented-out legacy/test paths
     # path('per_documentation_test/<int:pk>/', views.per_documentation_test2, name='per_documentation_test2'),
     # path('user_activity_test', views.user_activity_test, name='user_activity_test'),

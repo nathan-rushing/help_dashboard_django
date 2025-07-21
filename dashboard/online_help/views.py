@@ -50,7 +50,9 @@ def home_test(request):
         sort_name=Coalesce('writer_name', Value('zzz'))  # 'zzz' ensures nulls go last
     ).order_by('sort_name')
 
-    task_writers = TaskWriter.objects.select_related('task', 'writer')
+    # task_writers = TaskWriter.objects.select_related('task', 'writer')
+    task_writers = TaskWriter.objects.select_related('task', 'writer').order_by('-task__modified_at')
+
 
     writer_tasks_grouped = {}
     color_classes = [
@@ -82,7 +84,10 @@ def home_test(request):
 @login_required
 def tasks_by_color(request, writer_pk, color):
     writer = get_object_or_404(Writers, pk=writer_pk)
-    tasks = TaskWriter.objects.filter(writer=writer, task__color=color).select_related('task')
+    tasks = TaskWriter.objects.filter(
+        writer=writer,
+        task__color=color
+    ).select_related('task').order_by('task__document', '-task__modified_at')
 
     return render(request, 'online_help/tasks_by_color.html', {
         'writer': writer,
@@ -93,10 +98,17 @@ def tasks_by_color(request, writer_pk, color):
 
 
 
+
+from collections import defaultdict, Counter
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, render
+from .models import Writers, TaskWriter
+import json
+
 @login_required
 def per_user_test(request, writer_pk):
     writer = get_object_or_404(Writers, pk=writer_pk)
-    tasks = TaskWriter.objects.filter(writer=writer).select_related('task')
+    tasks = TaskWriter.objects.filter(writer=writer).select_related('task').order_by('task__document', '-task__modified_at')
 
     grouped_tasks = defaultdict(list)
     color_counts = Counter()
@@ -106,15 +118,14 @@ def per_user_test(request, writer_pk):
         color_counts[tw.task.color] += 1
 
     total_tasks = sum(color_counts.values())
-
     document_task_counts = {doc: len(tws) for doc, tws in grouped_tasks.items()}
+
     return render(request, 'online_help/per_user_test.html', {
         'writer': writer,
         'grouped_tasks': dict(grouped_tasks),
         'color_counts': dict(color_counts),
         'total_tasks': total_tasks,
-        'document_task_counts_json': json.dumps(document_task_counts),  # <-- Add this
-
+        'document_task_counts_json': json.dumps(document_task_counts),
     })
 
 @login_required
@@ -207,8 +218,11 @@ def verify_password(request):
 
 @login_required
 def tasks_test(request):
-    tasks = Task.objects.all().order_by('document')
-    task_writers = TaskWriter.objects.select_related('task', 'writer')
+    # tasks = Task.objects.all().order_by('document')
+    tasks = Task.objects.all()
+    # tasks = Task.objects.all().order_by('-modified_at')
+    # task_writers = TaskWriter.objects.select_related('task', 'writer')
+    task_writers = TaskWriter.objects.select_related('task', 'writer').order_by('-task__modified_at')
 
     # Group writers by task
     writers_by_task_id = defaultdict(list)
@@ -270,40 +284,106 @@ def per_documentation_test2(request, document_pk):
 
 
 
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.db.models import Prefetch
+from .models import Task, TaskWriter, Writers
+
+from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.db.models import Prefetch
+from collections import defaultdict
+from .models import Task, TaskWriter, Writers
+
 @login_required
 def per_section_test(request, document_pk, section_pk):
     reference_task = get_object_or_404(Task, pk=section_pk)
     document_name = reference_task.document
     section_name = reference_task.section
 
-    tasks = Task.objects.filter(document=document_name, section=section_name)
+    # Fetch all tasks for the same document and section
+    tasks = Task.objects.filter(document=document_name, section=section_name).prefetch_related(
+        Prefetch('taskwriter_set', queryset=TaskWriter.objects.select_related('writer'))
+    )
+
+    # Group tasks by sub_section to avoid duplication
+    grouped_tasks = defaultdict(lambda: {
+        'writers': [],
+        'comments': '',
+        'color': '',
+        'completion': '',
+        'id': None,
+    })
+
+    for task in tasks:
+        key = task.sub_section
+        grouped_tasks[key]['id'] = task.id
+        grouped_tasks[key]['comments'] = task.comments
+        grouped_tasks[key]['color'] = task.color
+        grouped_tasks[key]['completion'] = task.completion
+        grouped_tasks[key]['writers'].extend([tw.writer.writer_name for tw in task.taskwriter_set.all()])
+
+    # Remove duplicate writer names
+    for task in grouped_tasks.values():
+        task['writers'] = list(set(task['writers']))
 
     return render(request, 'online_help/per_section_test.html', {
         'document_name': document_name,
         'section_name': section_name,
-        'tasks': tasks,
+        'tasks': grouped_tasks.items(),  # key-value pairs: sub_section -> task data
         'document_pk': document_pk,
         'section_pk': section_pk,
     })
 
+
 @login_required
-def per_section_test2(request, section_pk):
+def per_section_test2(request, document_pk, section_pk):
     reference_task = get_object_or_404(Task, pk=section_pk)
     document_name = reference_task.document
     section_name = reference_task.section
 
-    tasks = Task.objects.filter(document=document_name, section=section_name)
+    # Fetch all tasks for the same document and section
+    tasks = Task.objects.filter(document=document_name, section=section_name).prefetch_related(
+        Prefetch('taskwriter_set', queryset=TaskWriter.objects.select_related('writer'))
+    )
+
+    # Group tasks by sub_section to avoid duplication
+    grouped_tasks = defaultdict(lambda: {
+        'writers': [],
+        'comments': '',
+        'color': '',
+        'completion': '',
+        'id': None,
+    })
+
+    for task in tasks:
+        key = task.sub_section
+        grouped_tasks[key]['id'] = task.id
+        grouped_tasks[key]['comments'] = task.comments
+        grouped_tasks[key]['color'] = task.color
+        grouped_tasks[key]['completion'] = task.completion
+        grouped_tasks[key]['writers'].extend([tw.writer.writer_name for tw in task.taskwriter_set.all()])
+
+    # Remove duplicate writer names
+    for task in grouped_tasks.values():
+        task['writers'] = list(set(task['writers']))
 
     return render(request, 'online_help/per_section_test.html', {
         'document_name': document_name,
         'section_name': section_name,
-        'tasks': tasks,
-        'document_pk': 1, # Replace with the actual document PK
+        'tasks': grouped_tasks.items(),  # key-value pairs: sub_section -> task data
+        'document_pk': 1,
         'section_pk': section_pk,
     })
 
 
 import math
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Task, TaskWriter, Writers
+from .forms import AddWriterForm, AddSMEForm
+
 @login_required
 def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
     reference_task = get_object_or_404(Task, pk=subsection_pk)
@@ -318,11 +398,11 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
     sub_section_name = reference_task.sub_section
     sme_name = reference_task.SME
 
+    # Get all writers for tasks with the same document, section, and sub_section
     task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
         task__document=document_name,
         task__section=section_name,
         task__sub_section=sub_section_name,
-        # task__sme=sme_name,
     )
 
     form = AddWriterForm()
@@ -334,12 +414,8 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
             if sme_form.is_valid():
                 reference_task.SME = sme_form.cleaned_data['sme']
                 reference_task.save()
-                # if reference_task.SME is None or (isinstance(reference_task.SME, float) and math.isnan(reference_task.SME)):
-                #     reference_task.SME = 'nan'
-                #     reference_task.save()
                 messages.success(request, f"SME updated to '{reference_task.SME}'.")
                 return redirect(request.path_info)
-
         else:
             form = AddWriterForm(request.POST)
             if form.is_valid():
@@ -348,19 +424,21 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
                 messages.success(request, f"Writer '{writer.writer_name}' added successfully.")
                 return redirect(request.path_info)
 
-            
+    # Handle writer removal from all matching tasks
     writer_to_remove = request.GET.get('remove_writer')
     if writer_to_remove:
         try:
             writer = Writers.objects.get(writer_name=writer_to_remove)
-            TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
-
-            # Only show SME removal message if the SME is being explicitly edited elsewhere
+            TaskWriter.objects.filter(
+                task__document=document_name,
+                task__section=section_name,
+                task__sub_section=sub_section_name,
+                writer=writer
+            ).delete()
             messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
             return redirect(request.path_info)
         except Writers.DoesNotExist:
             messages.error(request, f"Writer '{writer_to_remove}' not found.")
-
 
     return render(request, 'online_help/per_subsection_task_test.html', {
         'document_name': document_name,
@@ -372,16 +450,23 @@ def per_subsection_task_test(request, document_pk, section_pk, subsection_pk):
         'sme': reference_task.SME,
         'document_pk': document_pk,
         'section_pk': section_pk,
-
     })
 
 @login_required
 def per_subsection_task_test2(request, subsection_pk):
     reference_task = get_object_or_404(Task, pk=subsection_pk)
+
+    # Normalize SME value
+    if reference_task.SME is None or (isinstance(reference_task.SME, float) and math.isnan(reference_task.SME)):
+        reference_task.SME = 'nan'
+        reference_task.save()
+    
     document_name = reference_task.document
     section_name = reference_task.section
     sub_section_name = reference_task.sub_section
+    sme_name = reference_task.SME
 
+    # Get all writers for tasks with the same document, section, and sub_section
     task_writers = TaskWriter.objects.select_related('writer', 'task').filter(
         task__document=document_name,
         task__section=section_name,
@@ -414,13 +499,13 @@ def per_subsection_task_test2(request, subsection_pk):
     if writer_to_remove:
         try:
             writer = Writers.objects.get(writer_name=writer_to_remove)
-            TaskWriter.objects.filter(task=reference_task, writer=writer).delete()
-            if reference_task.SME == writer_to_remove:
-                reference_task.SME = ''
-                reference_task.save()
-                messages.success(request, f"SME '{writer_to_remove}' removed successfully.")
-            else:
-                messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
+            TaskWriter.objects.filter(
+                task__document=document_name,
+                task__section=section_name,
+                task__sub_section=sub_section_name,
+                writer=writer
+            ).delete()
+            messages.success(request, f"Writer '{writer_to_remove}' removed successfully.")
             return redirect(request.path_info)
         except Writers.DoesNotExist:
             messages.error(request, f"Writer '{writer_to_remove}' not found.")
@@ -433,6 +518,8 @@ def per_subsection_task_test2(request, subsection_pk):
         'form': form,
         'sme_form': sme_form,
         'sme': reference_task.SME,
+        # 'document_pk': document_pk,
+        # 'section_pk': section_pk,
     })
 
 # @login_required
@@ -477,6 +564,43 @@ def tasks_edit_test(request):
     }
 
     return render(request, 'online_help/tasks_edit_test.html', context=ctx)
+
+import pandas as pd
+from django.http import HttpResponse
+from .models import TaskWriter
+
+@login_required
+def export_taskwriters_excel(request):
+    # Fetch data
+    queryset = TaskWriter.objects.select_related('task', 'writer').values(
+        'writer__writer_name',
+        'task__document',
+        'task__section',
+        'task__sub_section',
+        'task__completion',
+        'task__color',
+        'task__SME',
+        'task__comments',)
+
+    # Convert to DataFrame
+    df = pd.DataFrame(list(queryset))
+    df.rename(columns={
+        'writer__writer_name': 'Writer',
+        'task__document': 'Document',
+        'task__section': 'Section',
+        'task__sub_section': 'Subsection',
+        'task__completion': 'Completion',
+        'task__color': 'Color',
+    }, inplace=True)
+
+    # Create Excel file in memory
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=taskwriters_export.xlsx'
+    with pd.ExcelWriter(response, engine='openpyxl') as writer:
+        df.to_excel(writer, index=False, sheet_name='Task Writers')
+
+    return response
+
 
 # def documentation_edit_test(request):
 #     all_tasks = Task.objects.all().order_by('document')
@@ -625,8 +749,9 @@ def per_section_edit_test(request, section_pk):
             new_sub.sub_section = form.cleaned_data['sub_section']
             new_sub.document = document_name
             new_sub.SME = 'nan'
-            new_sub.color = section_task.color
-            new_sub.comments = ''
+            new_sub.color = form.cleaned_data['color']
+            # new_sub.color = section_task.color
+            new_sub.comments = 'nan'
             new_sub.completion = '0%'
             new_sub.save()
 
