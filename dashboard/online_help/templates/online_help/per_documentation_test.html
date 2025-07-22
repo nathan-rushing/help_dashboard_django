@@ -22,6 +22,8 @@
                             {{ section.section }}
                         </a>
                     </h5>
+                {% empty %}
+                    <p>No sections found for this document.</p>
                 {% endfor %}
             {% else %}
                 <p>No sections found for this document.</p>
