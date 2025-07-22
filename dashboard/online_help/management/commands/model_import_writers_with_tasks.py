@@ -1,9 +1,10 @@
 from django.core.management.base import BaseCommand
-from online_help.models import Task, Writers, TaskWriter
+from online_help.models import Task, Writers, TaskWriter, Document
 import pandas as pd
 
 class Command(BaseCommand):
-    help = 'Import unique writers from a CSV or Excel file'
+    help = 'Import unique writers and tasks from a cleaned Excel file'
+
     def handle(self, *args, **kwargs):
         df = pd.read_excel('online_help/management/dataset/Radiant_2025.1_help_assignments_v3_cleaned.xlsx', sheet_name='2025.1')
 
@@ -11,8 +12,13 @@ class Command(BaseCommand):
         writer_set = set()
 
         for _, row in df.iterrows():
+            # Create or get the Document instance
+            document_title = row['Documentation']
+            document, _ = Document.objects.get_or_create(title=document_title)
+
+            # Create the Task instance with the ForeignKey to Document
             task = Task.objects.create(
-                document=row['Documentation'],
+                document=document,
                 section=row['Section'],
                 sub_section=row['Sub-sections'],
                 comments=row.get('Comments', ''),
@@ -22,6 +28,7 @@ class Command(BaseCommand):
             )
             task_count += 1
 
+            # Assign writers to the task
             writers = str(row.get('Writer', '')).split('\n')
             for writer_name in writers:
                 writer_name = writer_name.strip()

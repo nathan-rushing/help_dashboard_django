@@ -118,7 +118,8 @@ def per_user_test(request, writer_pk):
         color_counts[tw.task.color] += 1
 
     total_tasks = sum(color_counts.values())
-    document_task_counts = {doc: len(tws) for doc, tws in grouped_tasks.items()}
+    # document_task_counts = {doc: len(tws) for doc, tws in grouped_tasks.items()}
+    document_task_counts = {str(doc): len(tws) for doc, tws in grouped_tasks.items()}
 
     return render(request, 'online_help/per_user_test.html', {
         'writer': writer,
@@ -636,6 +637,7 @@ def export_taskwriters_excel(request):
 #         'first_task_id': unique_tasks[0].id if unique_tasks else None,
 #     })
 
+from .models import Document
 
 @login_required
 def documentation_edit_test(request):
@@ -653,8 +655,13 @@ def documentation_edit_test(request):
         form = EditDocuForm(request.POST)
         if form.is_valid():
             document_name = form.cleaned_data['document']
+
+            # Get or create the Document instance
+            document, _ = Document.objects.get_or_create(title=document_name)
+
+            # Now create the Task with the Document instance
             new_task = Task.objects.create(
-                document=document_name,
+                document=document,
                 section='nan',
                 sub_section='nan',
                 comments='',
@@ -663,13 +670,12 @@ def documentation_edit_test(request):
                 completion='0%'
             )
 
-            # Optional: Assign a default writer (e.g., first writer in DB)
-            # default_writer = Writers.objects.first()
             default_writer = Writers.objects.filter(writer_name='nan').first()
             if default_writer:
                 TaskWriter.objects.create(task=new_task, writer=default_writer)
 
             return redirect('online_help:documentation_edit_test')
+
     else:
         form = EditDocuForm()
 
@@ -731,6 +737,8 @@ def section_edit_test(request, document_pk):
 def delete_section(request, document_pk, section_name):
     # Delete all tasks with the same document and section
     Task.objects.filter(document__pk=document_pk, section=section_name).delete()
+    # Task.objects.filter(document=document_pk, section=section_name).delete()
+
     return redirect('online_help:section_edit_test', document_pk=document_pk)
 
 @login_required

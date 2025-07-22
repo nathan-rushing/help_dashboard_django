@@ -7,22 +7,31 @@ class Writers(models.Model):
         return f"{self.writer_name }"
         # return f"{self.writer_name } - {self.id}"
 
+from django.db import models
+
+class Document(models.Model):
+    title = models.CharField(max_length=255, unique=True)
+    description = models.TextField(blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Task(models.Model):
-    document = models.CharField(max_length=255)
+    document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='tasks')
     section = models.CharField(max_length=255)
     sub_section = models.CharField(max_length=255)
     comments = models.TextField()
-    # SME = models.CharField(max_length=255, default='nan')
     SME = models.CharField(max_length=255, blank=True, null=True)
-
-    # SME = models.ForeignKey(Writers, on_delete=models.SET_NULL, null=True, blank=True, related_name='sme_tasks')
     color = models.CharField(max_length=50)
     completion = models.CharField(max_length=100, default='0%')
-    created_at = models.DateTimeField(auto_now_add=True)  # Add this line
-    modified_at = models.DateTimeField(auto_now=True)  # Add this line
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Task {self.id} - {self.document}: {self.section} - {self.sub_section}"
+        return f"Task {self.id} - {self.document.title}: {self.section} - {self.sub_section}"
 
 class TaskWriter(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
